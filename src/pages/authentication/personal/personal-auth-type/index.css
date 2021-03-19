@@ -1,0 +1,80 @@
+/* #ifdef MP-WEIXIN*/  
+page {
+	background: rgba(247, 248, 249, 1);
+}
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/  
+.a-page {
+	background: rgba(247, 248, 249, 1);
+}
+/* #endif */
+.personal-auth-type {
+    font-size: 32rpx;
+}
+
+.personal-auth-type .type-select-header {
+    font-size: 36rpx;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    padding: 32rpx 0 32rpx 48rpx;
+}
+
+.personal-auth-type .type-select-header .type-text {
+    font-size: 32rpx;
+    display: inline-block;
+    line-height: 32rpx;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    padding-left: 20rpx;
+    border-left: 8rpx solid #EE7005;
+}
+
+.type-select-header .iconfont {
+    font-size: 28rpx;
+    position: relative;
+    top: 4rpx
+}
+
+.types-select-container {
+    width: 100%;
+    background: rgba(255, 255, 255, 1)
+}
+
+.types-select-container .type-item {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+    font-size: 32rpx;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    height: 128rpx;
+    line-height: 128rpx;
+    margin:0rpx 60rpx 0rpx 48rpx;
+    background: white;
+    border-bottom: 2rpx solid #F5F5F5;
+}
+
+.types-select-container .type-item .bottom-info {
+    font-size: 30rpx;
+    color: rgba(153, 153, 153, 1);
+    line-height: 48rpx;
+    font-weight: 400;
+    margin-top: 40rpx;
+}
+
+.types-select-container .type-item .right {
+    color: #999999;
+    font-weight: 400;
+    font-size: 28rpx;
+}
+
+.types-select-container .type-item .right .iconfont {
+    position: relative;
+    top: 4rpx;
+    left: 8rpx;
+}
+
+.line {
+    border-bottom: 1rpx solid #F5F5F5;
+}

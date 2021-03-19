@@ -1,0 +1,54 @@
+
+/* #ifdef MP-WEIXIN*/  
+page {
+  background-color: #F7F8F9;
+}
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/  
+.a-page {
+  background-color: #F7F8F9;
+}
+/* #endif */
+
+.title {
+  padding: 0 48rpx;
+  height: 112rpx;
+  line-height: 112rpx;
+  font-size: 32rpx;
+  font-family: 'PingFangSC-Medium, PingFang SC';
+  font-weight: 500;
+  color: #333333;
+}
+
+.desc {
+  padding: 32rpx 48rpx;
+  font-size: 28rpx;
+  font-family: 'PingFangSC-Regular, PingFang SC';
+  font-weight: 400;
+  color: #333333;
+  background-color: #fff;
+}
+
+.info-list {
+  padding: 0 48rpx;
+  background-color: #fff;
+}
+
+.info-list .list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 112rpx;
+  font-size: 30rpx;
+  font-family: 'PingFangSC-Regular, PingFang SC';
+  font-weight: 400;
+  color: #1A1A1A;
+  line-height: 32rpx;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.info-list .list-item .label {
+  color: #666666;
+}

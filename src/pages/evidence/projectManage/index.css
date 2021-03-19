@@ -1,0 +1,427 @@
+.project-manage--page {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #F7F8F9;
+}
+
+/*  #ifdef  H5  */
+.project-manage--page .search-header--area {
+	position: fixed;
+	top: 80rpx;
+	left: 0;
+	width: 100%;
+	height: 114rpx;
+	box-sizing: border-box;
+	background-color: #fff;
+	z-index: 29;
+}
+/*  #endif  */
+
+/*  #ifndef H5  */
+.project-manage--page .search-header--area {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 114rpx;
+	box-sizing: border-box;
+	background-color: #fff;
+	z-index: 29;
+}
+/*  #endif  */
+
+.project-manage--page .search-header--area .inner-wrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 32rpx 40rpx;
+	width: 100%;
+	height: 100%;
+	z-index: 31;
+}
+
+.project-manage--page .search-header--area .select-area .value {
+	margin-right: 12rpx;
+}
+
+.project-manage--page .search-header--area .input-area,
+.project-manage--page .search-header--area .select-area {
+	z-index: 31;
+}
+
+.project-manage--page .search-header--area .input-area .iconfont {
+	font-size: 44rpx;
+	color: #525252;
+}
+
+.project-manage--page .search-header--area .select-area .iconfont {
+	display: inline-block;
+	transition: all .1s ease-in-out;
+}
+
+.project-manage--page .search-header--area .select-area .iconfont.up {
+	transform: rotate(180deg) translateY(4rpx);
+	transform-origin: center;
+}
+
+/*  #ifdef  H5  */
+.project-manage--page .search-header--area .select-box {
+	position: absolute;
+	left: 0;
+	top: 114rpx;
+	padding-top: 12rpx;
+	width: 100%;
+	background-color: #F7F8F9;
+	transform: translateY(-100%);
+	opacity: 0;
+	z-index: -1;
+	transition: all .2s ease-in-out;
+}
+/*  #endif  */
+
+/*  #ifndef  H5  */
+.project-manage--page .search-header--area .select-box {
+	position: absolute;
+	left: 0;
+	top: 114rpx;
+	padding-top: 12rpx;
+	width: 100%;
+	background-color: #F7F8F9;
+	transform: translateY(-100%);
+	opacity: 0;
+	z-index: -1;
+	transition: all .2s ease-in-out;
+}
+/*  #endif  */
+
+.project-manage--page .search-header--area .select-box .item {
+	padding: 0 40rpx;
+	pointer-events: none;
+	background-color: #fff;
+}
+
+.project-manage--page .search-header--area .select-box.selectShow {
+	opacity: 1;
+	z-index: 21;
+	transform: translateY(0);
+}
+
+.project-manage--page .search-header--area .select-box.selectShow .item {
+	pointer-events: all;
+}
+
+.project-manage--page .search-header--area .select-box .item .inner {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 32rpx 0;
+	width: 100%;
+	border-bottom: 2rpx solid #F5F5F5;
+}
+
+.project-manage--page .search-header--area .select-box .item .inner .label {
+	color: #666;
+}
+
+.project-manage--page .search-header--area .select-box .item.active .inner .label {
+	color: #333;
+}
+
+.project-manage--page .search-header--area .select-box .item.active .inner .iconfont {
+	color: #ED6C00;
+}
+
+.project-manage--page .search-header--area .select-box .item:last-of-type .inner {
+	border-bottom: none;
+}
+
+.project-manage--page .search-header--area .input-section {
+	position: absolute;
+	right: 0;
+	top: 0;
+	transform: translateX(100%);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20rpx 40rpx;
+	width: 100%;
+	height: 100%;
+	z-index: 41;
+	border-bottom: 2rpx solid #F5F5F5;
+	background-color: #fff;
+	box-sizing: border-box;
+	transition: all .2s ease-in-out;
+}
+
+.project-manage--page .search-header--area .input-section .section-l {
+	position: relative;
+	width: 90%;
+}
+
+.project-manage--page .search-header--area .input-section.inputShow {
+	transform: translateX(0);
+}
+
+.project-manage--page .search-header--area .input-section .section-l input {
+	padding: 0 48rpx 0 72rpx;
+	font-size: 28rpx;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	color: #333;
+	width: 100%;
+	height: 72rpx;
+	line-height: 72rpx;
+	background: #F7F8F9;
+	border-radius: 42rpx;
+	box-sizing: border-box;
+}
+
+.project-manage--page .search-header--area .input-section .cancel {
+	font-size: 28rpx;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	color: #666666;
+	line-height: 40rpx;
+}
+
+.project-manage--page .search-header--area .input-section .section-l .prefix {
+	position: absolute;
+	top: 50%;
+	left: 32rpx;
+	transform: translateY(-50%);
+}
+
+/*  #ifdef  H5  */
+.project-manage--page .project-list--area {
+	margin-top: 194rpx;
+	padding: 16rpx 20rpx 0;
+	height: calc(100% - 194rpx);
+	box-sizing: border-box;
+}
+/*  #endif  */
+
+/*  #ifndef  H5  */
+.project-manage--page .project-list--area {
+	margin-top: 114rpx;
+	padding: 16rpx 20rpx 0;
+	height: calc(100% - 114rpx);
+	box-sizing: border-box;
+}
+/*  #endif  */
+
+
+
+.project-manage--page .project-list--area.bot {
+	padding-bottom: 140rpx;
+}
+
+.project-manage--page .project-list--area .project-item {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	margin-bottom: 16rpx;
+	padding: 36rpx 20rpx;
+	border-radius: 4rpx;
+	background-color: #fff;
+}
+
+.project-item .file-icon {
+	margin-right: 24rpx;
+	width: 80rpx;
+	height: 80rpx;
+}
+
+.project-item .file-icon image {
+	width: 100%;
+	height: 100%;
+}
+
+.project-item .content {
+	width: 520rpx;
+}
+
+.project-item .content .title {
+	width: 100%;
+	font-size: 30rpx;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	color: #333333;
+	line-height: 48rpx;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.project-item .content .desc {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.project-item .content .desc .status {
+	margin-right: 12rpx;
+	padding: 6rpx 8rpx;
+	font-size: 20rpx;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	line-height: 10px;
+	background-color: rgba(102, 181, 237, .1);
+}
+
+.project-item .content .desc .status.going {
+	color: #58A1D5;
+	background-color: rgba(102, 181, 237, .1);
+}
+
+.project-item .content .desc .status.complete {
+	color: #5BB03B;
+	background-color: rgba(91, 176, 59, .1);
+}
+
+.project-item .content .desc .time {
+	font-size: 24rpx;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	color: #999999;
+	line-height: 34rpx;
+}
+
+.project-manage--page .create-btn {
+	position: fixed;
+	left: 50%;
+	bottom: 30rpx;
+	transform: translateX(-50%);
+	width: 670rpx;
+	height: 100rpx;
+	font-size: 32rpx;
+	font-weight: 500;
+	line-height: 100rpx;
+	text-align: center;
+	color: #fff;
+	border-radius: 8rpx;
+	background-color: #464646;
+}
+
+
+/* dialog */
+.create-project--dialog {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 99;
+}
+
+.create-project--dialog .content-wrapper {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -150%);
+	width: 600rpx;
+	border-radius: 16rpx;
+	background-color: #fff;
+	z-index: 19;
+	transition: all .1s ease-in-out;
+}
+
+.create-project--dialog .content-wrapper.dialog-show {
+	transform: translate(-50%, -50%);
+}
+
+.create-project--dialog .dialog-title {
+	padding-top: 48rpx;
+	font-size: 36rpx;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 500;
+	color: #000000;
+	line-height: 36rpx;
+	text-align: center;
+}
+
+.create-project--dialog .dialog-content {
+	margin-top: 40rpx;
+	margin-bottom: 40rpx;
+	padding: 0 48rpx;
+	width: 100%;
+}
+
+.create-project--dialog .dialog-content input {
+	width: 100%;
+	height: 72rpx;
+	padding: 12rpx 24rpx;
+	font-size: 30rpx;
+	font-weight: 400;
+	font-family: PingFangSC-Regular, PingFang SC;
+	background-color: rgba(216, 216, 216, .2);
+	color: #333;
+	border: 1rpx solid rgba(151, 151, 151, .2);
+	box-sizing: border-box;
+	border-radius: 4rpx;
+}
+
+.create-project--dialog .dialog-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-top: 1rpx solid #D8D8D8;
+	background-color: #D8D8D8;
+	border-radius: 0 0 16rpx 16rpx;
+}
+
+.create-project--dialog .dialog-footer .btn {
+	width: 300rpx;
+	height: 100rpx;
+	line-height: 100rpx;
+	text-align: center;
+	font-size: 32rpx;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	color: #666666;
+	background-color: #fff;
+}
+
+.create-project--dialog .dialog-footer .btn.confirm {
+	color: #5A708D;
+	border-bottom-right-radius: 16rpx;
+}
+
+.create-project--dialog .dialog-footer .btn.cancel {
+	border-bottom-left-radius: 16rpx;
+}
+
+.create-project--dialog .dialog-mask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9;
+	background-color: rgba(0, 0, 0, .5);
+}
+
+.empty {
+	position: absolute;
+	top: 45%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	white-space: nowrap;
+	font-size: 28rpx;
+	color: #666;
+}
+
+.header-mask {
+	position: fixed;
+	top: 114rpx;
+	left: 0;
+	width: 100%;
+	height: calc(100% - 114rpx);
+	background-color: rgba(0, 0, 0, .5);
+	z-index: 11;
+}

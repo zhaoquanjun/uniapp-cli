@@ -1,0 +1,493 @@
+view {
+  box-sizing: border-box;
+}
+
+.scroll-area {
+  width: 100%;
+  height: 100%;
+}
+
+.loading {
+  width: 100%;
+  height: 0;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  opacity: 0;
+  background-color: #f5f5f5;
+  transition: all .25s ease-in-out;
+}
+
+.show {
+  height: 100rpx;
+  opacity: 1;
+}
+
+.balance-list--page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+	background-color: #f7f8f9;
+}
+
+.header-wrapper {
+	width: 100%;
+	background-color: #fff;
+}
+
+.balance-list--page .header-tab {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 40rpx;
+  width: calc(100% - 80rpx);
+  height: 96rpx;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.balance-list--page .header-tab .tab-item {
+  padding-top: 16rpx;
+  width: 50%;
+  font-size: 28rpx;
+  color: #585858;
+  text-align: center;
+}
+
+.balance-list--page .header-tab .tab-item.active {
+  font-weight: 500;
+  color: #333;
+}
+
+.balance-list--page .header-tab .active-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 33%;
+  height: 6rpx;
+  transition: all .2s ease-in-out;
+}
+
+.balance-list--page .header-tab .active-bg.second {
+  left: 33%;
+}
+
+.balance-list--page .header-tab .active-bg.third {
+  left: 66%;
+}
+
+.balance-list--page .header-tab .active-bg::after {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: block;
+  content: '';
+  width: 120rpx;
+  height: 6rpx;
+  background: linear-gradient(270deg, rgba(247, 165, 0, 1) 0%, rgba(237, 108, 0, 1) 100%);
+  border-radius: 4rpx;
+}
+
+.balance-list--page .content {
+  position: absolute;
+  top: 104rpx;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 270rpx);
+  background-color: #f7f8f9;
+}
+
+.balance-list--page .content .balance-list {
+	position: relative;
+  padding: 0 48rpx;
+	min-height: 100%;
+	background-color: #fff;
+}
+
+.balance-list--page .content .balance-list .list-item {
+  padding: 30rpx 0 32rpx;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.balance-list--page .content .balance-list .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balance-list--page .content .balance-list .top .name {
+  font-size: 32rpx;
+  line-height: 48rpx;
+  color: #333;
+}
+
+.balance-list--page .content .balance-list .top .money {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  line-height: 40rpx;
+}
+
+.balance-list--page .content .balance-list .bot {
+  padding-top: 14rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24rpx;
+  line-height: 40rpx;
+  color: #666;
+}
+
+.balance-list--page .content .balance-list .bot .type {
+  color: #999;
+}
+
+.balance-list--page .btn-groups {
+  position: absolute;
+  bottom: 30rpx;
+  left: 0;
+  padding: 0 36rpx;
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balance-list--page .btn-groups .btn {
+  width: 50%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 32rpx;
+  color: #333;
+  border-radius: 8rpx;
+}
+
+.balance-list--page .btn-groups .btn.send {
+  color: #fff;
+  font-weight: 500;
+  background-color: #464646;
+}
+
+/* 礼品卡部分 */
+
+.list {
+	position: relative;
+  margin-top: 48rpx;
+  padding: 0 42rpx;
+	min-height: 240rpx;
+}
+
+.vip {
+  color: #FFCEBF;
+}
+
+.vip .header .card-origin {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .15);
+}
+
+.vip .desc {
+  padding-top: 38rpx !important;
+}
+
+.vip .btns {
+  padding-top: 60rpx !important;
+}
+
+.shanqian {
+  color: #5A3B0C;
+}
+
+.shanqian .header,
+.shanqian .money {
+  color: #84612E;
+}
+
+.shanqian .header .tit {
+  color: #5A3B0C;
+}
+
+.shanqian .header .card-origin {
+  color: #84612E;
+  background-color: rgba(255, 255, 255, .6);
+}
+
+.lawyer {
+  color: #324E90;
+}
+
+.lawyer .header,
+.lawyer .money {
+  color: #365293;
+}
+
+.lawyer .header .tit {
+  color: #324E90;
+}
+
+.lawyer .header .card-origin {
+  color: #365293;
+  background-color: rgba(255, 255, 255, .7);
+}
+
+.overdue {
+  color: #fff;
+}
+
+.overdue .header {
+  color: #fff;
+}
+
+.overdue .header .tit {
+  color: #fff;
+}
+
+.overdue .header .card-origin {
+  color: #666;
+  background-color: rgba(255,255,255,.76);
+}
+
+.overdue .money {
+  color: #666666;
+}
+
+.header.overdue, .header.overdue .tit {
+  color: #fff;
+}
+
+.header.overdue .tit {
+  color: #fff;
+}
+
+.header.overdue .card-origin {
+  color: #666;
+}
+
+.content.overdue {
+  color: #666;
+}
+
+.card-item {
+  margin-top: 48rpx;
+  width: 100%;
+  height: 380rpx;
+  background-color: #fff;
+}
+
+.card-item:first-of-type {
+  margin-top: 0;
+}
+
+.card-item .header {
+  position: relative;
+  padding: 36rpx 36rpx 0 40rpx;
+  width: 100%;
+  height: 136rpx;
+}
+
+.card-item .header .bg-iamge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.card-item .header .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-item .header .top .card-type {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
+
+.card-item .header .top .card-type .tit {
+  padding-left: 14rpx;
+  font-size: 30rpx;
+  line-height: 32rpx;
+  font-weight: 500;
+  z-index: 1;
+}
+
+.card-item .header .top .card-origin {
+  display: inline-block;
+  padding: 8rpx 16rpx;
+  font-size: 20rpx;
+  line-height: 20rpx;
+  border-radius: 4rpx;
+  background-color: rgba(255, 255, 255, .15);
+  z-index: 1;
+}
+
+.card-item .header .bot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24rpx;
+  z-index: 1;
+}
+
+.card-item .header .bot .card-amount {
+  font-size: 24rpx;
+  line-height: 24rpx;
+  z-index: 1;
+}
+
+.card-item .header .bot .card-time {
+  font-size: 24rpx;
+  line-height: 24rpx;
+  z-index: 1;
+}
+
+.card-item .content {
+  position: relative;
+	top: 0;
+  padding: 40rpx 40rpx 0;
+  height: 242rpx;
+  background-color: #fff;
+}
+
+.card-item .content .detail {
+  position: relative;
+  z-index: 2;
+}
+
+.card-item .content .detail .balance {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 24rpx;
+  line-height: 34rpx;
+  color: #666;
+}
+
+.card-item .content .detail .balance .money {
+  padding-left: 20rpx;
+  font-size: 40rpx;
+  line-height: 40rpx;
+}
+
+.card-item .content .desc {
+  padding-top: 18rpx;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  color: #888888;
+}
+
+.send .content {
+  padding: 24rpx 40rpx 0 !important;
+}
+
+.card-item .content .receive-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10rpx 0;
+  width: 150rpx;
+  color: #3EB4A8;
+  background-color: rgba(62, 180, 168, .1);
+}
+
+.card-item .content .receive-header .receive-icon {
+  margin-right: 12rpx;
+  width: 26rpx;
+  height: 22rpx;
+}
+
+.card-item .content .receive-header .header-tit {
+  font-size: 22rpx;
+  line-height: 22rpx;
+}
+
+.card-item .content .receive-details {
+  margin-top: 16rpx;
+}
+
+.card-item .content .receive-details .details-item {
+  font-size: 24rpx;
+  color: 999;
+  line-height: 44rpx;
+}
+
+.card-item .content .receive-details .details-item .value {
+  color: #333;
+}
+
+.card-item .content .receive-status {
+  position: absolute;
+  right: 20rpx;
+}
+
+.card-item .btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 44rpx;
+}
+
+.card-item .btns .btn {
+  font-size: 28rpx;
+  line-height: 28rpx;
+  color: #6E87B8;
+}
+
+.card-item .btns .btn.hidden {
+  visibility: hidden;
+}
+
+.card-item .btns .btn .icon {
+  margin-right: 12rpx;
+  width: 30rpx;
+  height: 28rpx;
+}
+
+.card-item .btns .btn.send-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.empty {
+  padding-top: 24rpx;
+  color: #999;
+  font-size: 24rpx;
+  line-height: 48rpx;
+}
+
+.empty-tips {
+	position: absolute;
+	top: 45%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	white-space: nowrap;
+  padding-top: 24rpx;
+  color: #999;
+  font-size: 24rpx;
+	text-align: center;
+}
+
+.list .empty-tips {
+	top: 55%;
+}
+
+.title-label {
+	padding: 16rpx 0;
+	font-size: 28rpx;
+	color: #333;
+}
+
+.title-label .prefix {
+	color: #ed6c00;
+}

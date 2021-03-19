@@ -1,0 +1,232 @@
+
+/* #ifdef MP-WEIXIN*/  
+page {
+  width: 100%;
+  min-height: 100%;
+  background-color: white;
+  font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB",
+		"Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/  
+.a-page {
+  width: 100%;
+  min-height: 100%;
+  background-color: white;
+  font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB",
+		"Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+/* #endif */
+
+view, text {
+	box-sizing: border-box;
+}
+
+view, text, input {
+  font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB",
+  "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
+/* 未选中的样式 */
+radio .wx-radio-input {
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 50%;
+}
+
+/* 选中后 背景及勾 的样式 */
+radio .wx-radio-input.wx-radio-input-checked::before {
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 50%;
+  line-height: 34rpx;
+  text-align: center;
+  font-size: 20rpx; /* 勾大小 */
+  color: #fff; /* 白色勾  */
+  background: #EE7005;
+  border-color: #EE7005;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+/* text组件超出显示省略号 */
+.text-apostrophe {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty-data {
+  font-size: 34rpx;
+  font-weight: 300;
+  text-align: center;
+  height: 34rpx;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+}
+.middle_box:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 100%;
+  overflow: hidden;
+  font-size: 0;
+}
+
+.boxShadow {
+  border: 1rpx solid #e5e5e5;
+  border-radius: 8rpx;
+  box-shadow: 0 0 16rpx #e5e5e5;
+}
+
+.textRight {
+  text-align: right;
+}
+
+.textLeft {
+  text-align: left;
+}
+
+.slide-menu_list {
+  width: 100%;
+  background: #fff;
+  border-radius: 16rpx;
+}
+  
+
+/* #ifdef MP-WEIXIN*/  
+page {
+  width: 100%;
+  min-height: 100%;
+  background-color: white;
+  font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB",
+		"Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/  
+.a-page {
+  width: 100%;
+  min-height: 100%;
+  background-color: white;
+  font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB",
+		"Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+/* #endif */
+
+view, text {
+	box-sizing: border-box;
+}
+
+view, text, input {
+  font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB",
+  "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
+/* 未选中的样式 */
+radio .wx-radio-input {
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 50%;
+}
+
+/* 选中后 背景及勾 的样式 */
+radio .wx-radio-input.wx-radio-input-checked::before {
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 50%;
+  line-height: 34rpx;
+  text-align: center;
+  font-size: 20rpx; /* 勾大小 */
+  color: #fff; /* 白色勾  */
+  background: #EE7005;
+  border-color: #EE7005;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+/* text组件超出显示省略号 */
+.text-apostrophe {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty-data {
+  font-size: 34rpx;
+  font-weight: 300;
+  text-align: center;
+  height: 34rpx;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+}
+.middle_box:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 100%;
+  overflow: hidden;
+  font-size: 0;
+}
+
+.boxShadow {
+  border: 1rpx solid #e5e5e5;
+  border-radius: 8rpx;
+  box-shadow: 0 0 16rpx #e5e5e5;
+}
+
+.textRight {
+  text-align: right;
+}
+
+.textLeft {
+  text-align: left;
+}
+
+.slide-menu_list {
+  width: 100%;
+  background: #fff;
+  border-radius: 16rpx;
+}
+  

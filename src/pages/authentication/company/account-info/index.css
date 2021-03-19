@@ -1,0 +1,84 @@
+
+/* #ifdef MP-WEIXIN*/  
+page {
+	background: rgba(247, 248, 249, 1);
+}
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/  
+.a-page {
+	background: rgba(247, 248, 249, 1);
+}
+/* #endif */
+
+.account-info {
+    font-size: 32rpx;
+}
+
+
+.account-info .type-select-header {
+    font-size: 36rpx;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    padding: 32rpx 0 32rpx 48rpx;
+}
+.account-info .type-select-header .type-text {
+    font-size: 32rpx;
+    display: inline-block;
+    line-height: 32rpx;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    padding-left: 20rpx;
+    border-left: 8rpx solid #EE7005;
+}
+
+.account-info .base-info-container{
+    padding: 0 48rpx;
+    background: white;
+    margin-top: 20rpx;
+}
+.account-info .base-info-container .field-item{
+    background: white;
+    height: 128rpx;
+    line-height: 128rpx;
+    display: flex;
+    border-bottom: 2rpx solid #F5F5F5;
+}
+.account-info .base-info-container .field-item .name{
+    font-size:32rpx;
+    font-weight:500;
+    color:#333333;
+    line-height:128rpx;
+    display: inline-block;
+    flex: 1;
+}
+.account-info .base-info-container .field-item .value-input,.value-select{
+    font-size:28rpx;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+    line-height:126rpx;
+    text-align: right;
+    height: 126rpx;
+    flex: 2;
+}
+.line {
+    border-bottom: 1rpx solid #F5F5F5;
+    width: 100%;
+}
+
+.bottom-btn-container{
+    position: fixed;
+    width: 100%;
+    bottom: 20rpx;
+    text-align: center;
+}
+.bottom-btn-container .next{
+    width:690rpx;
+    text-align: center;
+    display: inline-block;
+    height:100rpx;
+    line-height: 100rpx;
+    background:rgba(70,70,70,1);
+    border-radius:8rpx;
+    color: white;
+}

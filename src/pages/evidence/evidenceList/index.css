@@ -1,0 +1,237 @@
+.evidence-manager--area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+	background-color: #fff;
+}
+
+.evidence-manager--area .header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 48rpx;
+  width: 100%;
+  border-bottom: 2rpx solid #f5f5f5;
+  box-sizing: border-box;
+}
+
+.evidence-manager--area .header .tab-item {
+  width: 50%;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #888;
+  box-sizing: border-box;
+}
+
+.evidence-manager--area .header .tab-item.active {
+  color: #333;
+  font-weight: bold;
+}
+
+.evidence-manager--area .header .line {
+  position: absolute;
+  bottom: 1rpx;
+  left: 48rpx;
+  width: calc((100% - 96rpx) / 2);
+  height: 2rpx;
+  transform: translateX(0);
+  background-color: #ff6a00;
+  transition: transform .15s ease-in-out;
+}
+
+.evidence-manager--area .header .line.active {
+  transform: translateX(100%);
+}
+
+.evidence-manager--area .content {
+  position: absolute;
+  top: 0rpx;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.evidence-manager--area .content .search-area {
+  padding: 48rpx;
+  width: 100%;
+  height: 64rpx;
+  box-sizing: border-box;
+}
+
+.evidence-manager--area .content .search input {
+  box-sizing: border-box;
+}
+
+.evidence-manager--area .content .scroll-area {
+  position: absolute;
+  top: 160rpx;
+  left: 0;
+  padding: 0 48rpx;
+  width: 100%;
+  height: calc(100% - 160rpx);
+  box-sizing: border-box;
+}
+
+.evidence-manager--area .content .scroll-area .empty {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  width: 100%;
+  height: 100%;
+}
+
+.evidence-manager--area .content .scroll-area .empty text {
+  transform: translateY(-100rpx);
+  color: #999;
+  font-size: 28rpx;
+}
+
+.evidence-manager--area .content .scroll-area .list-area .list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20rpx 12rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+  position: relative;
+}
+
+.list-area .list-item .item-detail {
+  width: 80%;
+}
+
+.list-area .list-item .item-detail .title {
+  font-size: 28rpx;
+  line-height: 28rpx;
+  padding-bottom: 16rpx;
+  color: #333;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.list-area .list-item .item-detail .type {
+  font-size: 24rpx;
+  color: #999;
+  line-height: 40rpx;
+}
+
+.list-area .list-item .item-detail .time {
+  font-size: 24rpx;
+  color: #999;
+  line-height: 40rpx;
+}
+
+.list-area .list-item .item-detail .time.hidden {
+  visibility: hidden;
+}
+
+.list-area .list-item .item-status {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 20%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 24rpx;
+  line-height: 24rpx;
+  color: #333;
+}
+
+.list-area .list-item .item-status .status-icon {
+  margin-right: 8rpx;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background-color: #ddd;
+}
+
+.list-area .list-item .item-status .status-icon.success {
+  background-color: #67C23A;
+}
+
+.list-area .list-item .item-status .status-icon.fail {
+  background-color: #F56C6C;
+}
+
+.contract-operate {
+  position: absolute;
+  right: 24rpx;
+  top: 40rpx;
+  padding: 12rpx 0 24rpx 24rpx;
+}
+
+.contract-operate>.contract-operate_item {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #333;
+  margin: 0 2px;
+}
+
+.slide-menu_list {
+  width: 100%;
+  background: #fff;
+}
+
+.slide-menu_list>.slide-menu_item {
+  height: 104rpx;
+  margin: 0 48rpx;
+  line-height: 104rpx;
+  text-align: center;
+  border-bottom: 1px solid #efefef;
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(33, 33, 33, 1);
+}
+
+.chain-wrap {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.chain-mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgb(0, 0, 0, 0.1);
+  top: 0;
+  left: 0;
+}
+
+.chain-img {
+  width: 60%;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20%;
+  margin: auto;
+  /* background: #fff; */
+}
+
+.chain-img > .chainImgItem {
+  width: 100%;
+}
+
+.noUseSlide {
+  color: #ccc!important;
+}

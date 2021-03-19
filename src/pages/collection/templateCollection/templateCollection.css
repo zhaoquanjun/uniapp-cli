@@ -1,0 +1,117 @@
+
+/* #ifdef MP-WEIXIN*/  
+page {
+  height: 100%;
+}
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/  
+.a-page {
+  height: 100%;
+}
+/* #endif */
+
+.contract-search {
+  padding: 32rpx 40rpx 16rpx;
+}
+
+.template-list {
+  width: 100%;
+  height: calc(100% - 100rpx);
+}
+
+.bottom-loading {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #999;
+  transition: all .2s ease-in-out;
+}
+
+.payTemplate{
+  margin:0 48rpx; 
+  min-height: 158rpx;
+  border-bottom: 2rpx solid #F5F5F5;
+  display: flex;
+  flex:1;
+}
+
+.template-content{
+  width: 670rpx;
+  padding-top:28rpx;
+  padding-bottom: 26rpx;
+}
+
+.template-content-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.template-title{
+  font-size: 30rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #333333;
+  line-height: 48rpx;
+  width:444rpx;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.template-right{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.template-right .iconfont{
+  color: #CECECE;
+  font-size: 28rpx;
+}
+
+.price{
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  line-height: 40rpx;
+  height: 48rpx;
+  margin-right: 8rpx;
+}
+
+.update-time{
+  font-size: 24rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #999999;
+  line-height: 40rpx;
+  margin-top: 8rpx;
+}
+
+.touch-bottom--tips {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.touch-bottom--tips .words {
+  position: relative;
+  font-size: 28rpx;
+  color: #999;
+  line-height: 80rpx;
+}
+
+.touch-bottom--tips .line {
+  margin: 0 16rpx;
+  width: 100rpx;
+  height: 4rpx;
+  background-color: #ddd;
+}

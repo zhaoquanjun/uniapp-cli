@@ -1,0 +1,140 @@
+/* #ifdef MP-WEIXIN*/  
+page {
+	background: rgba(247, 248, 249, 1);
+}
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/  
+.a-page {
+	background: rgba(247, 248, 249, 1);
+}
+/* #endif */
+
+.company-info {
+    padding-bottom: 180rpx;
+    font-size: 32rpx;
+}
+
+.company-info .type-select-header {
+    font-size: 36rpx;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    padding: 32rpx 0 32rpx 48rpx;
+}
+
+.company-info .type-select-header .type-text {
+    font-size: 32rpx;
+    display: inline-block;
+    line-height: 32rpx;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    padding-left: 20rpx;
+    border-left: 8rpx solid #EE7005;
+}
+.company-info .upload-container{
+   background: white;
+    height: 416rpx;
+}
+.company-info .upload-container .upload-bottom{
+    display: flex;
+    margin-top: 48rpx;
+}
+.company-info .upload-container .title{
+    font-size:32rpx;
+    font-weight:500;
+    color:rgba(51,51,51,1);
+    margin:0 48rpx ;
+    height: 110rpx;
+    line-height: 110rpx;
+    border-bottom: 2rpx solid #F5F5F5;
+}
+.company-info .upload-container .iconfont{
+    font-size: 76rpx;
+    color: #CCCCCC;
+    position: relative;
+    top:60rpx
+}
+.company-info .upload-container .upload-bottom .left{
+    width: 310rpx;
+    height: 216rpx;
+    text-align: center;
+    vertical-align: middle;
+    background:#F9F9F9;
+    border-radius:12rpx;
+    margin-left: 40rpx;
+    margin-right: 20rpx;
+}
+.company-info .upload-container .upload-bottom .left image{
+    width:100%;
+    height: 216rpx;
+}
+.company-info .upload-container .upload-bottom .right{
+    font-size:24rpx;
+    font-weight:400;
+    color:rgba(153,153,153,1);
+    line-height:48rpx;
+    margin-right:20rpx;
+}
+.tip{
+    display: flex;
+    flex-wrap: nowrap;
+}
+.company-info .base-info-container{
+    padding: 0 48rpx;
+    background: white;
+    margin-top: 20rpx;
+}
+.company-info .base-info-container .field-item{
+    background: white;
+    height: 128rpx;
+    line-height: 128rpx;
+    display: flex;
+    border-bottom: 2rpx solid #F5F5F5;
+}
+.company-info .base-info-container .field-item .name{
+    font-size:32rpx;
+    font-weight:500;
+    color:#333333;
+    line-height:128rpx;
+    display: inline-block;
+    flex: 2;
+}
+.company-info .base-info-container .field-item .value-input,.value-select{
+    font-size:28rpx;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+    line-height:126rpx;
+    text-align: right;
+    height: 126rpx;
+    flex: 3;
+}
+.bottom-btn-container{
+    position: fixed;
+    height: 100rpx;
+    width: 100%;
+    display: flex;
+    bottom:40rpx;
+    margin-top: 40rpx;
+}
+.bottom-btn-container .back{
+    width:160rpx;
+    height:100rpx;
+    font-size:32rpx;
+    font-weight:400;
+    color:rgba(102,102,102,1);
+    display: inline-block;
+    text-align: center;
+    line-height: 100rpx;
+    margin-left: 32rpx;
+}
+.bottom-btn-container .next{
+    width:478rpx;
+    text-align: center;
+    display: inline-block;
+    height:100rpx;
+    line-height: 100rpx;
+    background:rgba(70,70,70,1);
+    border-radius:8rpx;
+    color: white;
+    margin-left: 40rpx;
+}

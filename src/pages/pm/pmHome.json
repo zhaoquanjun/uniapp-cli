@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "个人中心",
+  "backgroundTextStyle": "dark",
+  "navigationBarBackgroundColor": "#333333",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "icon": "/components/icon/icon",
+    "avatar": "/components/avatar/avatar",
+    "wechatUserInfo": "/components/wechatUserInfo/wechatUserInfo",
+    "halfSlideItem": "/components/halfSlideItem/halfSlideItem",
+    "sliderPicker": "/components/mpSsliderPicker/mpSsliderPicker"
+  }
+}

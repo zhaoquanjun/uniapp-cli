@@ -1,0 +1,88 @@
+/* #ifdef MP-WEIXIN*/
+page {
+	background: rgba(247, 248, 249, 1);
+}
+
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/
+.a-page {
+	background: rgba(247, 248, 249, 1);
+}
+
+/* #endif */
+
+.company-info-pay {
+	font-size: 32rpx;
+}
+
+.company-info-pay .type-select-header {
+	font-size: 36rpx;
+	font-weight: 500;
+	color: rgba(51, 51, 51, 1);
+	padding: 32rpx 0 32rpx 48rpx;
+}
+
+.company-info-pay .type-select-header .type-text {
+	font-size: 32rpx;
+	display: inline-block;
+	line-height: 32rpx;
+	font-weight: 500;
+	color: rgba(51, 51, 51, 1);
+	padding-left: 20rpx;
+	border-left: 8rpx solid #EE7005;
+}
+
+.company-info-pay .icourt-info {
+	background: rgba(255, 255, 255, 1);
+	padding: 40rpx 48rpx;
+}
+
+.company-info-pay .icourt-info .title {
+	font-size: 30rpx;
+	font-weight: 500;
+	color: rgba(51, 51, 51, 1);
+}
+
+.company-info-pay .icourt-info .title .re-do {
+	font-size: 28rpx;
+	float: right;
+	font-weight: 400;
+	color: rgba(110, 130, 169, 1);
+}
+
+.company-info-pay .icourt-info .company-no {
+	font-size: 24rpx;
+	font-weight: 400;
+	margin-top: 10rpx;
+	color: rgba(153, 153, 153, 1);
+}
+
+.company-info-pay .tip-info {
+	background-color: #ffffff;
+	padding: 32rpx 48rpx;
+	font-size: 26rpx;
+	font-weight: 400;
+	color: rgba(102, 102, 102, 1);
+	line-height: 52rpx;
+}
+
+
+.bottom-btn-container {
+	position: fixed;
+	bottom: 40rpx;
+	width: 100%;
+	margin-top: 40rpx;
+	text-align: center;
+}
+
+.bottom-btn-container .next {
+	width: 690rpx;
+	text-align: center;
+	display: inline-block;
+	height: 100rpx;
+	line-height: 100rpx;
+	background: rgba(70, 70, 70, 1);
+	border-radius: 8rpx;
+	color: white;
+}

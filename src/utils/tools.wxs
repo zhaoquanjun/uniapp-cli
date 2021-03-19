@@ -1,0 +1,57 @@
+function formatNumber(n) {
+  n = n.toString();
+  return n[1] ? n : '0' + n;
+}
+
+function formatTime(timestamp, format) {
+  if (!timestamp) {
+    return '';
+  }
+
+  var date = getDate(timestamp);
+  return formatDate(date, format);
+}
+
+function formatDate(date, format) {
+  format = format || 'Y-M-D';
+  var formateArr = ['Y', 'M', 'D', 'h', 'm', 's'];
+  var returnArr = [];
+  returnArr.push(date.getFullYear());
+  returnArr.push(formatNumber(date.getMonth() + 1));
+  returnArr.push(formatNumber(date.getDate()));
+  returnArr.push(formatNumber(date.getHours()));
+  returnArr.push(formatNumber(date.getMinutes()));
+  returnArr.push(formatNumber(date.getSeconds()));
+
+  for (var i = 0; i < returnArr.length; ++i) {
+    format = format.replace(formateArr[i], returnArr[i]);
+  }
+
+  return format;
+}
+
+function filterEmoji(text) {
+  var ranges = ['\ud83c[\udf00-\udfff]', '\ud83d[\udc00-\ude4f]', '\ud83d[\ude80-\udeff]'];
+  return text.replace(getRegExp(ranges.join('|'), 'g'), '');
+}
+
+function firstLogicChar(text) {
+  var s = text;
+  if (!s || s.length === 0) return '#';
+  if (s.length === 1) return s;
+  var filterS = filterEmoji(s);
+  var index = s.indexOf(filterS);
+
+  if (filterS.length !== 0 && index === 0) {
+    //首字母不是表情
+    return s.slice(0, 1).toUpperCase();
+  } else {
+    return s.slice(0, 2);
+  }
+}
+
+module.exports = {
+  formatDate: formatDate,
+  formatTime: formatTime,
+  firstLogicChar: firstLogicChar
+};

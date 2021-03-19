@@ -1,0 +1,49 @@
+/* components/searchInput/searchInput.wxss */
+.search-input-box {
+  position: relative;
+  padding: 20rpx 20rpx;
+  background-color: white;
+  font-size: 30rpx;
+  width: 100%;
+  text-align: center;
+  margin-left: -20rpx;
+}
+
+.search-input {
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.search-input .icon-search {
+  position: absolute;
+  left: 80rpx;
+  top: 26rpx;
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.search-input input {
+  display: inline-block;
+  text-align: left;
+  width: 640rpx;
+  height: 84rpx;
+  line-height: 84rpx;
+  padding-left: 72rpx;
+  padding-right: 20rpx;
+  box-sizing: border-box;
+  font-size: 30rpx;
+  color: #606060;
+  font-weight: 300;
+  background-color: #F6F6F6;
+}
+
+.search-input-box .cancel-button {
+  position: absolute;
+  right: 80rpx;
+  top: 10rpx;
+  padding: 10rpx 20rpx;
+  line-height: 80rpx;
+  color: #606060;
+  display: none;
+}

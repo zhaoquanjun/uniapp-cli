@@ -1,0 +1,166 @@
+
+/* #ifdef MP-WEIXIN*/  
+page {
+  background-color: #f5f5f5;
+}
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/  
+.a-page {
+  background-color: #f5f5f5;
+}
+/* #endif */
+
+view {
+  box-sizing: border-box;
+}
+
+.giving-page .giving-content {
+  margin: 14rpx 0;
+  padding: 0 48rpx;
+  background-color: #fff;
+}
+
+.flex-box {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label,
+.value {
+  font-size: 30rpx;
+  line-height: 48rpx;
+  color: #333;
+}
+
+.label {
+  min-width: 200rpx;
+}
+
+.user-type {
+  justify-content: flex-start;
+  width: 100%;
+  height: 162rpx;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.user-type image {
+  width: 56rpx;
+  height: 56rpx;
+}
+
+.user-type text {
+  padding-left: 24rpx;
+  font-size: 30rpx;
+  line-height: 30rpx;
+  color: #212121;
+}
+
+.type-select, .user-phone, .user-company {
+  height: 142rpx;
+  border-bottom: 2rpx solid #f5f5f5;
+}
+
+.type-select .value {
+  padding-right: 26rpx;
+}
+
+.type-select .trangle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10rpx solid transparent;
+  border-right: 10rpx solid transparent;
+  border-top: 18rpx solid #666;
+}
+
+.has-isAuth .input-area {
+  position: relative;
+}
+
+.has-isAuth .input-area .is-auth {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+  padding: 6rpx 12rpx;
+  font-size: 20rpx;
+}
+
+.has-isAuth .input-area .user-name {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+  font-size: 30rpx;
+  color: #333;
+}
+
+.has-isAuth .input-area .user-name.has-result {
+  display: block;
+  right: 100rpx;
+}
+
+.has-isAuth .input-area .user-name.has-long-result {
+  display: block;
+  right: 150rpx;
+}
+
+.has-isAuth .input-area input {
+  text-align: right;
+}
+
+.has-isAuth .input-area input.has-result {
+  padding-right: 100rpx;
+}
+
+.has-isAuth .input-area input.has-long-result {
+  padding-right: 150rpx;
+}
+
+.has-isAuth .input-area input.has-result-auth {
+  padding-right: 200rpx;
+}
+
+.has-isAuth .input-area input.has-long-result-auth {
+  padding-right: 250rpx;
+}
+
+.has-isAuth .input-area input::placeholder {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.has-isAuth .input-area .is-auth.no-auth {
+  display: block;
+  color: #666;
+  background-color: #F4F4F4;
+}
+
+.has-isAuth .input-area .is-auth.already-auth {
+  display: block;
+  color: #3EB4A8;
+  background-color: rgba(62, 180, 168, .1);
+}
+
+.confirm-btn {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 80rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  width: calc(100% - 96rpx);
+  text-align: center;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+  border-radius: 8rpx;
+  background-color: #464646;
+}

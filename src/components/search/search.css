@@ -1,0 +1,50 @@
+.search {
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 84rpx;
+	border-radius: 4rpx;
+	width: 100%;
+}
+
+.search .icon-search {
+	position: absolute;
+	width: 32rpx;
+	height: 32rpx;
+	top: 50%;
+	left: 24rpx;
+	transform: translateY(-50%);
+}
+
+.search .search-input {
+	padding: 0 72rpx;
+	width: 100%;
+	height: 84rpx;
+	line-height: 84rpx;
+	box-sizing: border-box;
+	font-size: 28rpx;
+	color: #333;
+	background: #F7F8F9;
+	font-weight: 400;
+	border-radius: 42rpx;
+}
+
+.cancel-button {
+	position: absolute;
+	right: 24rpx;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 36rpx;
+	height: 36rpx;
+	z-index: 10;
+	border: 1rpx solid #999;
+	border-radius: 50%;
+}
+
+.cancel-button .iconfont {
+	color: #999;
+}

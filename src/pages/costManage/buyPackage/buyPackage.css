@@ -1,0 +1,299 @@
+page {
+	background-color: #F7F8F9;
+}
+
+view {
+	box-sizing: border-box;
+}
+
+.buy-card--page {
+	padding-bottom: 140rpx;
+}
+
+.label {
+	font-size: 32rpx;
+	line-height: 32rpx;
+	color: #333;
+}
+
+.value {
+	font-size: 32rpx;
+	line-height: 32rpx;
+	color: #333;
+}
+
+.title {
+	padding: 0 48rpx;
+	font-size: 32rpx;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 500;
+	color: #333333;
+	line-height: 48rpx;
+}
+
+.total--area {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.buy-card--page .buy-amount--section {
+	padding: 32rpx 40rpx 12rpx;
+}
+
+.amount-list .list-area .list-item {
+	position: relative;
+	margin-bottom: 20rpx;
+	padding: 56rpx 48rpx 56rpx;
+	width: 100%;
+	border-radius: 8rpx;
+	background-color: #fff;
+}
+
+.item-title {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	margin-bottom: 32rpx;
+}
+
+.list-item .item-desc {
+	font-size: 28rpx;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	color: #666;
+	line-height: 28rpx;
+}
+
+
+.list-item .youhui {
+	padding: 4rpx 16rpx;
+	font-size: 20rpx;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 500;
+	color: #ffffff;
+	text-align: center;
+	background: #FF5562;
+	border-radius: 4rpx;
+}
+
+.list-item .item-value {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-end;
+}
+
+.list-item .item-value .cur-value {
+	margin-right: 16rpx;
+	font-size: 48rpx;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 600;
+	color: #333333;
+	line-height: 40rpx;
+}
+
+.list-item .item-value .cur-value .prefix {
+	font-size: 30rpx;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 400;
+	color: #333333;
+	line-height: 30rpx;
+	padding-right: 8rpx;
+}
+
+.list-item .item-value .origin-value {
+	font-size: 24rpx;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	color: #999999;
+	line-height: 24rpx;
+	text-decoration: line-through;
+}
+
+.amount-list .list-area .list-item .select-words {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: none;
+	padding: 2rpx 18rpx 2rpx 8rpx;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-size: 24rpx;
+	color: #2E2F30;
+	font-weight: 500;
+	background: linear-gradient(146deg, #FCDDC8 0%, #F1BE98 100%);
+	border-radius: 4rpx 0 24rpx 0;
+}
+
+.amount-list .list-area .list-item.active {
+	background: #2E2F30;
+}
+
+.amount-list .list-area .list-item.active .item-desc {
+	color: #fff;
+}
+
+.amount-list .list-area .list-item.active .item-value .prefix,
+.amount-list .list-area .list-item.active .item-value .cur-value,
+.amount-list .list-area .list-item.active .item-value .origin-value {
+	color: #fff;
+}
+
+.amount-list .list-area .list-item.active .select-words {
+	display: block;
+}
+
+.way-select--area {
+	position: relative;
+	margin: 32rpx 0;
+	padding: 0 48rpx;
+	background-color: #fff;
+}
+
+.pay-way {
+	margin-top: 24rpx;
+}
+
+.way-select--area .way {
+	height: 112rpx;
+	border-bottom: 2rpx solid #FAFAFA;
+}
+
+.way-select--area .way .flex-box {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.way-select--area .way:last-of-type {
+	border-bottom: none;
+}
+
+.way-select--area .way .item-l {
+	position: relative;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.way-select--area .way .item-l .box {
+	position: relative;
+	width: 24rpx;
+	height: 24rpx;
+	border: 2rpx solid #ccc;
+	border-radius: 2rpx;
+}
+
+.way-select--area .way .item-l .box .inner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: none;
+	width: 14rpx;
+	height: 14rpx;
+	background-color: #fff;
+	border-radius: 50%;
+}
+
+.way-select--area .way .item-l .box.active {
+	border-color: #ed6c00;
+	background-color: #ed6c00;
+}
+
+.way-select--area .way .item-l .box.active .inner {
+	display: block;
+}
+
+.way-select--area .way .item-l image {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 50rpx;
+	height: 50rpx;
+}
+
+.way-select--area .way .item-l image.card {
+	width: 36rpx;
+	height: 36rpx;
+}
+
+.way-select--area .way .item-l .name {
+	padding: 0 12rpx 0 70rpx;
+	font-size: 28rpx;
+	color: #999;
+}
+
+.way-select--area .way .item-l .amount {
+	font-size: 28rpx;
+	color: #666;
+}
+
+.way-select--area .way .item-r {
+	font-size: 32rpx;
+}
+
+.way-select--area .way .item-r checkbox .wx-checkbox-input {
+	width: 32rpx;
+	height: 32rpx;
+	border-radius: 50%;
+}
+
+/* 选中后的 背景样式 （红色背景 无边框 可根据UI需求自己修改） */
+.way-select--area .way .item-r checkbox .wx-checkbox-input.wx-checkbox-input-checked {
+	width: 32rpx;
+	/* 选中后对勾大小，不要超过背景的尺寸 */
+	height: 32rpx;
+	/* 选中后对勾大小，不要超过背景的尺寸 */
+	border: none;
+	background: #ED6C00;
+}
+
+/* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
+.way-select--area .way .item-r checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
+	border-radius: 50%;
+	/* 圆角 */
+	width: 32rpx;
+	/* 选中后对勾大小，不要超过背景的尺寸 */
+	height: 32rpx;
+	/* 选中后对勾大小，不要超过背景的尺寸 */
+	line-height: 32rpx;
+	text-align: center;
+	font-size: 24rpx;
+	/* 对勾大小 30rpx */
+	color: #fff;
+	/* 对勾颜色 白色 */
+	border: 1rpx solid #ED6C00;
+	background: #ED6C00;
+	transform: translate(-50%, -50%) scale(1);
+	-webkit-transform: translate(-50%, -50%) scale(1);
+}
+
+.way-select--area .way .item-r .amount {
+	padding-right: 20rpx;
+	font-size: 28rpx;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	color: #333333;
+	line-height: 28rpx;
+}
+
+.confirm-btn {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	height: 120rpx;
+	line-height: 120rpx;
+	width: 100%;
+	text-align: center;
+	color: #fff;
+	font-size: 32rpx;
+	font-weight: 500;
+	background-color: #464646;
+}
+
+.not-allowed {
+	background-color: #999;
+}

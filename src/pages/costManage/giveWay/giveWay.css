@@ -1,0 +1,72 @@
+
+/* #ifdef MP-WEIXIN*/  
+page {
+  background-color: #f5f5f5;
+}
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/  
+.a-page {
+  background-color: #f5f5f5;
+}
+/* #endif */
+
+view {
+  box-sizing: border-box;
+}
+
+.give-way--page .way-list {
+  padding: 0 40rpx;
+}
+
+.give-way--page .way-list .list-item {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20rpx;
+  padding: 32rpx;
+  border-radius: 8rpx;
+  background-color: #fff;
+}
+
+.give-way--page .way-list .list-item .l-part {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.way-list .list-item .l-part .icon {
+  margin-right: 28rpx;
+  width: 68rpx;
+  height: 68rpx;
+}
+
+.way-list .list-item .l-part .icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.way-list .list-item .l-part .desc {
+  font-size: 30rpx;
+  color: #212121;
+  line-height: 30rpx;
+}
+
+.way-list .list-item .r-part {
+  font-size: 30rpx;
+  line-height: 28rpx;
+  color: #999;
+}
+
+.share-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  opacity: 0;
+  z-index: 1;
+}

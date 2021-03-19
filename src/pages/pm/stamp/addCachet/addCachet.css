@@ -1,0 +1,72 @@
+/* pages/pm/stamp/addCachet/addCachet.wxss */
+
+.input-view{
+  float: left;
+  margin-top: 32rpx;
+  margin-left: 32rpx;
+  width: 686rpx;
+  height: 132rpx;
+  border-bottom: 1rpx #F3F3F3 solid;
+}
+.title{
+  float: left;
+  width: 100%;
+  height: 32rpx;
+  font-size: 32rpx;
+  color: #202020;
+  font-weight: 400;
+}
+.input{
+  float: left;
+  width: 100%;
+  height: 32rpx;
+  font-size: 32rpx;
+  margin-top: 32rpx;
+  color: #202020;
+  font-weight: 200;
+}
+.stamp-title{
+  float: left;
+  margin-top: 32rpx;
+  margin-left: 32rpx;
+  width: 686rpx;
+  height: 30rpx;
+  font-size: 30rpx;
+  font-weight: 400;
+  color: #202020;
+}
+.color-view{
+  float: left;
+  margin-left: 32rpx;
+  margin-top: 32rpx;
+  width: 686rpx;
+  height: 80
+}
+.color{
+  float: left;
+  width: 74rpx;
+  height: 74rpx;
+  border-radius: 50%;
+  margin-top: 3rpx;
+  margin-right: 64rpx; 
+}
+.color-content{
+  float: left;
+  width: 68rpx;
+  height: 68rpx;
+  margin-left: 3.5rpx;
+  margin-top: 3.5rpx;
+  border-radius: 50%;
+}
+.submit{
+  float: left;
+  width: 534rpx;
+  height: 88rpx;
+  margin-left:108rpx;
+  margin-top: 96rpx;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 200;
+  line-height: 88rpx;
+  
+}

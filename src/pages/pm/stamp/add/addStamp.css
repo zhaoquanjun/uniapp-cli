@@ -1,0 +1,152 @@
+/* pages/pm/stamp/add/addStamp.wxss */
+
+.stamp-canvas {
+  position: fixed;
+  top: 0;
+  left: 98rpx;
+  display: block;
+  width: 652rpx;
+  height: 100%;
+  background-color: #F7F8F9;
+}
+
+.copy-canvas {
+  left: -200%;
+	width: 652rpx;
+	height: 652rpx;
+}
+
+.watermark {
+  width: 768rpx;
+  height: 178rpx;
+  transform: rotate(90deg);
+  transform-origin: 0% 0%;
+  position: relative;
+  margin-top: 200rpx;
+  margin-left: 60%;
+}
+
+.operation-btn-view {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  padding: 60rpx 8rpx;
+  width: 97rpx;
+  background-color: rgba(255, 255, 255, 1);
+  box-sizing: border-box;
+}
+
+.pen-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30rpx;
+  padding: 10rpx;
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  border: 4rpx solid transparent;
+  background: #ffffff;
+	box-sizing: content-box;
+}
+
+
+
+.pen-btn .pen {
+  width: 36rpx;
+  height: 36rpx;
+  color: transparent;
+  border-radius: 50%;
+}
+
+.pen-size-container {
+  position: absolute;
+  right: -200rpx;
+  top: 360rpx;
+  background: white;
+  transform: rotate(90deg);
+  width: 136px;
+  line-height: 43rpx;
+  height: 43px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+}
+
+.line {
+  border-right: 1px solid #E5E5E5;
+  float: left;
+  width: 40rpx;
+  height: 40rpx;
+  transform: rotate(90deg);
+}
+
+.pen-btn.active {
+  border: 4rpx solid #DFDFDF;
+  position: relative;
+  background-color: #ffffff;
+  box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(157, 157, 157, 0.5)
+}
+
+.pen-btn.active-pen {
+  border: 4rpx solid #DFDFDF;
+  background: #F8F8F8;
+  box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(157, 157, 157, 0.5)
+}
+
+.pen-text {
+  width: 60rpx;
+  height: 60rpx;
+  font-size: 28rpx;
+  font-weight: 200;
+  line-height: 60rpx;
+  color: #fff;
+}
+
+.first-pen-btn {
+  margin-top: 0;
+}
+
+.clean-btn {
+  position: fixed;
+  bottom: 246rpx;
+  background-color: #F5F5F5;
+  transform: rotate(90deg);
+  text-align: center;
+  width: 126rpx;
+  height: 60rpx;
+  line-height: 50rpx;
+  border-radius: 30rpx;
+}
+
+.clean-text {
+  width: 126rpx;
+  height: 60rpx;
+  font-size: 28rpx;
+  font-weight: 200;
+  line-height: 60rpx;
+  color: #000;
+}
+
+.submit-btn {
+  position: fixed;
+  bottom: 100rpx;
+  transform: rotate(90deg);
+  text-align: center;
+  width: 126rpx;
+  height: 60rpx;
+  line-height: 50rpx;
+  background: #464646;
+  border-radius: 30rpx;
+}
+
+.submit-text {
+  width: 126rpx;
+  height: 60rpx;
+  line-height: 50rpx;
+  font-size: 28rpx;
+  font-weight: 200;
+  line-height: 60rpx;
+  color: #fff;
+}

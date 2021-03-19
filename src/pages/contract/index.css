@@ -1,0 +1,89 @@
+/* #ifdef MP-WEIXIN*/
+page {
+	background-color: #F7F8F9;
+}
+
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/
+.a-page {
+	background-color: #F7F8F9;
+}
+
+/* #endif */
+
+
+.type-select {
+	font-size: 32rpx;
+}
+
+.is-nologin,
+.is-nocontent {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.is-nologin text,
+.is-nocontent text {
+	margin-top: -40rpx;
+	font-size: 32rpx;
+	color: #666;
+}
+
+.type-select-header {
+	font-size: 28rpx;
+	height: 116rpx;
+	line-height: 116rpx;
+	padding: 0 50rpx;
+	font-weight: 400;
+	color: rgba(153, 153, 153, 1);
+}
+
+.type-select-header .iconfont {
+	font-size: 28rpx;
+	position: relative;
+	top: 4rpx
+}
+
+.types-select-container {
+	width: 670rpx;
+	margin: 42rpx auto;
+	background: rgba(255, 255, 255, 1);
+	border-radius: 8rpx;
+}
+
+.types-select-container .type-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 30rpx;
+	font-weight: 400;
+	color: #333333;
+	height: 120rpx;
+	margin: 0 32rpx;
+	border-bottom: 2rpx solid #F5F5F5;
+}
+
+.types-select-container .type-item .count {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.types-select-container .type-item .iconfont {
+	float: right;
+	color: #CECECE;
+}
+
+.item-count {
+	margin-right: 22rpx;
+	color: #8B8B8B;
+	font-size: 28rpx;
+	font-weight: 500;
+}

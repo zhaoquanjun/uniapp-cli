@@ -1,0 +1,181 @@
+
+/* #ifdef MP-WEIXIN*/  
+page {
+  background-color: #F5F5F5;
+}
+/* #endif */
+
+/* #ifdef MP-ALIPAY*/  
+.a-page {
+  background-color: #F5F5F5;
+}
+/* #endif */
+
+
+.sign-confirm--page {
+  width: 100%;
+  height: 100%;
+}
+
+.confirm-header--area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 48rpx;
+  width: 100%;
+  height: 114rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.confirm-header--area .header-title {
+  position: relative;
+  padding-right: 32rpx;
+  width: 78%;
+  font-size: 32rpx;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.confirm-header--area .detail-btn {
+  padding-left: 32rpx;
+  width: 22%;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  color: #6E82A9;
+  border-left: 1px solid #D8D8D8;
+}
+
+.confirm-content--area {
+  position: absolute;
+  top: 116rpx;
+  left: 0;
+  padding-bottom: 176rpx;
+  width: 100%;
+  height: calc(100% - 114rpx - 176rpx);
+  background-color: #fff;
+  overflow-anchor: auto;
+}
+
+.confirm-content--area .seal-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  pointer-events: none;
+}
+
+.confirm-content--area .seal-container .seal-item {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 176rpx;
+  height: 176rpx;
+  background:rgba(237,108,0,0.05);
+  border:2rpx solid rgba(237,108,0,1);
+  box-sizing: border-box;
+  pointer-events: all;
+}
+
+.confirm-content--area .seal-item image {
+  width: 144rpx;
+  height: 144rpx;
+}
+
+.confirm-content--area .content-pager {
+  position: fixed;
+  top: 144rpx;
+  right: 32rpx;
+  padding: 12rpx 16rpx;
+  font-size: 24rpx;
+  color: #fff;
+  border-radius: 2rpx;
+  background-color: rgba(0, 0, 0, .6);
+  z-index: 9;
+}
+
+.confirm-content--area .scroll-operate--area {
+  position: fixed;
+  bottom: 288rpx;
+  right: 40rpx;
+  height: 160rpx;
+  width: 32px;
+}
+
+.confirm-content--area .scroll-operate--area .scroll-top,
+.confirm-content--area .scroll-operate--area .scroll-bottom {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 4rpx;
+  background-color: rgba(0, 0, 0, .7);
+}
+
+.confirm-content--area .scroll-operate--area .scroll-bottom {
+  bottom: 0;
+  right: 0;
+}
+
+.confirm-content--area .scroll-operate--area .scroll-top {
+  top: 0;
+  right: 0;
+}
+
+.confirm-content--area .scroll-operate--area .scroll-top image,
+.confirm-content--area .scroll-operate--area .scroll-bottom image {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.confirm-footer--area {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 48rpx 0 68rpx;
+  width: 100%;
+  height: 175rpx;
+  background-color: #fff;
+  border-top: 1px solid #D8D8D8;
+  box-sizing: border-box;
+}
+
+.confirm-footer--area .sign-btn image {
+  margin-right: 12rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.confirm-footer--area .undo-btn {
+  text-indent: 60rpx;
+}
+
+.confirm-footer--area .undo-btn image {
+  margin-right: 12rpx;
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.confirm-footer--area .confirm-btn {
+  width: 200rpx;
+  height: 92rpx;
+  font-size: 32rpx;
+  line-height: 92rpx;
+  text-align: center;
+  color: #fff;
+  background: #464646;
+  border-radius: 4px;
+}

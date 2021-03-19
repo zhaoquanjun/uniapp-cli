@@ -1,0 +1,101 @@
+
+.wx-verify-bg {
+	transform: translateY(200%);
+}
+
+.show {
+	transform: translateY(0);
+}
+
+.key-input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	z-index: 11;
+	box-sizing: border-box;
+	color: transparent;
+}
+
+.input-focus {
+	width: 200%;
+	text-align: right;
+}
+
+.wx-mask {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	background: #fff;
+	z-index: 11;
+}
+
+.verify-title {
+	position: fixed;
+	width: 750rpx;
+	height: 46rpx;
+	top: 48rpx;
+	font-size: 46rpx;
+	color: #000;
+	text-align: center;
+}
+
+.verify-content {
+	position: fixed;
+	display: block;
+	width: 100%;
+	height: 32rpx;
+	top: 158rpx;
+	font-size: 30rpx;
+	color: #B2B2B2;
+	text-align: center;
+	font-weight: 200;
+}
+
+.verify-code-view {
+	position: fixed;
+	width: 390rpx;
+	height: 80rpx;
+	top: 254rpx;
+	left: 180rpx;
+}
+
+.verify-input-view {
+	float: left;
+	width: 48rpx;
+	height: 80rpx;
+	margin-left: 20rpx;
+
+}
+
+.verify-input-view-first {
+	margin-left: 0rpx;
+}
+
+.verify-text {
+	float: left;
+	display: block;
+	width: 48rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	border-bottom: 2rpx #B2B2B2 solid;
+	color: #606060;
+	text-align: center;
+	font-size: 80rpx;
+	font-weight: 200;
+}
+
+.again-send-class {
+	position: fixed;
+	width: 100%;
+	height: 32rpx;
+	top: 398rpx;
+	font-size: 32rpx;
+	font-weight: 200;
+	color: #FF9F3D;
+	text-align: center;
+}

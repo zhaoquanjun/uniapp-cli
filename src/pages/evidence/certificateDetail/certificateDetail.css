@@ -1,0 +1,173 @@
+/* pages/pm/evidenceManage/certificateDetail.wxss */
+@import "../addCertificate/addCertificate.css";
+
+.certificate-detail-box {
+  min-height: 100vh;
+  font-size: 32rpx;
+  color: #333;
+  background: #F7F8F9;
+}
+
+.certificate-detail-box .h1 {
+  height: 130rpx;
+  line-height: 130rpx;
+  font-size: 36rpx;
+  padding: 0 48rpx;
+}
+
+.certificate-title {
+  padding: 30rpx 0rpx 32rpx 48rpx;
+  font-size: #333333;
+  font-weight: 500;
+}
+
+.certificate-detail-items {
+  padding: 0 48rpx;
+  background: #fff;
+}
+
+.certificate-detail-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 40rpx 0;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.certificate-detail-item-name {
+  flex-shrink: 0;
+  flex-grow: 1;
+  font-size: 30rpx;
+  color: #666666;
+  font-weight: 400;
+}
+
+.certificate-detail-item-value {
+  flex-grow: 0;
+  word-wrap: break-word;
+  word-break: break-all;
+  font-size: 30rpx;
+  color: #333333;
+}
+
+.certificate-detail-file {
+  min-height: 128rpx;
+  background: #fff;
+  padding: 0 48rpx;
+}
+
+.certificate-detail-file .pdf-file {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 48rpx 0;
+}
+
+.certificate-detail-file .pdf-file image {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.certificate-detail-file .pdf-file text {
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  margin-left: 16rpx;
+  max-width: 560rpx;
+  color: #6E87B8;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.certificate-detail-file-name {
+  color: #666;
+  margin: 50rpx 0;
+  font-family: "icon-one";
+}
+
+.certificate-detail-file-name i {
+  margin-right: 10rpx;
+  vertical-align: middle;
+}
+
+.certificate-detail-file-content-picture {
+  width: 100%;
+  height: 180rpx;
+  margin-top: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.certificate-detail-file-content-video {
+  width: 320rpx;
+  height: 180rpx;
+  margin-top: 48rpx;
+  margin-bottom: 50rpx;
+}
+
+.certificate-detail-file-text {
+  color: #999;
+  font-size: 28rpx;
+  width: 654rpx;
+  margin: 38rpx 0rpx;
+  word-wrap: break-word;
+}
+
+.certificate-detail-preview {
+  border-radius: 8rpx;
+  color: #6E82A9;
+  line-height: 100rpx;
+  margin-right: 48rpx;
+  text-align: right;
+}
+
+.certificate-detail-preview.failed {
+  /* background:#999;*/
+}
+
+.certificate-detail-download {
+  background: #fff;
+  padding: 56rpx 0;
+
+}
+
+.add-certificate-voice-progress {
+  width: 100%;
+}
+
+.contract-operate {
+  position: absolute;
+  right: 48rpx;
+  top: 64rpx;
+  padding: 12rpx 0 24rpx 24rpx;
+}
+
+.contract-operate>.contract-operate_item {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #333;
+  margin: 0 2px;
+}
+
+.slide-menu_list {
+  width: 100%;
+  background: #fff;
+}
+
+.slide-menu_list>.slide-menu_item {
+  height: 104rpx;
+  margin: 0 48rpx;
+  line-height: 104rpx;
+  text-align: center;
+  border-bottom: 1px solid #efefef;
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(33, 33, 33, 1);
+}
+
+.undeContranct {
+  color: #6E82A9!important;
+  text-decoration: underline!important;
+}

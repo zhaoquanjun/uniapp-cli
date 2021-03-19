@@ -1,0 +1,102 @@
+/* #ifdef MP-WEIXIN*/  
+.page{
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+} 
+/* #endif */
+/* #ifdef MP-ALIPAY*/  
+.a-page{
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+} 
+/* #endif */
+.contract-search {
+  padding: 32rpx 40rpx 0rpx;
+}
+.recent-search{
+  padding:48rpx 0rpx 20rpx 48rpx;
+  border-bottom:2rpx solid #F5F5F5;
+  font-size: 28rpx;
+  color: #999999;
+}
+.contract{
+  float: left;
+  width:654rpx;
+  height: 222rpx;
+  background:#FFFFFFFF;
+  margin-left: 48rpx;
+  border-bottom:2rpx solid #F5F5F5FF;
+}
+.contract-introduce{
+  height: 96rpx;
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+}
+.contract-title{
+  float: left;
+  max-width: 474rpx;
+  height: 48rpx;
+  margin-top:32rpx;
+  font-size:30rpx;
+  font-weight: 500;
+  color: rgba(51,51,51,1);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.contract-right{
+  display: flex;
+  align-items: center;
+  height: 96rpx;
+}
+.status-icon{
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  margin-top: 8rpx;
+}
+.contract-state{
+  float:right;
+  height: 24rpx;
+  font-size: 24rpx;
+  margin-left: 16rpx;
+}
+.contract-related{
+  display: flex;
+  flex-wrap:nowrap;
+  height:34rpx;
+  width: 604rpx;
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #666666FF;
+}
+.contract-other{
+  display: flex;
+  flex-shrink:1;
+  flex-wrap:nowrap;
+}
+.contract-sponsor{
+  max-width: 264rpx;
+  height: 34rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.contract-signatory{
+  max-width: 264rpx;
+  height: 34rpx;
+  margin-left: 32rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+}
+.time{
+  height: 22rpx;
+  font-size: 22rpx;
+  color: #999999;
+  margin-top: 20rpx;
+}
