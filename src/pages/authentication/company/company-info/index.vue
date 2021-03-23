@@ -23,7 +23,7 @@
     <view class="base-info-container">
         <view class="field-item">
             <label class="name">企业类型</label>
-            <picker @change="bindPickerChange" range-key="label" :value="companyTypeIndex" :range="companyTypes">
+            <picker @change="bindPickerChange" range-key="label" v-model="companyTypeIndex" :range="companyTypes">
                 <label class="value-select">
                     {{companyTypes[companyTypeIndex].label}}
                     <text class="iconfont iconicon_down_arrow"></text>
@@ -33,15 +33,15 @@
         </view>
         <view class="field-item">
             <label class="name">企业名称</label>
-            <input class="value-input" placeholder="请输入" @input="bindKeyInput" :value="companyName" data-field="companyName"></input>
+            <input class="value-input" placeholder="请输入" v-model="companyName" />
         </view>
         <view class="field-item">
             <label class="name">统一社会信用代码</label>
-            <input class="value-input" placeholder="请输入" :value="creditCode" @input="bindKeyInput" data-field="creditCode"></input>
+            <input class="value-input" placeholder="请输入" v-model="creditCode" />
         </view>
         <view class="field-item">
             <label class="name">法定代表人姓名</label>
-            <input class="value-input" placeholder="请输入" :value="legalPersonName" @input="bindKeyInput" data-field="legalPersonName"></input>
+            <input class="value-input" placeholder="请输入" v-model="legalPersonName" />
         </view>
     </view>
 
@@ -54,16 +54,15 @@
 </template>
 
 <script>
-// authentication/auth-type/index.js
 import { postBody, upload } from '@api/request.js'
 import { businessLicenseUpload, companyAuth, companyHandle } from '@api/authen.js'
 import { create_seal, upload_company_seal } from '@api/seal.js'
+import { mapMutations, mapState } from 'vuex'
 const FXQ = require("@u/FXQ");
 
 export default {
   data() {
     return {
-      ishighLight: false,
       businessImage: null,
       companyName: '',
       companyId: '',
@@ -86,14 +85,9 @@ export default {
         label: '其他组织',
         value: 5
       }],
-      query: "",
-      field: ""
+      query: {},
     };
   },
-
-  components: {},
-  props: {},
-
   onLoad(option) {
     this.query = option
   },
@@ -131,10 +125,16 @@ export default {
     }
     this.companyTypes = arr
   },
-
-  onShareAppMessage() {},
-
+  computed: {
+    ...mapState({
+      currentUser: state => state.currentUser
+    }),
+    ishighLight() {
+      return !(!this.companyName || !this.creditCode || !this.legalPersonName || !this.businessImage || !this.companyTypeIndex)
+    }
+  },
   methods: {
+    ...mapMutations(['updateStateAttr']),
     uploadImage(tmpUrl) {
       uni.showLoading({
         title: '识别中...'
@@ -145,16 +145,9 @@ export default {
         key: 'businessImage',
         success: res => {
           uni.hideLoading();
-          const {
-            companyName,
-            creditCode,
-            legalPersonName,
-            businessImage
-          } = that;
-          const flag = [companyName, creditCode, legalPersonName, businessImage].some(item => {
-            return item == '' || item == undefined
-          })
-          this.ishighLight = !flag
+          this.companyName = res.companyName
+          this.creditCode = res.creditCode
+          this.legalPersonName = res.legalPersonName
         },
         fail: err => {
           uni.hideLoading();
@@ -173,7 +166,6 @@ export default {
     },
 
     chooseImage() {
-      const that = this;
       uni.chooseImage({
         count: 1,
         // 默认9
@@ -189,39 +181,30 @@ export default {
     },
 
     next() {
-      const {
-        companyTypeIndex,
-        companyName,
-        creditCode,
-        legalPersonName,
-        query
-      } = this;
-      const currentUser = uni.getStorageSync('currentUser');
       let mgs = [];
-			console.log()
-			if (!companyName) {
+			if (!this.companyName) {
 			  mgs.push('企业名称');
 			}
 
-      if (!creditCode) {
+      if (!this.creditCode) {
         mgs.push('统一社会信用代码');
       }
 			
-			if (!legalPersonName) {
+			if (!this.legalPersonName) {
 			  mgs.push('法定代表人姓名');
 			}
 			
-			if (companyTypeIndex == 0) {
+			if (this.companyTypeIndex == 0) {
 				mgs.push('企业类型');
 			}
 
-      if (query.type == 'legent' && !/^9+/.test(creditCode)) {
-        setTimeout(() => {
+      if (this.query.type == 'legent' && !/^9+/.test(this.creditCode)) {
+        return void setTimeout(() => {
 					wx.showModal({
 					  title: '提示',
 					  content: '法人认证统一社会信用代码需为9开头，非9请走代理人认证',
 						showCancel: false,
-					  success (res) {
+					  success: res => {
 					    if (res.confirm) {
 					      console.log('用户点击确定')
 					    } else if (res.cancel) {
@@ -230,40 +213,38 @@ export default {
 					  }
 					})
         }, 50);
-        return false;
       }
 
       if (mgs.length) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: mgs.join('、') + '不能为空'
           });
         }, 50);
-        return false;
       }
 
       let params = {
-        companyType: this.companyTypes[companyTypeIndex].value,
-        companyName,
-        creditCode,
-        legalPersonName,
-        companyId: currentUser.companyId || query.companyId,
+        companyType: this.companyTypes[this.companyTypeIndex].value,
+        companyName: this.companyName,
+        creditCode: this.creditCode,
+        legalPersonName: this.legalPersonName,
+        companyId: this.currentUser.companyId || this.query.companyId,
         authChannel: 2
       };
       uni.showLoading({
         title: '加载中'
       }); // 法人
 
-      if (query.type == 'legent') {
+      if (this.query.type == 'legent') {
         postBody({
           url: companyAuth,
           params,
           success: () => {
-            const newUser = Object.assign({}, currentUser, params);
+            const newUser = Object.assign({}, this.currentUser, params);
             this.getSealBase64Fun();
             uni.hideLoading();
-            uni.setStorageSync('currentUser', newUser);
+            this.updateStateAttr({currentUser: newUser})
             uni.navigateTo({
               url: '/pages/authentication/company/auth-result/index?result=s'
             });
@@ -284,18 +265,10 @@ export default {
           params,
           success: () => {
             uni.hideLoading();
-            let currentUser = uni.getStorageSync('currentUser');
-            currentUser.authStatus = 1;
-            // #ifdef  H5
-            localStorage.setItem('currentUser', JSON.stringify(currentUser))
-            localStorage.setItem('companyInfoApply', JSON.stringify(companyInfoApply))
-            // #endif
-
-            // #ifndef  H5
-            uni.setStorageSync('currentUser', currentUser);
+            let newUser = JSON.parse(JSON.stringify(this.currentUser))
+            newUser.authStatus = 1;
+            this.updateStateAttr({currentUser: newUser, isAuth: true})
             uni.setStorageSync('companyInfoApply', params);
-            // #endif
-            
             uni.navigateTo({
               url: '/pages/authentication/company/company-pay-info/index'
             });
@@ -308,26 +281,6 @@ export default {
           }
         });
       }
-    },
-
-    bindKeyInput(e) {
-      const {
-        field
-      } = e.target.dataset;
-      const {
-        value
-      } = e.detail;
-
-      [field] = value
-
-      const {
-        companyName,
-        creditCode,
-        legalPersonName,
-        businessImage
-      } = this;
-
-      ishighLight = [companyName, creditCode, legalPersonName, businessImage].some(item => {item == '' || item == undefined}) ? false : true
     },
 
     back() {

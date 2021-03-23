@@ -24,11 +24,7 @@
         v-for="(item, index) in contracts"
         :key="index"
         class="contract"
-        @tap="pushToDetail"
-        :data-id="item.id"
-        :data-status="item.status"
-        :data-index="index"
-        :data-item="item"
+        @tap="pushToDetail(item)"
       >
         <view class="contract-introduce">
           <view class="contract-title">
@@ -55,9 +51,7 @@
         <view
           class="contract-operate"
           v-if="searchType < 8"
-          @tap.stop="showChainsMenu"
-          :data-activeitem="item"
-          :data-activeit="JSON.stringify(item)"
+          @tap.stop="showChainsMenu(item)"
         >
           <view class="contract-operate_item"></view>
           <view class="contract-operate_item"></view>
@@ -103,16 +97,16 @@
     <!-- 添加证据链菜单 -->
     <halfSlideItem ref="evidence">
       <view class="slide-menu_list">
-        <view class="slide-menu_item" @tap="goPicChain" data-totype="image"
+        <view class="slide-menu_item" @tap="goPicChain('image')"
           >图片存证</view
         >
-        <view class="slide-menu_item" @tap="goPicChain" data-totype="file"
+        <view class="slide-menu_item" @tap="goPicChain('file')"
           >文件存证</view
         >
-        <view class="slide-menu_item" @tap="goPicChain" data-totype="voice"
+        <view class="slide-menu_item" @tap="goPicChain('voice')"
           >语音存证</view
         >
-        <view class="slide-menu_item" @tap="goPicChain" data-totype="video"
+        <view class="slide-menu_item" @tap="goPicChain('video')" 
           >视频存证</view
         >
         <view class="slide-menu_item" @tap="addChainFromList"
@@ -137,7 +131,7 @@ var utils = require('@u/utils.js')
 import search from '@c/search/search'
 import searchHighlightTextView from '@c/searchHighlightTextView/searchHighlightTextView'
 import halfSlideItem from '@c/halfSlideItem/halfSlideItem'
-
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -159,22 +153,15 @@ export default {
       activeItme: {},
       chainImg: null,
       showChainImg: false,
-      topShow: false,
-      // top loading show flag
+      topShow: false, // top loading show flag
       bottomShow: false, // bottom loading show flag
     }
   },
-
   components: {
     search,
     searchHighlightTextView,
     halfSlideItem,
   },
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function(options) {
     uni.setNavigationBarTitle({
       title: options.pageTitle,
@@ -190,7 +177,11 @@ export default {
   },
 
   onShareAppMessage() {},
-
+  computed: {
+    ...mapState({
+      currentUser: (state) => state.currentUser,
+    }),
+  },
   methods: {
     /**
      * @name 滑动触底
@@ -358,7 +349,7 @@ export default {
      * @name 取消搜索
      */
     cancleSearchFun() {
-			this.searchParams = ''
+      this.searchParams = ''
       this.getContractsFun(0)
     },
 
@@ -393,29 +384,16 @@ export default {
     /**
      * 跳转到详情
      */
-    pushToDetail: function(e) {
-      // #ifndef  H5
-      const contractId = e.currentTarget.dataset.item.id
-      const status = e.currentTarget.dataset.item.status
-      // #endif
-
-      // #ifdef  H5
-      console.log(e.currentTarget.dataset)
-      const contractId = e.currentTarget.dataset.id
-      const status = e.currentTarget.dataset.status
-      // #endif
-
+    pushToDetail(item) {
       let url = ''
-
       if (this.searchType == 8) {
-        url =
-          '/pages/contract/sign/next/next?isdraft=1&contractId=' + contractId
-      } else if (status == 7) {
-        url = '/pages/contract/fill/fill?contractId=' + contractId
+        url = '/pages/contract/sign/next/next?isdraft=1&contractId=' + item.id
+      } else if (item.status == 7) {
+        url = '/pages/contract/fill/fill?contractId=' + item.id
       } else {
         url =
           '/pages/contract/sign/next/signConfirm/signConfirm?contractId=' +
-          contractId
+          item.id
       }
 
       uni.navigateTo({
@@ -428,9 +406,8 @@ export default {
      * 状态（1：所有合同 2：我发起的 3：待签署 4：等别人签署合同（我已签署完成）5:已完成 6:已撤销 7:已拒签 8:已作废）
      * index (0 1 2 3 4)
      */
-    statusByIndexFun: function(index) {
-      var status = 1
-
+    statusByIndexFun(index) {
+      let status = 1
       switch (index) {
         case 0:
           status = 1
@@ -462,24 +439,14 @@ export default {
     /**
      * @desc 显示证据链弹窗
      */
-    showChainsMenu(arg) {
-      // #ifdef  H5
-      const itemInfo = JSON.parse(arg.currentTarget.dataset.activeit)
-      // #endif
-
-      // #ifndef  H5
-      const itemInfo = arg.currentTarget.dataset.activeitem
-      // #endif
-
-      if (!itemInfo.id) {
-        return
-      }
+    showChainsMenu(item) {
+      if (!item.id) return
 
       this.$refs.operate.open()
-			this.activeItme = itemInfo
-			this.payDetail = itemInfo.hasPay
-			this.payContract = itemInfo.needPay
-			this.applyInvoice = itemInfo.isOpenInvoice
+      this.activeItme = item
+      this.payDetail = item.hasPay
+      this.payContract = item.needPay
+      this.applyInvoice = item.isOpenInvoice
     },
 
     /**
@@ -496,18 +463,17 @@ export default {
     /**
      * @desc 进行图片存证
      */
-    goPicChain(e) {
-      var toType = e.currentTarget.dataset.totype
+    goPicChain(type) {
       this.$refs.operate.close()
       this.$refs.evidence.close()
 
-      if (toType == 'video') {
+      if (type == 'video') {
         const queryString =
           '&searchType=' + this.searchType + '&pageTitle=' + this.title
         uni.navigateTo({
           url:
             '/pages/evidence/videoRecord/videoRecord?type=' +
-            toType +
+            type +
             '&fromId=' +
             this.activeItme.id +
             queryString,
@@ -516,7 +482,7 @@ export default {
         uni.navigateTo({
           url:
             '/pages/evidence/addCertificate/addCertificate?type=' +
-            toType +
+            type +
             '&fromId=' +
             this.activeItme.id,
         })
@@ -543,8 +509,8 @@ export default {
       get({
         url: previewChainImg + this.activeItme.id,
         success: (res) => {
-					this.chainImg = res
-					this.showChainImg = true
+          this.chainImg = res
+          this.showChainImg = true
         },
         fail: (res) => {
           this.chainImg = null
@@ -592,15 +558,7 @@ export default {
         '&pageTitle=' +
         this.title
 
-      // #ifndef  H5
-      const isCompay = uni.getStorageSync('currentUser').companyId
-      // #endif
-
-      // #ifdef  H5
-      const isCompay = JSON.parse(localStorage.getItem('currentUser')).companyId
-      // #endif
-
-      if (isCompay) {
+      if (this.currentUser && this.currentUser.companyId) {
         url += '&initiatorName=' + this.activeItme.initiatorName + '&'
       }
 

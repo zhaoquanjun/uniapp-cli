@@ -5,25 +5,25 @@
 		<view class="item-Content">
 			<view class="message">
 				<text>公司</text>
-				<input type="text" :value="companyName" @input="bindKeyInput" @blur="handleBlurFun" placeholder="请输入" data-field="companyName"></input>
+				<input type="text" v-model="companyName" @input="bindKeyInput($event, 'companyName')" @blur="handleBlurFun" placeholder="请输入" />
 			</view>
 			<view :class="'search-result--list ' + (searchCompanyResultList.length > 0 ? 'show' : '')">
-				<view v-for="(item, index) in searchCompanyResultList" :key="index" class="list-item" @tap="handleSelectCompanyDataFun" :data-name="item.name">{{item.name}}</view>
+				<view v-for="(item, index) in searchCompanyResultList" :key="index" class="list-item" @tap="handleSelectCompanyDataFun(item)" :data-name="item.name">{{item.name}}</view>
 			</view>
 		</view>
 		<view class="item-Content">
 			<view class="message">
 				<text>经办人姓名</text>
-				<input type="text" :value="userName" @input="bindKeyInput" @blur="handleBlurFun" placeholder="请输入" data-field="userName"></input>
+				<input type="text" v-model="userName" @input="bindKeyInput($event, 'userName')" @blur="handleBlurFun" placeholder="请输入" />
 			</view>
 			<view :class="'search-result--list ' + (searchPersonResultList.length > 0 ? 'show' : '')">
-				<view v-for="(item, index) in searchPersonResultList" :key="index" class="list-item" @tap="handleSelectPersonDataFun" :data-name="item.name" :data-phone="item.phone">{{item.name}} - {{item.phone}}</view>
+				<view v-for="(item, index) in searchPersonResultList" :key="index" class="list-item" @tap="handleSelectPersonDataFun(item)" >{{item.name}} - {{item.phone}}</view>
 			</view>
 		</view>
     <view class="item-Content">
 			<view class="message">
 				<text>经办人手机号</text>
-				<input type="text" :value="userPhone" @input="bindKeyInput" maxlength="11" placeholder="请输入手机号" data-field="userPhone"></input>
+				<input type="text" v-model="userPhone" @input="bindKeyInput($event, 'userPhone')" maxlength="11" placeholder="请输入手机号" />
 			</view>
 		</view>
 	</view>
@@ -31,7 +31,7 @@
 		<view class="item-title">签署要求</view>
 		<view class="item-Content">
 			<view class="othermessage" @tap.stop="checkedTap1">
-        <radio value="r1" :checked="checked1"></radio>
+        <radio v-model="checked1" :checked="checked1"></radio>
 				<view style="margin-left:8rpx; padding-top:8rpx">企业章</view>
 			</view>
 		</view>
@@ -74,53 +74,11 @@ export default {
       timer: null
     };
   },
-
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {},
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {},
   methods: {
-    checkedTap1: function () {
+    checkedTap1() {
       this.checked1 = !this.checked1
     },
-    checkedTap2: function () {
+    checkedTap2() {
       this.checked2 = !this.checked2
     },
 
@@ -155,13 +113,10 @@ export default {
         }, 500)
     },
 
-    handleSelectPersonDataFun(e) {
-      console.log(e);
-      const name = e.target.dataset.name;
-      const phone = e.target.dataset.phone;
+    handleSelectPersonDataFun(item) {
       setTimeout(() => {
-        this.userName = name
-        this.userPhone = phone
+        this.userName = item.name
+        this.userPhone = item.phone
         this.searchPersonResultList = []
       }, 200);
       setTimeout(() => {
@@ -169,10 +124,9 @@ export default {
       }, 300);
     },
 
-    handleSelectCompanyDataFun(e) {
-      const name = e.target.dataset.name;
+    handleSelectCompanyDataFun(item) {
       setTimeout(() => {
-        this.companyName = name
+        this.companyName = item.name;
         this.searchCompanyResultList = []
       }, 200);
       setTimeout(() => {
@@ -215,47 +169,39 @@ export default {
     },
 
     next() {
-      var that = this;
-
-      if (!this.hasRepeatCompany()) {
-        setTimeout(() => {
+      if (!this.hasRepeatCompany()) return void setTimeout(() => {
           uni.showToast({
             title: '你已添加该签署方信息',
             icon: 'none'
           });
         }, 50);
-        return false;
-      }
 
-      if (!/^1[345789]\d{9}$/.test(this.userPhone)) {
-        setTimeout(() => {
+      if (!/^1[345789]\d{9}$/.test(this.userPhone)) return void setTimeout(() => {
           uni.showToast({
             title: '请输入正确的账号',
             icon: 'none'
           });
         }, 50);
-        return false;
-      }
 
-      let promise1 = new Promise(function (resolve, reject) {
+      let promise1 = new Promise((resolve, reject) => {
         get({
           url: company_message,
           params: {
-            "companyName": that.companyName
+            "companyName": this.companyName
           },
-          success: function (res) {
+          success: res => {
             resolve(res);
           }
         });
       });
-      let promise2 = new Promise(function (resolve, reject) {
+      let promise2 = new Promise((resolve, reject) => {
         get({
           url: person_message,
           params: {
-            "name": that.userName,
-            "phone": that.userPhone
+            "name": this.userName,
+            "phone": this.userPhone
           },
-          success: function (res) {
+          success: res => {
             resolve(res);
           }
         });
@@ -305,29 +251,25 @@ export default {
       });
     },
 
-    bindKeyInput(e) {
-      if (e.target.dataset.field == 'companyName') {
-        this.companyName = e.detail.value
-
-        if (e.detail.value) {
-          this.getCompanyContactList(e.detail.value);
+    bindKeyInput(e, type) {
+      if (type == 'companyName') {
+        if (this.companyName) {
+          this.getCompanyContactList(this.companyName);
         } else {
           this.searchCompanyResultList = []
         }
       }
 
-      if (e.target.dataset.field == 'userName') {
-        this.userName = e.detail.value
-
-        if (e.detail.value) {
-          this.getPersonContactList(e.detail.value);
+      if (type == 'userName') {
+        if (this.userName) {
+          this.getPersonContactList(this.userName);
         } else {
           this.searchPersonResultList = []
         }
       }
 
-      if (e.target.dataset.field == 'userPhone') {
-        this.userPhone = e.detail.value.replace(/[^\d.]/g, "")
+      if (type == 'userPhone') {
+        this.userPhone = this.userPhone.replace(/[^\d.]/g, "")
       }
 
       this.ishighLight = this.setCanNextFun()

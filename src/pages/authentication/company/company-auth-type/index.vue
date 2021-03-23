@@ -4,7 +4,7 @@
         <text class="type-text">请选择企业认证类型</text>
     </view>
     <view class="types-select-container">
-        <view class="type-item" data-index="1" @tap.stop="goPage">
+        <view class="type-item" @tap.stop="goPage(1)">
             <text>我是企业法定代表人 </text>
             <text style="color:#999999;font-weight:400">（即时认证）</text>
             <text class="right">
@@ -17,7 +17,7 @@
             </view>
 
         </view>
-        <view class="type-item" data-index="2" @tap.stop="goPage">
+        <view class="type-item" @tap.stop="goPage(2)">
             <text>我是企业代理人</text>
             <text style="color:#999999;font-weight:400">（约0～3工作日）</text>
             <text class="right">
@@ -55,10 +55,8 @@ export default {
   onShareAppMessage() {},
 
   methods: {
-    goPage(e) {
-      const index = e.currentTarget.dataset.index;
-
-      if (index == 1) {
+    goPage(index) {
+      if (Number(index) == 1) {
         uni.navigateTo({
           url: `/pages/authentication/company/company-info/index?type=legent&companyId=${this.companyId}`
         });

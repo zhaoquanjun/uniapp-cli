@@ -52,13 +52,7 @@ export default {
   },
   methods: {
     _getMembers() {
-      // #ifdef  H5
-      const members = JSON.parse(localStorage.getItem('projectMembers'))
-      // #endif
-
-      // #ifndef  H5
       const members = uni.getStorageSync('projectMembers')
-      // #endif
       this.creator = members.filter((item) => {
         return item.creator == 1
       })

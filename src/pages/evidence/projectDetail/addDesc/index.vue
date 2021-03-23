@@ -26,13 +26,7 @@
 			this.projectId = options.id
 		},
 		onShow() {
-			// #ifdef  H5
-			const desc = localStorage.getItem('projectDesc') || ''
-			// #endif
-			
-			// #ifndef  H5
 			const desc = uni.getStorageSync('projectDesc') || ''
-			// #endif
 			this.desc = desc
 		},
 		methods: {

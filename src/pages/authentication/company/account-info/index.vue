@@ -36,18 +36,8 @@
 </template>
 
 <script>
-// authentication/auth-type/index.js
-
 export default {
-  data() {
-    return {};
-  },
-
-  components: {},
-  props: {},
-
   onShareAppMessage() {},
-
   methods: {
     handleCompletePayFun() {
       uni.navigateTo({

@@ -74,8 +74,8 @@
 		get_user_info,
 		companyList
 	} from '@api/account.js'
-	var app = getApp();
-	import sliderPicker from "@c/sliderPicker/sliderPicker";
+	import { mapState } from 'vuex'
+ 	import sliderPicker from "@c/sliderPicker/sliderPicker";
 
 	export default {
 		data() {
@@ -113,25 +113,17 @@
 				currentStorage: null
 			};
 		},
-
 		components: {
 			sliderPicker
 		},
-		props: {},
-
-		/**
-		 * 生命周期函数--监听页面加载
-		 */
 		onLoad: function(options) {
 			if (options.stampLeft != null) {
 				this.stampLeft = options.stampLeft
 				this.stampTop = options.stampTop
 				this.currentPage = options.currentPage
 			}
-
 			this.isSelect = options.style == 'select' ? true : false;
 		},
-
 		onShow() {
 			this.isShowAdd = true
 			this.userList2 = []
@@ -145,11 +137,11 @@
 				}
 			});
 		},
-
-		onUnload: function() {},
-
-		onShareAppMessage() {},
-
+		computed: {
+			...mapState({
+				userToken: state => state.userToken
+			})
+		},
 		methods: {
 			/**
 			 * @name 获取印章列表
@@ -170,11 +162,8 @@
 				}
 
 				this.createSignImageText = createSignImageText
-
-				const _this = this;
-				const userToken = app.globalData.getUserToken();
 				const header = {
-					"token": userToken,
+					"token": this.userToken,
 					"Content-Type": "application/json"
 				};
 
@@ -188,24 +177,21 @@
 					header: header,
 					params: {},
 					success: data => {
-
 						for (var i = 0; i < data.length; i++) {
 							if (data[i].isDefault == 1) {
 								this.defaultStamp = data[i]
 							}
 						}
-
 						this.updateData(data);
 					},
-					fail: function(msg) {
+					fail: err => {
 						setTimeout(() => {
 							uni.showToast({
 								icon: 'none',
-								title: msg
+								title: err
 							});
 						}, 50);
-					},
-					complete: function() {}
+					}
 				});
 			},
 
@@ -365,9 +351,9 @@
 							let param = {
 								signImageId: this.curItem.signImageId
 							};
-							var userToken = app.globalData.getUserToken();
+							
 							let header = {
-								"token": userToken,
+								"token": this.userToken,
 								"Content-Type": "application/json"
 							};
 							post({

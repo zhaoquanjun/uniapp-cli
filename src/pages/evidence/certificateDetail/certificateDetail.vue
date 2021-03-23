@@ -243,7 +243,6 @@
 			},
 			// 打开音频函数 试用innerAudioContext的api
 			setVoice: function() {
-				var that = this;
 				var url = this.dataList.filePath;
 				innerAudioContext.src = url || '';
 				setTimeout(() => {
@@ -289,7 +288,6 @@
 			},
 			// 设置定时函数 显示播放时间
 			setTime() {
-				var that = this;
 				timer = setInterval(() => {
 					let _time = this.videoPlayTime + 1;
 

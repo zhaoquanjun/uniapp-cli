@@ -36,6 +36,7 @@
 		h5_get_yzm_code,
 		h5_login
 	} from '@api/account.js'
+	import { mapMutations } from 'vuex'
 	export default {
 		data() {
 			return {
@@ -50,6 +51,7 @@
 		onLoad: function() {},
 		onShow: function() {},
 		methods: {
+			...mapMutations(['loginSuccess']),
 			/**
 			 * @name 规范输入手机号
 			 */
@@ -122,15 +124,7 @@
 						phoneCode: this.yzm
 					},
 					success: res => {
-						this.setlocalStorage({
-							token: res.token,
-							userAccout: res.account,
-							userId: res.userId,
-							phone: res.phone,
-							currentUser: JSON.stringify(res)
-						});
-						console.log(res)
-						app.globalData.loginSuccess(res.token, res.userId, res.name, res.userType, res.auth, res.phone, res.icon, res.joinCompany, res.userCompanyType);
+						this.loginSuccess(res);
 						uni.reLaunch({
 						  url: '/pages/home/home'
 						});
@@ -143,15 +137,6 @@
 					}
 				})
 			},
-			/**
-			 * @name 批量设置本地缓存
-			 * @param {Object} obj 要设置的对象集合
-			 */
-			setlocalStorage(obj) {
-				for (var k in obj) {
-					localStorage.setItem(k, obj[k]);
-				}
-			}
 		},
 		destroyed() {
 			this.timer && clearInterval(this.timer);

@@ -17,7 +17,7 @@
 
 		<view class="mark-view" :hidden="!isShowMark">
 			<view class="mark-content-view global-shadow">
-				<input class="mark-phone-input" @input="bindKeyInput" placeholder="请输入手机号码" :value="loginPhone" type="number"></input>
+				<input class="mark-phone-input" @input="bindKeyInput" placeholder="请输入手机号码" v-model="loginPhone" type="number" />
 				<view class="mark-btn" @tap.stop="bindPhoneAction">确认绑定此号码</view>
 			</view>
 		</view>
@@ -250,14 +250,9 @@
 			},
 
 			bindKeyInput(e) {
-				var inputValue = e.detail.value;
-				console.log(inputValue.length);
-
-				if (inputValue.length > 11) {
-					return inputValue.substr(0, 11);
+				if (this.loginPhone.length > 11) {
+					this.loginPhone = this.loginPhone.substr(0, 11);
 				}
-
-				this.loginPhone = e.detail.value
 			},
 
 			/**

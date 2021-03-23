@@ -10,7 +10,7 @@
 				</view>
 			</view>
 			<view class="amount-input--area">
-				<input :placeholder="placeholders[activeIndex]" type="number" @input="handleInputValueFun" @focus="handleFocusFun"></input>
+				<input :placeholder="placeholders[activeIndex]" type="number" v-model="inputValue" @input="handleInputValueFun" @focus="handleFocusFun" />
 				<view class="prefix">元</view>
 			</view>
 		</view>
@@ -18,7 +18,7 @@
 			<view class="select-count--area item">
 				<view class="label">购买数量</view>
 				<view class="count-area">
-					<input placeholder="请输入礼品卡个数" type="number" :value="count" @input="handleCountValueFun" @blur="handleBlurCountFun"></input>
+					<input placeholder="请输入礼品卡个数" type="number" v-model="count" @input="handleCountValueFun" @blur="handleBlurCountFun" />
 					<view class="prefix">个</view>
 				</view>
 			</view>
@@ -50,7 +50,7 @@
 	} from '@api/cost.js'
 	import sliderPicker from "@c/sliderPicker/sliderPicker";
 
-	const app = getApp()
+	import { mapState, mapMutations } from 'vuex'
 
 	export default {
 		data() {
@@ -102,6 +102,7 @@
 				total: Number(100).toFixed(2),
 				// 总额
 				selectActive: 100,
+				inputValue: '', // input输入框的数值
 				// 面值数值选择
 				count: 1,
 				// 购买数量
@@ -113,54 +114,23 @@
 		components: {
 			sliderPicker
 		},
-		props: {},
-
-		/**
-		 * 生命周期函数--监听页面加载
-		 */
 		onLoad: function(options) {
 			if (options.origin) {
 				this.origin = options.origin
 			}
-
 		},
-
-		/**
-		 * 生命周期函数--监听页面初次渲染完成
-		 */
-		onReady: function() {},
-
-		/**
-		 * 生命周期函数--监听页面显示
-		 */
 		onShow: function() {},
-
-		/**
-		 * 生命周期函数--监听页面隐藏
-		 */
 		onHide: function() {
 			if (this.timer) clearTimeout(this.timer)
 		},
-		/**
-		 * 生命周期函数--监听页面卸载
-		 */
-		onUnload: function() {},
-
-		/**
-		 * 页面相关事件处理函数--监听用户下拉动作
-		 */
-		onPullDownRefresh: function() {},
-
-		/**
-		 * 页面上拉触底事件的处理函数
-		 */
-		onReachBottom: function() {},
-
-		/**
-		 * 用户点击右上角分享
-		 */
 		onShareAppMessage: function() {},
+		computed: {
+			...mapState({
+				authCode: state => state.authCode
+			})
+		},
 		methods: {
+			...mapMutations(['getUserAuthCode', 'getH5PayUrl']),
 			/**
 			 * @name 选择支付方式
 			 */
@@ -176,6 +146,7 @@
 				this.selectActive = item.value
 				this.rechargeValue = item.value
 				this.total = (item.value * this.count).toFixed(2)
+				this.inputValue = ''
 				this.valueStatus = 'select'
 			},
 
@@ -184,7 +155,7 @@
 			 */
 			handleInputValueFun(e) {
 				const value = e.detail.value;
-				this.rechargeValue = value
+				this.inputValue = this.rechargeValue = value
 				this.total = (this.count * value).toFixed(2)
 				return value;
 			},
@@ -275,11 +246,11 @@
 						// #endif
 
 						// #ifdef  MP-ALIPAY
-						app.globalData.getUserAuthCode(this.getZfbPayParamsFun)
+						this.getUserAuthCode(this.getZfbPayParamsFun)
 						// #endif
 
 						// #ifdef  H5
-						app.globalData.getH5PayUrl({
+						this.getH5PayUrl({
 							value: this.total,
 							desc: '购买礼品卡',
 							rechargeType: 0,
@@ -315,7 +286,7 @@
 						rechargeType: 0,
 						goods: this.rechargeValue,
 						goodsNum: this.count,
-						authCode: app.globalData.authCode
+						authCode: this.authCode
 					},
 					success: res => {
 						console.log(res);
@@ -350,7 +321,7 @@
 						rechargeType: 0,
 						goods: this.rechargeValue,
 						goodsNum: this.count,
-						authCode: app.globalData.authCode
+						authCode: this.authCode
 					},
 					success: res => {
 						console.log(res);

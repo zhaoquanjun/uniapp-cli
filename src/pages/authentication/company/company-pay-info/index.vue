@@ -43,13 +43,7 @@ export default {
   props: {},
 
   onLoad() {
-    // #ifdef  H5
-    this.companyInfo = JSON.parse(localStorage.getItem('companyInfoApply'))
-    // #endif
-
-    // #ifndef  H5
     this.companyInfo = uni.getStorageSync('companyInfoApply')
-    // #endif
   },
 
   onShareAppMessage() {},

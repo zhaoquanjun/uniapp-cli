@@ -34,7 +34,7 @@
 								<text class="add-certificate-voice-progress--end">{{showDurationTime}}</text>
 							</view>
 							<!--  #ifndef  MP-ALIPAY -->
-							<view class="size">音频大小：{{addFileInfo.size}}<text v-if="addFileInfo.size">M</text></view>
+							<view class="size" v-if="addFileInfo && addFileInfo.size">音频大小：{{addFileInfo.size}}<text v-if="addFileInfo.size">M</text></view>
 							<!--  #endif -->
 							<view class="add-certificate-voice-delete one-close" @tap.stop="tapDeleteVoice"></view>
 						</view>
@@ -44,7 +44,7 @@
 					<!-- 上传文件 start -->
 					<view class="certificate-content-item--file" v-if="type==='file'">
 						<view class="h1" style="margin-top:32rpx">选择文件</view>
-						<view class="file-size" v-if="addFileInfo.size">文件大小：{{addFileInfo.size}}<text>M</text></view>
+						<view class="file-size" v-if="addFileInfo && addFileInfo.size">文件大小：{{addFileInfo.size}}<text>M</text></view>
 						<view class="upload-btn" @tap="handleChooseFileFun">选择上传文件</view>
 					</view>
 					<!-- 上传文件 start -->
@@ -53,7 +53,7 @@
 				<!-- 命名文件 start -->
 				<view class="certificate-content-item">
 					<view class="h1">命名文件</view>
-					<input class="input-name" :value="nameValue" @input="nameInput" name="name" maxLength="20" placeholder="最多20个字符，命名不能出现字符有：/：*？#”<>|。"></input>
+					<input class="input-name" v-model="nameValue" @input="nameInput" name="name" maxLength="20" placeholder="最多20个字符，命名不能出现字符有：/：*？#”<>|。" />
 				</view>
 				<!-- 命名文件 end -->
 				<!-- 存证类型 start -->
@@ -217,9 +217,7 @@
 
 		methods: {
 			// 名称输入函数
-			nameInput: function(event) {
-				let value = event.detail.value;
-				this.nameValue = value
+			nameInput() {
 				this.getHighLight();
 			},
 			//添加图片
@@ -237,8 +235,7 @@
 			 * 选择图片
 			 * sourceType camera album
 			 */
-			chooseImage: function(sourceType) {
-				let that = this;
+			chooseImage(sourceType) {
 				uni.chooseImage({
 					count: 1,
 					sizeType: 'compressed',
@@ -286,6 +283,7 @@
 
 			// 选择文件
 			handleChooseFileFun() {
+				// #ifdef  MP-WEIXIN
 				uni.chooseMessageFile({
 					count: 1,
 					type: 'file',
@@ -325,6 +323,49 @@
 					}
 
 				});
+				// #endif
+
+				// #ifdef  H5
+				uni.chooseFile({
+					count: 1,
+					type: 'file',
+					success: res => {
+						console.log(res);
+						let o = {
+							size: (res.tempFiles[0].size / 1024 / 1000).toFixed(2),
+							path: res.tempFiles[0].path,
+							name: this.random_string() + '.' + res.tempFiles[0].name.split('.')[1],
+							originName: res.tempFiles[0].name
+						};
+						this.addFileInfo = o
+						console.log(o, 99999)
+						if (this.checkAllowUploadFun(res.tempFiles[0].name)) {
+							this.addCertificateFile = res.tempFiles[0].path
+							this.getHighLight();
+						} else {
+							setTimeout(() => {
+								uni.showToast({
+									title: '文件格式必须为pdf、doc、docx或者bpm',
+									icon: "none",
+									duration: 2000,
+									mask: true
+								});
+								this.addFileInfo = null
+							}, 50);
+						}
+					},
+
+					fail(err) {
+						setTimeout(() => {
+							uni.showToast({
+								title: err
+							});
+						}, 50);
+					}
+
+				});
+				// #endif
+				
 			},
 
 			//打开声音录制页面
@@ -349,7 +390,6 @@
 			 * @name 开始录音
 			 */
 			start() {
-				var that = this;
 				const options = {
 					duration: 60000,
 					sampleRate: 16000,
@@ -364,7 +404,7 @@
 
 				}; //开始录音
 
-				that.openInterval();
+				this.openInterval();
 				recorderManager.start(options);
 				recorderManager.onStart(function() {
 					console.log('recorder start');
@@ -378,11 +418,10 @@
 			 * @name 停止录音
 			 */
 			stop() {
-				var that = this;
 				clearInterval(timer);
 				recorderManager.stop();
 				recorderManager.onStop(res => {
-					that.tempFilePath = res.tempFilePath;
+					this.tempFilePath = res.tempFilePath;
 					console.log('停止录音', res);
 					const {
 						tempFilePath,
@@ -417,9 +456,9 @@
 					});
 					innerAudioContext.onEnded(res => {
 						innerAudioContext.stop();
-						that.isPlay = false
-						that.videoPlayTime = 0
-						that.showVideoPlayTime = '00:00:00'
+						this.isPlay = false
+						this.videoPlayTime = 0
+						this.showVideoPlayTime = '00:00:00'
 						clearInterval(timer);
 					});
 					innerAudioContext.onTimeUpdate(() => { // console.log(innerAudioContext)
@@ -430,9 +469,8 @@
 			 * @name 设置循环显示播放时长
 			 */
 			openInterval: function() {
-				var that = this;
-				timer = setInterval(function() {
-					let _time = that.time + 1;
+				timer = setInterval(() => {
+					let _time = this.time + 1;
 
 					var sec = parseInt(_time % 60);
 
@@ -475,7 +513,7 @@
 			 */
 			setTime() {
 				timer = setInterval(() => {
-					let _time = that.videoPlayTime + 1;
+					let _time = this.videoPlayTime + 1;
 
 					var sec = parseInt(_time % 60);
 
@@ -551,8 +589,7 @@
 			 * @param {Object} event 按钮事件源
 			 */
 			addCertificateSubmit(event) {
-				let that = this;
-				if (that.isLoading) return;
+				if (this.isLoading) return;
 				let values = event.detail.value; //验证
 
 				let typeMapName = typeMap[this.type];
@@ -578,7 +615,6 @@
 						uni.showLoading({
 							title: '上传中'
 						});
-						console.log(res, '------------------====')
 						// #ifdef MP-WEIXIN  
 						upload({
 							url: res.host,
@@ -607,8 +643,8 @@
 								};
 								console.log(formDataParmas);
 
-								if (that.formId) {
-									that.saveChain(formDataParmas);
+								if (this.formId) {
+									this.saveChain(formDataParmas);
 								} else {
 									upload({
 										url: add_certificate_file,
@@ -639,7 +675,7 @@
 												confirmText: '继续提交',
 												success: res => {
 													if (res.confirm) {
-														that.addCertificateSubmit();
+														this.addCertificateSubmit();
 													} else if (res.cancel) {
 														this.switchTabBarFun();
 													}
@@ -688,8 +724,8 @@
 								};
 								console.log(formDataParmas);
 
-								if (that.formId) {
-									that.saveChain(formDataParmas);
+								if (this.formId) {
+									this.saveChain(formDataParmas);
 								} else {
 									uni.uploadFile({
 										url: add_certificate_file,
@@ -723,7 +759,7 @@
 														confirmText: '继续提交',
 														success: res => {
 															if (res.confirm) {
-																that.addCertificateSubmit();
+																this.addCertificateSubmit();
 															} else if (res.cancel) {
 																this.switchTabBarFun();
 															}
@@ -769,8 +805,8 @@
 								};
 								console.log(formDataParmas);
 
-								if (that.formId) {
-									that.saveChain(formDataParmas);
+								if (this.formId) {
+									this.saveChain(formDataParmas);
 								} else {
 									upload({
 										url: add_certificate_file,
@@ -805,7 +841,7 @@
 												confirmText: '继续提交',
 												success: res => {
 													if (res.confirm) {
-														that.addCertificateSubmit();
+														this.addCertificateSubmit();
 													} else if (res.cancel) {
 														this.switchTabBarFun();
 													}
@@ -846,7 +882,7 @@
 			getHighLight: function() {
 				let typeMapName = typeMap[this.type];
 				let value = this[typeMapName];
-				this.ishighLight = (value && this.nameValue) ? true : false
+				this.ishighLight = (value && this.nameValue)
 			},
 
 			/**

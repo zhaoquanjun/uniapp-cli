@@ -90,12 +90,6 @@
       }
     },
     {
-      "path": "pages/pm/stamp/addCachet/addCachet",
-      "style": {
-        "navigationBarTitleText": "创建公章"
-      }
-    },
-    {
       "path": "pages/contract/contractSelect/contractSelect",
       "style": {
         "navigationBarTitleText": "合同上传",

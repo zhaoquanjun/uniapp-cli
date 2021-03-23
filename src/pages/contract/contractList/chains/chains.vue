@@ -180,7 +180,6 @@ export default {
      * 获取列表
      */
     getChainsFun(isSearch) {
-      var self = this
       var params = {
         name: this.searchParams ? this.searchParams : '',
         pageIndex: this.pageIndex,
@@ -193,9 +192,7 @@ export default {
         success: res => {
           console.log(res)
           var contracts = res.data
-
           this.canScroll = !!res.data.length
-
           contracts.map((it) => {
             it.gmtModified = this.formatTimeConvert(it.gmtModified, 1)
           })
@@ -283,7 +280,6 @@ export default {
      * @desc 取消关联请求
      */
     deleteContractEvidenceRel() {
-      var that = this
       let params = {
         contractSubjectId: this.queryId,
         certificateEvidenceIds: this.activeItme.id,
@@ -297,7 +293,7 @@ export default {
               title: '解除关联成功',
             })
           }, 50)
-          that.initQuery()
+          this.initQuery()
         },
         fail: (err) => {
           setTimeout(() => {
@@ -313,14 +309,13 @@ export default {
      * @desc 取消关联提示
      */
     deleteContractEvidenceRelWarn() {
-      var that = this
       this.$refs.operate.close()
       uni.showModal({
         title: '提示',
         content: '取消关联操作不可撤回，是否确认取消关联吗？',
-        success: function(res) {
+        success: res => {
           if (res.confirm) {
-            that.deleteContractEvidenceRel()
+            this.deleteContractEvidenceRel()
           } else {
             console.log('点击取消回调')
           }

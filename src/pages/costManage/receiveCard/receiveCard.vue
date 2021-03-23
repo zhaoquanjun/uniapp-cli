@@ -3,10 +3,10 @@
   <image class="page-bg" :src="bg" mode="widthFix"></image>
   <view class="content">
     <view class="label">手机号</view>
-    <input placeholder="请输入手机号" maxlength="11" class="input-block" type="number" @input="handleInputTelFun"></input>
+    <input placeholder="请输入手机号" maxlength="11" class="input-block" type="number" v-model="tel" />
     <view class="label">验证码</view>
     <view class="input-area">
-      <input placeholder="请输入验证码" maxlength="6" class="yzm-input" type="number" @input="handleInputYzmFun"></input>
+      <input placeholder="请输入验证码" maxlength="6" class="yzm-input" type="number" v-model="yzm" />
       <view class="get-code" @tap="handleGetCodeFun">{{btnWords}}</view>
     </view>
     <view class="get-card-btn" @tap="handlePcLoginFun">手机号登录领取</view>
@@ -28,8 +28,8 @@
 	import {get, post} from '@api/request.js'
 	import { get_gift_card_from_wx, get_gift_card_status } from '@api/cost.js'
 	import { get_register_sms_code_url, pc_login, get_phone_wx_code, decode_phone } from '@api/account.js'
-var utils = require("@u/utils.js");
-const app = getApp();
+  var utils = require("@u/utils.js");
+  import { mapState, mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -52,58 +52,22 @@ export default {
       bandPhone: ''
     };
   },
-
-  components: {},
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-    if (options.gifCardId) {
-      this.cardId = options.gifCardId
-    }
-
-    if (uni.getStorageSync('userToken')) {
+    if (options.gifCardId) this.cardId = options.gifCardId
+  },
+  onShow: function () {
+    if (this.userToken) {
       this.getGiftCardStatusFun(this.getGiftCardFun);
     }
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {},
+  computed: {
+    ...mapState({
+      userToken: state => state.userToken
+    })
+  },
   methods: {
+    ...mapMutations(['loginSuccess']),
     /**
      * @name 获取验证码
      */
@@ -184,9 +148,7 @@ export default {
         url: pc_login,
         params: options,
         success: res => {
-          console.log(res);
-          uni.setStorageSync('userToken', res.token);
-          app.globalData.userToken = res.token;
+          this.loginSuccess(res)
           this.getGiftCardStatusFun(this.getGiftCardFun);
         },
         fail: () => {
@@ -327,14 +289,6 @@ export default {
           }, 50);
         }
       });
-    },
-
-    /**
-     * @name 输入手机号
-     */
-    handleInputTelFun(e) {
-      this.tel = e.detail.value
-      return e.detail.value;
     },
 
     /**

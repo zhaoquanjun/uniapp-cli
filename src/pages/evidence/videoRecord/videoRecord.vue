@@ -5,48 +5,42 @@
 </template>
 
 <script>
-const app = getApp();
-
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       env: 'dev',
-      devSrc: 'https://dev.shanqian.cn/videoRecord',
-      prodSrc: 'https://shanqian.cn/videoRecord',
-      webSrc: ''
+      developmentSrc: 'https://dev.shanqian.cn/videoRecord',
+      productionSrc: 'https://shanqian.cn/videoRecord',
+      webSrc: '',
+      queryStr: '',
+      fileType: ''
     };
   },
-
-  components: {},
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-    const token = app.globalData.getUserToken();
-    const currentUser = uni.getStorageSync('currentUser');
-    let webSrc = this[app.globalData.env + 'Src'] + '?fileType=' + options.type + '&token=' + token;
-
-    if (currentUser.companyId) {
-      webSrc += '&companyId=' + currentUser.companyId;
-    }
-
+    this.fileType = options.type
     if (options.fromId) {
-      let queryStr = '';
-
       for (const key in options) {
         if (options.hasOwnProperty(key) && key != 'type') {
-          console.log(options[key]);
-          queryStr += '&' + key + '=' + options[key];
+          this.queryStr += '&' + key + '=' + options[key];
         }
       }
-
-      webSrc += queryStr;
     }
+  },
+  onShow() {
+    this.webSrc = this[process.env.NODE_ENV + 'Src'] + '?fileType=' + this.fileType + '&token=' + this.token;
 
-    console.log(webSrc);
-    this.webSrc = webSrc
+    if (this.currentUser.companyId) {
+      this.webSrc += '&companyId=' + this.currentUser.companyId;
+    }
+    
+    this.webSrc += this.queryStr
+  },
+  computed: {
+    ...mapState({
+      userToken: state => state.userToken,
+      currentUser: state => state.currentUser
+    })
   },
   methods: {
     getRecordVideoFun(e) {

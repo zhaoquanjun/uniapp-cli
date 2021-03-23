@@ -6,16 +6,16 @@
 		<view class="item-Content">
 			<view class="message">
 				<text>姓名</text>
-				<input type="text" :value="userName" @input="bindKeyInput" @blur="handleBlurFun" placeholder="请输入" data-field="userName"></input>
+				<input type="text" v-model="userName" @input="bindKeyInput($event, 'userName')" @blur="handleBlurFun" placeholder="请输入" />
 			</view>
 			<view :class="'search-result--list ' + (searchResultList.length > 0 ? 'show' : '')">
-				<view v-for="(item, index) in searchResultList" :key="index" class="list-item" @tap="handleSelectDataFun" :data-name="item.name" :data-phone="item.phone">{{item.name}} - {{item.phone}}</view>
+				<view v-for="(item, index) in searchResultList" :key="index" class="list-item" @tap="handleSelectDataFun(item)">{{item.name}} - {{item.phone}}</view>
 			</view>
 		</view>
 		<view class="item-Content">
 			<view class="message">
 				<text>手机号</text>
-				<input type="text" :value="userPhone" maxlength="11" @input="bindKeyInput" placeholder="请输入" data-field="userPhone"></input>
+				<input type="text" v-model="userPhone" maxlength="11" @input="bindKeyInput($event, 'userPhone')" placeholder="请输入" />
 			</view>
 		</view>
 	</view>
@@ -134,35 +134,28 @@ export default {
     },
 
     next() {
-      if (!this.hasRepeatPserson()) {
-        setTimeout(() => {
+      if (!this.hasRepeatPserson()) return setTimeout(() => {
           uni.showToast({
             title: '你已添加该签署方信息',
             icon: 'none'
           });
         }, 50);
-        return false;
-      }
 
-      if (!/^1[345789]\d{9}$/.test(this.userPhone)) {
-        setTimeout(() => {
+      if (!/^1[345789]\d{9}$/.test(this.userPhone)) return void setTimeout(() => {
           uni.showToast({
             title: '请输入正确的账号',
             icon: 'none'
           });
         }, 50);
-        return false;
-      }
 
-      var that = this;
-      let promise1 = new Promise(function (resolve, reject) {
+      let promise1 = new Promise((resolve, reject) => {
         get({
           url: person_message,
           params: {
-            "name": that.userName,
-            "phone": that.userPhone
+            "name": this.userName,
+            "phone": this.userPhone
           },
-          success: function (res) {
+          success: res => {
             resolve(res);
           }
         });
@@ -205,17 +198,15 @@ export default {
       });
     },
 
-    bindKeyInput(e) {
-      if (e.target.dataset.field == 'userName') {
-        this.userName = e.detail.value
-
-        if (e.detail.value) {
-          this.getContactList(e.detail.value);
+    bindKeyInput(e, type) {
+      if (type == 'userName') {
+        if (this.userName) {
+          this.getContactList(this.userName);
         } else {
           this.searchResultList = []
         }
       } else {
-        this.userPhone = e.detail.value.replace(/[^\d.]/g, "")
+        this.userPhone = this.userPhone.replace(/[^\d.]/g, "")
       }
 
       this.ishighLight = this.setCanNextFun()
@@ -236,10 +227,10 @@ export default {
         }, 500)
     },
 
-    handleSelectDataFun(e) {
+    handleSelectDataFun(item) {
       setTimeout(() => {
-        this.userName = e.target.dataset.name
-        this.userPhone = e.target.dataset.phone
+        this.userName = item.name
+        this.userPhone = item.phone
         this.searchResultList = []
       }, 200);
       setTimeout(() => {

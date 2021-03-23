@@ -22,13 +22,13 @@
     <view class="list-item" v-if="checked ==2">
       <view class="label">发票企业名称</view>
       <view class="value">
-        <input type="text" data-key1="companyInfo" data-key2="buyerName" :value="companyInfo.buyerName" placeholder="请输入" @input="changeInputValueFun"></input>
+        <input type="text" data-key1="companyInfo" v-model="companyInfo.buyerName" placeholder="请输入" />
       </view>
     </view>
     <view class="list-item" v-if="checked ==2">
       <view class="label">纳税人识别号</view>
       <view class="value">
-        <input type="number" data-key1="companyInfo" data-key2="buyerTaxNo" :value="companyInfo.buyerTaxNo" placeholder="请输入" @input="changeInputValueFun"></input>
+        <input type="number" data-key1="companyInfo" v-model="companyInfo.buyerTaxNo" placeholder="请输入" />
       </view>
     </view>
     <view class="list-item gap">
@@ -39,19 +39,19 @@
     <view v-if="invoiceTypeValue.value == 's'">
       <view class="list-item">
         <view class="label">地址</view>
-        <input type="text" data-key1="invoiceValue" data-key2="buyerAddress" :value="invoiceValue.buyerAddress" placeholder="请输入" @input="changeInputValueFun"></input>
+        <input type="text" v-model="invoiceValue.buyerAddress" placeholder="请输入" />
       </view>
       <view class="list-item">
         <view class="label">电话</view>
-        <input type="number" data-key1="invoiceValue" data-key2="buyerPhone" :value="invoiceValue.buyerPhone" placeholder="请输入" @input="changeInputValueFun"></input>
+        <input type="number" v-model="invoiceValue.buyerPhone" placeholder="请输入" />
       </view>
       <view class="list-item">
         <view class="label">开户行</view>
-        <input type="text" data-key1="invoiceValue" data-key2="buyerBank" :value="invoiceValue.buyerBank" placeholder="请输入" @input="changeInputValueFun"></input>
+        <input type="text" v-model="invoiceValue.buyerBank" placeholder="请输入" />
       </view>
       <view class="list-item">
         <view class="label">开户账号</view>
-        <input type="number" data-key1="invoiceValue" data-key2="buyerBankNo" :value="invoiceValue.buyerBankNo" placeholder="请输入" @input="changeInputValueFun"></input>
+        <input type="number" v-model="invoiceValue.buyerBankNo" placeholder="请输入" />
       </view>
     </view>
     <view class="list-item gap">
@@ -61,11 +61,11 @@
     </view>
     <view class="list-item" v-if="postWayValue.value == '1' || postWayValue.value == '2'">
       <view class="label">手机号</view>
-      <input type="number" data-key1="postvalue" data-key2="pushPhone" :value="postvalue.pushPhone" placeholder="请输入" @input="changeInputValueFun"></input>
+      <input type="number" v-model="postvalue.pushPhone" placeholder="请输入" />
     </view>
     <view class="list-item" v-if="postWayValue.value == '0' || postWayValue.value == '2'">
       <view class="label">邮箱</view>
-      <input type="text" data-key1="postvalue" data-key2="pushEmail" :value="postvalue.pushEmail" placeholder="请输入" @input="changeInputValueFun"></input>
+      <input type="text" v-model="postvalue.pushEmail" placeholder="请输入" />
     </view>
   </view>
   <view class="btn-wrapper">
@@ -159,7 +159,7 @@ export default {
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad(options) {
     const isCompany = uni.getStorageSync('currentUser');
     this.contractTitle = options.title
     this.id = options.id
@@ -181,39 +181,6 @@ export default {
     }
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {},
   methods: {
     /**
@@ -344,20 +311,6 @@ export default {
         }
       });
     },
-
-    /**
-     * @name 填写input内容
-     * @params {key1} data里面key
-     * @params {key2} data里面数据的key
-     */
-    changeInputValueFun(e) {
-      const key1 = e.currentTarget.dataset.key1;
-      const key2 = e.currentTarget.dataset.key2;
-      let data = JSON.parse(JSON.stringify(this[key1]));
-      data[key2] = e.detail.value;
-      this[key1] = data
-    },
-
     /**
      * @name 申请开票
      */

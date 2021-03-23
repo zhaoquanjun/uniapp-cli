@@ -14,17 +14,19 @@
       <view class="base-info-container">
         <view class="field-item">
           <label class="name">企业名称</label>
-          <text class="value-input">{{ company.companyName || '-' }}</text>
+          <text class="value-input">{{ currentUser.companyName || '-' }}</text>
         </view>
         <view class="line"></view>
         <view class="field-item">
           <label class="name">统一社会信用代码</label>
-          <text class="value-input">{{ company.creditCode || '-' }}</text>
+          <text class="value-input">{{ currentUser.creditCode || '-' }}</text>
         </view>
         <view class="line"></view>
         <view class="field-item">
           <label class="name">法定代表人姓名</label>
-          <text class="value-input">{{ company.legalPersonName || '-' }}</text>
+          <text class="value-input">{{
+            currentUser.legalPersonName || '-'
+          }}</text>
         </view>
         <view class="field-item">
           <label class="name">法定代表人身份证号</label>
@@ -92,34 +94,22 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      company: {},
       result: 'f',
     }
   },
-
-  components: {},
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-    // #ifdef  H5
-    ;(this.company = JSON.parse(localStorage.getItem('currentUser'))),
-      // #endif
-
-      // #ifndef  H5
-      (this.company = uni.getStorageSync('currentUser')),
-      // #endif
-
-      (this.result = options.result)
+  onLoad(options) {
+    this.result = options.result
   },
-
   onShareAppMessage() {},
-
+  computed: {
+    ...mapState({
+      currentUser: (state) => state.currentUser,
+    }),
+  },
   methods: {
     showSafeInfo() {
       uni.showModal({
@@ -135,7 +125,7 @@ export default {
     },
 
     goSign() {
-      app.globalData.updateUserInfo(function() {
+      getApp().updateUserInfo(() => {
         uni.reLaunch({
           url: '/pages/home/home',
         })

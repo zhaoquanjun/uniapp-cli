@@ -144,7 +144,7 @@ export default {
           projectId: this.projectId,
         },
         success: (res) => {
-					console.log(res)
+          console.log(res)
           this.projectDetail = res
           this.isCreator = res.creator
           this.status = res.status
@@ -192,8 +192,8 @@ export default {
         success: (res) => {
           let arr = []
           if (type == 1) arr = res.data
-					if (type == 2) arr = [...this.evidences, ...res.data]
-					this.evidences = arr
+          if (type == 2) arr = [...this.evidences, ...res.data]
+          this.evidences = arr
           this.total = res.totalCount
         },
         fail: (err) => {
@@ -210,18 +210,10 @@ export default {
      * @name 添加项目描述
      */
     _handleAddDesc() {
-			console.log(this.isCreator, this.status)
+      console.log(this.isCreator, this.status)
       if (!this.isCreator || this.status == 2) return
-      if (this.projectDetail && this.projectDetail.description) {
-        // #ifdef  H5
-        localStorage.setItem('projectDesc', this.projectDetail.description)
-        // #endif
-
-        // #ifndef  H5
+      if (this.projectDetail && this.projectDetail.description)
         uni.setStorageSync('projectDesc', this.projectDetail.description)
-        // #endif
-      }
-
       uni.navigateTo({
         url: '/pages/evidence/projectDetail/addDesc/index?id=' + this.projectId,
       })
@@ -230,18 +222,8 @@ export default {
      * @name 查看成员
      */
     _handleViewMembers() {
-      if (this.projectDetail && this.projectDetail.projectUsers) {
-        // #ifdef  H5
-        localStorage.setItem(
-          'projectMembers',
-          JSON.stringify(this.projectDetail.projectUsers)
-        )
-        // #endif
-
-        // #ifndef  H5
+      if (this.projectDetail && this.projectDetail.projectUsers)
         uni.setStorageSync('projectMembers', this.projectDetail.projectUsers)
-        // #endif
-      }
       uni.navigateTo({
         url: '/pages/evidence/projectMembers/index',
       })

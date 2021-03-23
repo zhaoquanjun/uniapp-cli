@@ -301,13 +301,7 @@ export default {
       this.signMans = signs
       this.linkMans = links
 
-      // #ifdef  H5
-      localStorage.setItem('signMans', JSON.stringify(signs))
-      // #endif
-
-      // #ifndef  H5
       uni.setStorageSync('signMans', signs);
-      // #endif
       
       this.ishighLightFun();
     }
@@ -363,32 +357,31 @@ export default {
       phone,
       callback
     }) {
-      let promise1 = new Promise(function (resolve, reject) {
+      let promise1 = new Promise((resolve, reject) => {
         get({
           url: company_message,
           params: {
             "companyName": companyName
           },
-          success: function (res) {
+          success: res => {
             resolve(res);
           }
         });
       });
-      let promise2 = new Promise(function (resolve, reject) {
+      let promise2 = new Promise((resolve, reject) => {
         get({
           url: person_message,
           params: {
             "name": name,
             "phone": phone
           },
-          success: function (res) {
+          success: res => {
             resolve(res);
           }
         });
       });
       let arr = type == 1 ? [promise2] : [promise2, promise1];
       Promise.all(arr).then(res => {
-        console.log(res, 222);
 
         if (typeof callback == 'function') {
           if (type == 1) {
@@ -440,7 +433,6 @@ export default {
      * @name 获取合同详情
      */
     getDetailDataFun(id) {
-      var _this = this;
 
       get({
         url: get_contract_detail,
@@ -631,13 +623,7 @@ export default {
     back() {
       let arr1 = [...this.signMans, ...this.linkMans]
 
-      // #ifdef  H5
-      const contractData = JSON.parse(localStorage.getItem('contractData'));
-      // #endif
-
-      // #ifndef  H5
       const contractData = uni.getStorageSync('contractData');
-      // #endif
       
       uni.showLoading({
         title: '加载中'
@@ -794,13 +780,7 @@ export default {
 
       if (this.signMans.length < 2) this.isSort = false
 
-      // #ifdef  H5
-      localStorage.setItem('signMans', JSON.stringify(this.signMans))
-      // #endif
-
-      // #ifndef  H5
       uni.setStorageSync('signMans', this.signMans);
-      // #endif
 
     },
     deleteLink: function (e) {
@@ -809,25 +789,13 @@ export default {
       copyLinks.splice(index, 1);
       this.linkMans = copyLinks
 
-      // #ifdef  H5
-      localStorage.setItem('linkMans', JSON.stringify(this.linkMans))
-      // #endif
-
-      // #ifndef  H5
       uni.setStorageSync('linkMans', this.linkMans);
-      // #endif
     },
     next(e) {
       var arr1 = this.signMans;
       var arr2 = this.linkMans;
       arr1 = arr1.concat(arr2);
-      // #ifdef  H5
-      const contractData = localStorage.getItem('contractData')
-      // #endif
-
-      // #ifndef  H5
       const contractData = uni.getStorageSync('contractData');
-      // #endif
       uni.showLoading({});
       postBody({
         url: get_contract_launch,

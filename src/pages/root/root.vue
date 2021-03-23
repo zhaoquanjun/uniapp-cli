@@ -5,34 +5,30 @@
 </template>
 
 <script>
-	var app = getApp();
-
+	import { mapState, mapMutations } from 'vuex'
 	export default {
-		data() {
-			return {};
-		},
-
-		components: {},
-		props: {},
 		onReady: function() {
 			//判断用户登陆状态
-			app.globalData.loadUserInfo();
-			var userToken = app.globalData.getUserToken();
-			var pageUrl = "/pages/pm/pmHome";
-
-			if (!userToken || userToken.length == 0) {
+			this.loadUserInfo()
+			let pageUrl = "/pages/pm/pmHome";
+			if (!this.userToken) {
 				pageUrl = "/pages/account/login/login";
-
-				uni.redirectTo({
+				return void uni.redirectTo({
 					url: pageUrl
 				});
-				return false
 			} else {
 				uni.switchTab({
 					url: pageUrl
 				});
 			}
 		},
-		methods: {}
+		computed: {
+			...mapState({
+				userToken: state => state.userToken
+			})
+		},
+		methods: {
+			...mapMutations(['loadUserInfo'])
+		}
 	};
 </script>

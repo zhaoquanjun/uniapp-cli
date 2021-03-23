@@ -4,7 +4,7 @@
   <view class="search-input" :style="'margin-right:' + (isShowCancel ? '100rpx' : '0rpx')">
     <image @tap="searchClicked" class="icon-search" src="https://shouyiner-prod.oss-cn-beijing.aliyuncs.com/wxapp/shanqian/component/search_icon.png"></image>
     <view>
-      <input placeholder-style="color:#B2B2B2" placeholder="请输入搜索内容" @input="inputChanged" :disabled="isDisableInput" :focus="isAutoFocus" :value="inputValue"></input>
+      <input placeholder-style="color:#B2B2B2" placeholder="请输入搜索内容" @input="inputChanged" :disabled="isDisableInput" :focus="isAutoFocus" v-model="inputValue" />
     </view>
   </view>
   <view class="cancel-button" :hidden="!(isShowCancel && inputValue)" @tap="cancelClicked">取消</view>
@@ -42,16 +42,13 @@ export default {
   methods: {
     searchClicked: function () {
       this.$emit('searchClicked', {
-        detail: this.data.inputValue
+        detail: this.inputValue
       });
     },
-    inputChanged: function (e) {
-      var text = e.detail.value;
-      this.inputValue = text
-
+    inputChanged(e) {
       if (this.timeSearch) {
         this.$emit('inputChanged', {
-          detail: text
+          detail: this.inputChanged
         });
       }
     },

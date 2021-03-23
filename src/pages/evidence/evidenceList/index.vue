@@ -53,8 +53,8 @@
 	import {
 		certificate_record_list
 	} from '@api/evidence.js'
+	import { mapGetters } from 'vuex'
 	var util = require("@u/utils");
-	const app = getApp();
 	import search from "@c/search/search";
 	import mpHalfScreenDialog from "@c/half-screen-dialog/half-screen-dialog";
 	import halfSlideItem from "@c/halfSlideItem/halfSlideItem";
@@ -88,19 +88,13 @@
 			mpHalfScreenDialog,
 			halfSlideItem
 		},
-		props: {},
-
-		onLoad() {},
-
 		onShow() {
 			this.pageIndex = 1
 			this.getPageDataFun(1);
 		},
-
 		onReady() {
 			this.dialog = this.$refs.mphalfScreenDialog;
 		},
-
 		onHide() {
 			this.dialog && this.dialog.close();
 		},
@@ -114,8 +108,11 @@
 			});
 			// #endif
 		},
-
 		onShareAppMessage() {},
+		
+		computed: {
+			...mapGetters(['hasLogin'])
+		},
 
 		methods: {
 			/**
@@ -144,7 +141,7 @@
 			 * @param {*} callback 回调函数
 			 */
 			getPageDataFun(type, callback) {
-				if (!app.globalData.isLoginIn()) return;
+				if (!this.hasLogin) return;
 				const url = certificate_record_list + '?currentPage=' + this.pageIndex + '&pageSize=' + this.pageSize + (this.searchParams ?
 					'&name=' + this.searchParams : '');
 				uni.showLoading({
@@ -283,7 +280,10 @@
 			 */
 			handleStartDownloadFun() {
 				this.$refs.operate.close()
+				// #ifndef  H5
 				this.gettingAuth(this.activeItme.filePath);
+				// #endif
+				this.download(this.activeItme.filePath);
 			},
 
 			/**
@@ -337,9 +337,8 @@
 				uni.downloadFile({
 					url: filePath,
 					success: res => {
-						console.log(22222);
-
 						if (type.toLowerCase() == 'png' || type.toLowerCase() == 'jpeg' || type.toLowerCase() == 'jpg') {
+							// #ifndef H5
 							uni.saveImageToPhotosAlbum({
 								filePath: res.tempFilePath,
 								// 此为图片路径
@@ -363,10 +362,12 @@
 									}, 50);
 								}
 							});
+							// #endif
 						}
 
 						if (type.toLowerCase() == 'mp4' || type.toLowerCase() == 'mov' || type.toLowerCase() == 'avi' || type.toLowerCase() ==
 							'rmvb' || type.toLowerCase() == 'flv') {
+							// #ifndef H5
 							uni.saveVideoToPhotosAlbum({
 								filePath: res.tempFilePath,
 								success: res => {
@@ -389,6 +390,7 @@
 									}, 50);
 								}
 							});
+							// #endif
 						}
 					}
 				});

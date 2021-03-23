@@ -17,7 +17,7 @@
 
 <script>
 	
-	const app = getApp()
+	import { mapGetters } from 'vuex'
 	export default {
 		data() {
 			return {
@@ -34,12 +34,12 @@
 			};
 		},
 		onShareAppMessage() {},
-
+		computed: {
+			...mapGetters(['hasLogin'])
+		},
 		methods: {
-			
-			// #ifdef  H5
 			_handleEnterPoint(item) {
-				if (!app.globalData.isLoginIn()) {
+				if (!this.hasLogin) {
 					uni.reLaunch({
 						url: '/pages/account/hlogin/hlogin'
 					})
@@ -58,32 +58,7 @@
 					default:
 						break
 				}
-			}
-			// #endif
-			
-			// #ifndef  H5
-			_handleEnterPoint(e) {
-				if (!app.globalData.isLoginIn()) {
-					uni.reLaunch({
-						url: '/pages/account/login/login'
-					})
-				}
-				switch(Number(e.currentTarget.dataset.value)) {
-					case 1:
-						uni.navigateTo({
-							url: '/pages/evidence/projectManage/index'
-						})
-						break
-					case 2:
-						uni.navigateTo({
-							url: '/pages/evidence/evidenceList/index'
-						})
-						break
-					default:
-						break
-				}
-			}
-			// #endif
+			},
 		}
 	};
 </script>

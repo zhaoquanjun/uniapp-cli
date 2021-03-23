@@ -5,14 +5,14 @@
 		<view class="title">{{title1}}</view>
 		<view class="amount">
 			<view class="prefix">¥</view>
-			<input class="value-input" type="text" @input="bindKeyInput" @blur="handleBlurInputFun" :value="inputAmount" data-field="inputAmount"></input>
+			<input class="value-input" type="text" @blur="handleBlurInputFun" v-model="inputAmount" />
 		</view>
 	</view>
 
 	<view class="receipt-message">
 		<view class="title" style="border-bottom:2rpx solid #F5F5F5">{{title2}}</view>
 		<view class="input-message-box">
-			<textarea name="content" maxlength="100" @input="textInput" placeholder="请输入收款信息" :value="receiptMessage"></textarea>
+			<textarea name="content" maxlength="100" placeholder="请输入收款信息" v-model="receiptMessage" />
 			<text class="input-tip">{{receiptMessage.length}}/100</text>
 		</view>
 	</view>
@@ -20,14 +20,14 @@
 	<view class="payer-info">
 		<view class="title">付款方信息</view>
 		<view class="info-wrapper">
-			<input type="text" maxlength="50" @input="handleInputPayerFun"></input>
+			<input type="text" maxlength="50" v-model="payerName" />
 		</view>
 	</view>
 
 	<view class="payer-info">
 		<view class="title">备注</view>
 		<view class="info-wrapper">
-			<input type="text" maxlength="100" @input="handleInputRemarkFun"></input>
+			<input type="text" maxlength="100" v-model="remark" />
 		</view>
 	</view>
 
@@ -80,83 +80,21 @@ export default {
 
     this.inputAmount = options.templateAmount
     this.receiptMessage = options.templateName
-    this.getHighLight();
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    this.buttonClicked = true
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {},
+  computed: {
+    ishighLight() {
+      return this.receiptMessage && this.inputAmount
+    }
+  },
   methods: {
-    // 文字输入函数
-    textInput: function (event) {
-      let value = event.detail.value;
-      this.receiptMessage = value
-      this.getHighLight();
-    },
 
     bindKeyInput(e) {
-      console.log(e);
-      const inputValue = e.detail.value;
-      var value = inputValue.replace(/[^\d.]/g, "").replace(/^\./g, "").replace(/\.{2,}/g, ".").replace(".", "$#$").replace(/\./g, "").replace("$#$", ".").replace(/^(\-)*(\d+)\.(\d\d).*$/, "$1$2.$3");
-      this.inputAmount = value
-      this.getHighLight();
-      return value;
+      this.inputAmount = this.inputAmount.replace(/[^\d.]/g, "").replace(/^\./g, "").replace(/\.{2,}/g, ".").replace(".", "$#$").replace(/\./g, "").replace("$#$", ".").replace(/^(\-)*(\d+)\.(\d\d).*$/, "$1$2.$3");
     },
 
     handleBlurInputFun() {
       this.inputAmount = Number(this.inputAmount).toFixed(2)
-    },
-
-    /**
-     * @name 填写付款方
-     */
-    handleInputPayerFun(e) {
-      this.payerName = e.detail.value
-    },
-
-    /**
-     * @name 填写备注
-     */
-    handleInputRemarkFun(e) {
-      this.remark = e.detail.value
-    },
-
-    // 提交存证是否高亮函数
-    getHighLight: function () {
-      this.ishighLight = (this.receiptMessage && this.inputAmount) ? true : false
     },
 
     codeGenerate() {
@@ -172,19 +110,14 @@ export default {
 
       this.buttonClicked = false
 
-      const {
-        inputAmount,
-        receiptMessage,
-        isTemplate
-      } = this;
       const params = {
-        name: receiptMessage,
-        amount: inputAmount * 100,
+        name: this.receiptMessage,
+        amount: this.inputAmount * 100,
         id: this.templateId,
         payerName: this.payerName,
         remark: this.remark
       };
-      const url = isTemplate == 1 ? get_sell_pay_QrCode : get_pay_QrCode;
+      const url = this.isTemplate == 1 ? get_sell_pay_QrCode : get_pay_QrCode;
       postBody({
         url: url,
         params: params,
@@ -194,9 +127,14 @@ export default {
             url: '/pages/collection/dirctCollection/dirctCollectionLaunch/dirctCollectionLaunch?inputAmount= ' + inputAmount + '&receiptMessage=' + receiptMessage + '&qrCodeUrl=' + res.qrCodeUrl + '&isTemplate=' + isTemplate + '&url=' + res.url
           });
         },
-        fail: function (err) {
+        fail: err => {
           uni.hideLoading();
-          utils.showError(err);
+          setTimeout(() => {
+            uni.showToast({
+              icon: 'none',
+              title: err
+            })
+          }, 50)
         }
       });
     }

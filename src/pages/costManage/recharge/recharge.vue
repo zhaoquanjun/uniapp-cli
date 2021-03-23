@@ -9,12 +9,12 @@
 				<view class="label">面值金额</view>
 				<view class="list-area">
 					<view v-for="(item, index) in amountList" :key="index" :class="'list-item ' + (selectActive == item.value && valueStatus == 'select' ? 'active' : '')"
-					 :data-value="item.value" @tap="handleSelectValueFun">{{item.label}}</view>
+					 :data-value="item.value" @tap="handleSelectValueFun(item)">{{item.label}}</view>
 				</view>
 			</view>
 			<view class="amount-input--area">
 				<!-- type="number" -->
-				<input placeholder="请输入10～1000整数" type="number" @input="handleInputValueFun" @focus="handleFocusFun"></input>
+				<input placeholder="请输入10～1000整数" v-model="inputValue" type="number" @input="handleInputValueFun" @focus="handleFocusFun" />
 				<view class="prefix">元</view>
 			</view>
 			<view class="total-area">
@@ -35,7 +35,7 @@
 		get_zfb_pay_params
 	} from '@api/cost.js'
 
-	const app = getApp()
+	import { mapState, mapActions } from 'vuex'
 
 	export default {
 		data() {
@@ -54,55 +54,18 @@
 				valueStatus: 'select',
 				rechargeValue: 100,
 				total: 100.00,
+				inputValue: '',
 				selectActive: 100
 			};
 		},
-
-		components: {},
-		props: {},
-
-		/**
-		 * 生命周期函数--监听页面加载
-		 */
-		onLoad: function(options) {},
-
-		/**
-		 * 生命周期函数--监听页面初次渲染完成
-		 */
-		onReady: function() {},
-
-		/**
-		 * 生命周期函数--监听页面显示
-		 */
-		onShow: function() {
-			this.getCurrentUserNameFun();
-		},
-
-		/**
-		 * 生命周期函数--监听页面隐藏
-		 */
-		onHide: function() {},
-
-		/**
-		 * 生命周期函数--监听页面卸载
-		 */
-		onUnload: function() {},
-
-		/**
-		 * 页面相关事件处理函数--监听用户下拉动作
-		 */
-		onPullDownRefresh: function() {},
-
-		/**
-		 * 页面上拉触底事件的处理函数
-		 */
-		onReachBottom: function() {},
-
-		/**
-		 * 用户点击右上角分享
-		 */
 		onShareAppMessage: function() {},
+		computed: {
+			...mapState({
+				authCode: state => state.authCode
+			})
+		},
 		methods: {
+			...mapActions(['getH5PayUrl']),
 			/**
 			 * @name 获取当前账户主体
 			 */
@@ -123,21 +86,21 @@
 			/**
 			 * @name 选择充值金额
 			 */
-			handleSelectValueFun(e) {
-				const value = e.currentTarget.dataset.value;
+			handleSelectValueFun(item) {
+				const value = item.value;
 				this.selectActive = value
 				this.rechargeValue = value
 				this.total = value.toFixed(2)
 				this.valueStatus = 'select'
+				this.inputValue = ''
 			},
 
 			/**
 			 * @name 输入充值金额
 			 */
 			handleInputValueFun(e) {
-				console.log(e, 'dasdasdasdasd')
 				const value = e.detail.value;
-				this.rechargeValue = this.total = value
+				this.inputValue = this.rechargeValue = this.total = value
 				return value;
 			},
 
@@ -193,7 +156,7 @@
 						amount: this.total,
 						body: '支付宝支付',
 						rechargeType: 1,
-						authCode: app.globalData.authCode
+						authCode: this.authCode
 					},
 					success: res => {
 						this.payByZfbFun(res);
@@ -293,7 +256,7 @@
 					// #endif
 
 					// #ifdef  H5
-					app.globalData.getH5PayUrl({
+					this.getH5PayUrl({
 						value: this.rechargeValue,
 						desc: '账户充值',
 						rechargeType: 1,

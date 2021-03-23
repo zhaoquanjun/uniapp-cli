@@ -11,7 +11,7 @@
 
         <view class="field-item">
             <label class="name">姓名</label>
-            <input class="value-input" placeholder="请输入姓名" @input="bindKeyInput" :value="name" data-field="name"></input>
+            <input class="value-input" placeholder="请输入姓名" v-model="name" />
         </view>
         <view class="field-item">
             <label class="name">证件类型</label>
@@ -21,7 +21,7 @@
         </view>
         <view class="field-item">
             <label class="name">证件号</label>
-            <input class="value-input" placeholder="请输入证件号" @input="bindKeyInput" :value="idCard" data-field="idCard"></input>
+            <input class="value-input" placeholder="请输入证件号" v-model="idCard" />
         </view>
     </view>
     <view class="base-info-reminder">
@@ -45,6 +45,7 @@ import { get, postBody, upload } from '@api/request.js'
 import { authFace, applyAuth } from '@api/authen.js'
 import { get_user_info } from '@api/account.js'
 import modal from "@c/modal/modal";
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -61,15 +62,9 @@ export default {
       safeIcon: require('@s/authen/safe.png')
     };
   },
-
   components: {
     modal
   },
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
     uni.getLocation({
       type: 'wgs84',
@@ -86,10 +81,16 @@ export default {
       }
     });
   },
-
-  onShareAppMessage() {},
-
+  computed: {
+    ...mapState({
+      currentUser: state => state.currentUser
+    }),
+    ishighLight() {
+      return !(!this.name || !this.idCard || !this.checked)
+    }
+  },
   methods: {
+    ...mapMutations(['updateStateAttr']),
     handleShowSecretFun() {
       this.isShow =true
     },
@@ -98,18 +99,8 @@ export default {
       this.isShow = false
     },
 
-    checkedTap: function () {
+    checkedTap() {
       this.checked = !this.checked
-      const {
-        name,
-        idCard,
-        checked
-      } = this;
-      if (name == undefined || name == '' || idCard == undefined || idCard == "" || checked == false) {
-        this.ishighLight = false       
-      } else {
-        this.ishighLight = true      
-      }
     },
 
     showSafeInfo() {
@@ -119,28 +110,6 @@ export default {
         confirmText: '知道了',
         content: '您输入的身份信息仅用于个人实名认证和获取CA认证证书'
       });
-    },
-
-    bindKeyInput(e) {
-      const {
-        name,
-        idCard,
-        checked
-      } = this;
-      const {
-        field
-      } = e.target.dataset;
-      const {
-        value
-      } = e.detail;
-      
-      this[field] = value
-
-      if (name == undefined || name == '' || idCard == undefined || idCard == "" || checked == false) {
-        this.ishighLight = false
-      } else {
-        this.ishighLight = true
-      }
     },
 
     videoAuth(tmpUrl) {
@@ -156,17 +125,10 @@ export default {
           this.isFinished = true
           get({
             url: get_user_info,
-            success: function (res) {
-              // #ifdef  H5
-              let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-              // #endif
-              
-              // #ifndef  H5
-              let currentUser = uni.getStorageSync('currentUser');
-              // #endif
-              currentUser.name = res.name;
-              currentUser.auth = 1;
-              uni.setStorageSync('currentUser', currentUser);
+            success: res => {
+              let newUser = JSON.parse(JSON.stringify(this.currentUser))
+              newUser.auth = 1;
+              this.updateStateAttr({currentUser: newUser, isAuth: true})
             },
             complete: () => {
               uni.hideLoading();
@@ -186,69 +148,51 @@ export default {
     },
 
     chooseVideo() {
-      const {
-        name,
-        idCard,
-        checked
-      } = this;
       let mgs = [];
-      let that = this;
 
-      if (!name) {
+      if (!this.name) {
         mgs.push('姓名');
       }
 
-      if (!idCard) {
+      if (!this.idCard) {
         mgs.push('证件号');
       }
 
       if (mgs.length) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: mgs.join('、') + '不能为空'
           });
         }, 50);
-        return false;
       }
 
       const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
 
-      if (!reg.test(idCard)) {
-        setTimeout(() => {
+      if (!reg.test(this.idCard)) {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '请输入正确的身份证号码'
           });
         }, 50);
-        return false;
       }
 
-      if (checked == false) {
-        setTimeout(() => {
+      if (!this.checked) {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '请阅读并同意《隐私保护协议》'
           });
         }, 50);
-        return false;
       }
 
       if (this.isFinished) return;
 
-      // #ifdef  H5
-      localStorage.setItem('personInfo', {
-				name,
-				idCard
-			})
-      // #endif
-
-      // #ifndef  H5
       uni.setStorageSync('personInfo', {
-        name,
-        idCard
+        name: this.name,
+        idCard: this.idCard
       });
-      // #endif
       
       uni.showLoading({
         title: '加载中'
@@ -256,10 +200,10 @@ export default {
       postBody({
         url: applyAuth,
         params: {
-          name,
-          idCard
+          name: this.name,
+          idCard: this.idCard
         },
-        success: function (res) {
+        success: res => {
           console.log(res);
           uni.chooseMedia({
             count: 1,
@@ -268,14 +212,14 @@ export default {
             maxDuration: 10,
             camera: 'front',
 
-            success(res) {
+            success: res => {
               uni.hideLoading();
-              that.videoAuth(res.tempFiles[0].tempFilePath);
+              this.videoAuth(res.tempFiles[0].tempFilePath);
             }
 
           });
         },
-        fail: function (err) {
+        fail: err => {
           console.log(err);
           uni.hideLoading();
           setTimeout(() => {
@@ -291,13 +235,6 @@ export default {
         }
       });
     },
-
-    getPhoneCode() {
-      const {
-        phone
-      } = this;
-    },
-
     back() {
       uni.navigateBack();
     }

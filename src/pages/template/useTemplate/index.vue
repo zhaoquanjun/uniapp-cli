@@ -2,7 +2,7 @@
 <view class="use-template--page">
   <view class="title">合同主题</view>
   <view class="input-area">
-    <input type="text" maxlength="100" :value="templateData ? templateData.name : ''" @input="handleChangeContractTitleFun"></input>
+    <input type="text" maxlength="100" v-model="templateData.name" v-if="templateData" />
     <text class="delete one one-close" @tap="handleClearContractTitleFun"></text>
   </view>
   <view class="title">合同文件</view>
@@ -116,7 +116,7 @@
 import { get, postBody } from '@api/request.js'
 import { get_template_detail, confirm_contract_launch_by_template } from '@api/template.js'
 const util = require("@u/utils");
-
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -141,13 +141,6 @@ export default {
       currentTime: "" // 当前时间
     };
   },
-
-  components: {},
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
     // 初始化一个当下的时间点
     this.currentTime = this.formatTimeConvert(new Date().getTime(), 0)
@@ -182,21 +175,14 @@ export default {
 
     this.getTemplateDetailFun(arr);
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {},
+  computed: {
+    ...mapState({
+      currentUser: state => state.currentUser,
+      userName: state => state.userName,
+      userPhone: state => state.phone
+    })
+  },
   methods: {
     /**
      * @name 获取模版详情
@@ -214,27 +200,17 @@ export default {
             it.sealWords = this.conversionSealsFun(it.sealTypes);
 
             if (it.templateUserType == 1) {
-              const currentUser = uni.getStorageSync('currentUser');
-              const userName = uni.getStorageSync('userName');
-              const userPhone = uni.getStorageSync('userAccount');
-              it.companyName = currentUser.companyName;
-              it.userName = userName;
-              it.userPhone = userPhone;
+             
+              it.companyName = this.currentUser.companyName;
+              it.userName = this.userName;
+              it.userPhone = this.userPhone;
             }
           }); // 拿到缓存的所有抄送方
 
           if (this.origin) {
 
-            // #ifdef  H5
-            let ccs = JSON.parse(localStorage.getItem('templateCcs'));
-            let signs = JSON.parse(localStorage.getItem('templateSigns')); // 新增抄送方
-            // #endif
-
-            // #ifndef  H5
             let ccs = uni.getStorageSync('templateCcs');
             let signs = uni.getStorageSync('templateSigns'); // 新增抄送方
-            // #endif
-            
 
             this.operate == 'add' && ccs.push(newArr[0]);
             res.templateCcs = ccs; // 编辑参与方
@@ -249,21 +225,12 @@ export default {
                 signs[this.index].companyAuthStatus = newArr[0].companyAuthStatus;
               }
             }
-
             res.templateSigns = signs;
           }
 
-          // #ifdef  H5
-          localStorage.setItem('templateCcs', JSON.stringify(res.templateCcs))
-          localStorage.setItem('templateSigns', JSON.stringify(res.templateSigns))
-          // #endif
-
-          // #ifndef  H5
           uni.setStorageSync('templateCcs', res.templateCcs);
           uni.setStorageSync('templateSigns', res.templateSigns);
-          // #endif
 
-          
           this.templateData = res
           this.fileList = res.contractTemplateFiles.filter(it => it.attachment == 0)
           this.attachment = res.contractTemplateFiles.filter(it => it.attachment == 1)
@@ -281,16 +248,6 @@ export default {
         }
       });
     },
-
-    /**
-     * @name 修改合同主题
-     */
-    handleChangeContractTitleFun(e) {
-      let templateData = this.templateData;
-      templateData.name = e.detail.value;
-      this.templateData = templateData
-    },
-
     /**
      * @name 清空合同主题
      */
@@ -305,17 +262,13 @@ export default {
      */
     handleSelectDateFun(e) {
       const type = e.currentTarget.dataset.type;
-			console.log(type, e.detail.value)
-
       switch (type) {
         case 'file':
           this.fileEndTime = e.detail.value
           break;
-
         case 'sign':
           this.signEndTime = e.detail.value
           break;
-
         default:
           break;
       }
@@ -404,7 +357,6 @@ export default {
      * @name 预览文件
      */
     handlePreviewFileFun(item) {
-			console.log(item, 99999)
       uni.navigateTo({
         url: '/pages/template/preview/index?templateId=' + this.id + '&id=' + item.id
       });
@@ -493,72 +445,65 @@ export default {
      */
     checkSubmitInfosFun() {
       if (this.templateData.name.length == 0) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '请输入合同主题'
           });
         }, 50);
-        return false;
       }
 
       if (this.templateData.templateSigns.filter(item => item.relationType == 2).some(item => !item.companyName)) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '签署方企业名称不能为空'
           });
         }, 50);
-        return false;
       }
 
       if (this.templateData.templateSigns.some(item => !item.userName)) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '签署方经办人姓名不能为空'
           });
         }, 50);
-        return false;
       }
 
       if (this.templateData.templateSigns.some(item => !item.userPhone)) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '签署方经办人手机号不能为空'
           });
         }, 50);
-        return false;
       }
 
       const result1 = this.checkSignRepeatFun();
-
+      // 抄送方校验
       if (!result1.flag) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: result1.msg
           });
         }, 50);
-        return false;
-      } // 抄送方校验
+      } 
 
 
       if (this.templateData.templateCcs && this.templateData.templateCcs.length > 0) {
         const result2 = this.checkCcRepeatFun();
 
         if (!result2.flag) {
-          setTimeout(() => {
+          return void setTimeout(() => {
             uni.showToast({
               icon: 'none',
               title: result2.msg
             });
           }, 50);
-          return false;
         }
       }
-
       return true;
     },
 

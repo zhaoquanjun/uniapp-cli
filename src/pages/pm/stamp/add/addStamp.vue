@@ -44,7 +44,8 @@
 		upload_painted_wx_url,
 		save_personnal_seal
 	} from '@api/seal.js'
-	const app = getApp();
+
+	import { mapState } from 'vuex'
 
 	export default {
 		data() {
@@ -58,9 +59,6 @@
 				pen3: require('@s/stamp/pen2.png'),
 			};
 		},
-
-		components: {},
-		props: {},
 		onShow: function() {
 			setTimeout(() => {
 				uni.showToast({
@@ -69,14 +67,11 @@
 				});
 			}, 50);
 		},
-
-		/**
-		 * 生命周期函数--监听页面加载
-		 */
-		onLoad: function(options) {},
-
-		onShareAppMessage() {},
-
+		computed: {
+			...mapState({
+				userToken: state => state.userToken
+			})
+		},
 		methods: {
 			canvasIdErrorCallback: function(e) {
 				console.error('canvas error:' + e.detail.errMsg);
@@ -164,9 +159,8 @@
 											key: 'file',
 											// file: file,
 											success: data => {
-												var userToken = app.globalData.getUserToken();
 												var header = {
-													"token": userToken,
+													"token": this.userToken,
 													"Content-Type": "application/json"
 												};
 												postBody({

@@ -22,7 +22,7 @@
 		<view class="item">
 			<view class="label">赠送金额</view>
 			<view class="value">
-				<input placeholder="请输入整数金额" type="number" @input="handleInputValueFun"></input>
+				<input placeholder="请输入整数金额" type="number" v-model="money" />
 				<view class="prefix">元</view>
 			</view>
 		</view>
@@ -30,7 +30,7 @@
 			<view class="label">赠送个数</view>
 			<view class="value">
 				<view class="count-area">
-					<input placeholder="请输入礼品卡个数" type="number" :value="count" @input="handleCountValueFun" @blur="handleBlurCountFun"></input>
+					<input placeholder="请输入礼品卡个数" type="number" v-model="count" @blur="handleBlurCountFun" />
 					<view class="prefix">个</view>
 				</view>
 			</view>
@@ -59,19 +59,10 @@ export default {
       // 有效期
       count: 1,
       // 个数
-      total: 0,
-      // 总价
       money: 0 //
 
     };
   },
-
-  components: {},
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
     if (options.origin) {
       this.origin = options.origin
@@ -93,70 +84,19 @@ export default {
       this.time = options.time
     }
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {},
+  computed: {
+    total() {
+      return this.money ? (this.money * value).toFixed(2) : '0.00'
+    }
+  },
   methods: {
-    /**
-     * @name 输入充值金额
-     */
-    handleInputValueFun(e) {
-      const value = e.detail.value;
-      this.money = value
-      this.total = (this.count * value).toFixed(2)
-      return value;
-    },
-
-    /**
-     * @name 输入数量
-     */
-    handleCountValueFun(e) {
-      const value = e.detail.value;
-      this.count = value
-      this.total = this.money ? (this.money * value).toFixed(2) : '0.00'
-      return value;
-    },
 
     /**
      * @name 输入数量失去焦点
      */
-    handleBlurCountFun(e) {
-      let value = e.detail.value;
-      if (value > 500) value = 500;
-      this.count = value
-      return value;
+    handleBlurCountFun() {
+      if (this.count > 500) this.count = 500;
     },
 
     /**

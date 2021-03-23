@@ -3,7 +3,7 @@
     <view class="fadeIn">
         <view class="weui-half-screen-dialog">
             <view class="weui-half-screen-dialog__bd">
-                <view v-for="(item, index) in menuList" :key="index" class="meun-list__item" :data-item="item" :data-type="item.type" @tap.stop="openMenu">
+                <view v-for="(item, index) in menuList" :key="index" class="meun-list__item" @tap.stop="openMenu(item)">
                   <image :src="item.imgUrl" mode="aspectFit"></image>
                   <text>{{item.name}}</text>
                 </view>
@@ -73,19 +73,37 @@ export default {
       });
     },
 
-    openMenu(e) {
-      var type = e.currentTarget.dataset.type; // 视频
-
-      console.log(type);
-
-      if (type == 'video') {
+    openMenu(item) {
+      
+      if (item.type == 'video') {
         uni.navigateTo({
-          url: '/pages/evidence/videoRecord/videoRecord?type=' + type
+          url: '/pages/evidence/videoRecord/videoRecord?type=' + item.type
         });
       } else {
-        uni.navigateTo({
-          url: '/evidence/addCertificate/addCertificate?type=' + type
-        });
+        if (item.type == 'file') {
+          // #ifdef MP-ALIPAY
+          uni.navigateTo({
+            url: '/pages/evidence/fileRecord/fileRecord?type=' + item.type,
+          })
+          // #endif
+
+          // #ifdef MP-WEIXIN
+          uni.navigateTo({
+            url: '/pages/evidence/addCertificate/addCertificate?type=' + item.type,
+          })
+          // #endif
+
+          // #ifdef H5
+          uni.navigateTo({
+            url: '/pages/evidence/addCertificate/addCertificate?type=' + item.type,
+          })
+          // #endif
+
+        } else {
+          uni.navigateTo({
+            url: '/pages/evidence/addCertificate/addCertificate?type=' + item.type,
+          })
+        }
       }
     }
 

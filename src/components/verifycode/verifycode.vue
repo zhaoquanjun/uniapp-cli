@@ -7,8 +7,8 @@
 			<view v-for="(code, index) in codes" :key="index" :class="'verify-input-view ' + (index==0?'verify-input-view-first':'')">
 				<text class="verify-text">{{code}}</text>
 			</view>
-			<input :class="'key-input ' + (isFocus ? 'input-focus' : '')" type="number" maxlength="6" adjust-position="false" confirm-type="done" :focus="isFocus" :value="inputValue"
-			 @input="listenKeyInput"></input>
+			<input :class="'key-input ' + (isFocus ? 'input-focus' : '')" type="number" maxlength="6" adjust-position="false" confirm-type="done" :focus="isFocus" v-model="inputValue"
+			 @input="listenKeyInput" />
 		</view>
 		<text class="again-send-class" :style="'color:' + againSendTextColor" @tap.stop="againSendAction">{{againSendText}}</text>
 	</view>
@@ -72,13 +72,11 @@
 			/**
 			 * 监听键盘输入
 			 */
-			listenKeyInput: function(e) {
-				var text = e.detail.value;
-				var textLength = text.length;
+			listenKeyInput(e) {
+				const textLength = this.inputValue.length
 				var codeArray = new Array();
-
 				for (var i = 0; i < (textLength > 6 ? 6 : textLength); i++) {
-					var code = text.substr(i, 1);
+					var code = this.inputValue.substr(i, 1);
 					codeArray[i] = code;
 				}
 
@@ -95,11 +93,8 @@
 				}
 			},
 			
-			againSendAction: function() {
-				if (this.timeCount != 60) {
-					return;
-				}
-
+			againSendAction() {
+				if (this.timeCount != 60) return;
 				this.againSend();
 			},
 			sendSuccess: function() {

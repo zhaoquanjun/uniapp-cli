@@ -14,7 +14,7 @@
 			<view class="user-phone has-isAuth flex-box">
 				<view class="label">手机号</view>
 				<view class="value input-area">
-					<input maxlength="11" type="number" :class="personalAuthStatus == 2 ? 'has-long-result' : personalAuthStatus == 0  ? 'has-result' : personalAuthStatus == 1 ? 'has-result-auth' : ''" placeholder="请输入对方手机号" @input="handleInputPhoneFun" data-type="signal" @blur="handleBlurPhoneInputFun"></input>
+					<input maxlength="11" type="number" :class="personalAuthStatus == 2 ? 'has-long-result' : personalAuthStatus == 0  ? 'has-result' : personalAuthStatus == 1 ? 'has-result-auth' : ''" placeholder="请输入对方手机号" v-model="personPhone" @blur="handleBlurPhoneInputFun($event, 'signal')" />
 					<view :class="'is-auth ' + ((personalAuthStatus == 0 || personalAuthStatus == 2) ? 'no-auth' : personalAuthStatus == 1 ? 'already-auth' : '')">{{personalAuthStatus == 0 ? '未认证' : personalAuthStatus == 1 ? '已认证' : personalAuthStatus == 2 ? '已注册未认证' : ''}}</view>
 					<view :class="'user-name ' + (personalAuthStatus == 2 ? 'has-long-result' : (personalAuthStatus == 0 || personalAuthStatus == 1) ? 'has-result' : '')">{{userName}}</view>
 				</view>
@@ -24,7 +24,7 @@
 			<view class="user-company has-isAuth flex-box">
 				<view class="label">企业名称</view>
 				<view class="value input-area">
-					<input :class="companyAuthStatus == 2 ? 'has-long-result' : (companyAuthStatus == 0 || companyAuthStatus == 1)  ? 'has-result' : ''" placeholder="请输入对方企业名称" @blur="handleBlurCompanyNameInputFun" @input="handleInputCompanyNameFun"></input>
+					<input :class="companyAuthStatus == 2 ? 'has-long-result' : (companyAuthStatus == 0 || companyAuthStatus == 1)  ? 'has-result' : ''" placeholder="请输入对方企业名称" @blur="handleBlurCompanyNameInputFun" v-model="companyName">
 					<view :class="'is-auth ' + ((companyAuthStatus == 0 || companyAuthStatus == 2) ? 'no-auth' : companyAuthStatus == 1 ? 'already-auth' : '')">{{companyAuthStatus == 0 ? '未认证' : companyAuthStatus == 1 ? '已认证' : companyAuthStatus == 2 ? '已注册未认证' : ''}}</view>
 					<view :class="'user-name ' + (companyAuthStatus == 2 ? 'has-long-result' : (companyAuthStatus == 0 || companyAuthStatus == 1) ? 'has-result' : '')">{{userName}}</view>
 				</view>
@@ -32,7 +32,7 @@
 			<view class="user-phone has-isAuth flex-box">
 				<view class="label">经办人手机号</view>
 				<view class="value input-area">
-					<input maxlength="11" type="number" :class="companyPersonAuthStatus == 2 ? 'has-long-result' : companyPersonAuthStatus == 0 ? 'has-result' : companyPersonAuthStatus == 1 ? 'has-result-auth' : ''" placeholder="请输入经办人手机号" @input="handleInputPhoneFun" data-type="company" @blur="handleBlurPhoneInputFun"></input>
+					<input maxlength="11" type="number" :class="companyPersonAuthStatus == 2 ? 'has-long-result' : companyPersonAuthStatus == 0 ? 'has-result' : companyPersonAuthStatus == 1 ? 'has-result-auth' : ''" placeholder="请输入经办人手机号" v-model="companyPhone" @blur="handleBlurPhoneInputFun($event, 'company')" />
 					<view :class="'is-auth ' + ((companyPersonAuthStatus == 0 || companyPersonAuthStatus == 2) ? 'no-auth' : companyPersonAuthStatus == 1 ? 'already-auth' : '')">{{companyPersonAuthStatus == 0 ? '未认证' : companyPersonAuthStatus == 1 ? '已认证' : companyPersonAuthStatus == 2 ? '已注册未认证' : ''}}</view>
 					<view :class="'user-name ' + (companyPersonAuthStatus == 2 ? 'has-long-result' : (companyPersonAuthStatus == 0 || companyPersonAuthStatus == 1) ? 'has-result' : '')">{{companyUserName}}</view>
 				</view>
@@ -79,11 +79,6 @@ export default {
   components: {
     sliderPicker
   },
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
     if (options.origin) {
       this.origin = options.origin
@@ -99,39 +94,7 @@ export default {
     }
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
+  
   onShareAppMessage: function () {},
   methods: {
     /**
@@ -150,54 +113,28 @@ export default {
     },
 
     /**
-     * @name 输入手机号
-     */
-    handleInputPhoneFun(e) {
-      return e.detail.value;
-    },
-
-    /**
      * @name 手机号input 失去焦点
      */
-    handleBlurPhoneInputFun(e) {
-      const type = e.currentTarget.dataset.type;
-      const value = e.detail.value;
-
-      if (!utils.isTelCode(value)) {
-        setTimeout(() => {
+    handleBlurPhoneInputFun(e, type) {
+      if (!utils.isTelCode(type == 'signal' ? this.personPhone : this.companyPhone)) {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '请输入正确的手机号'
           });
         }, 50);
-        return false;
       } else {
         // 校验是否认证 signal-> 个人 company->企业经办人
-        if (type == 'signal') {
-          this.personPhone = value
-          this.personalIsAuthFun(value, 'signal');
-        }
-
-        if (type == 'company') {
-          this.companyPhone = value
-          this.personalIsAuthFun(value, 'company');
-        }
+        if (type == 'signal') this.personalIsAuthFun(value, 'signal');
+        if (type == 'company') this.personalIsAuthFun(value, 'company');
       }
     },
 
     /**
      * @name 公司名称input blur事件
      */
-    handleBlurCompanyNameInputFun(e) {
-      const value = e.detail.value;
-      this.companyName = value
-      this.comapnyIsAuthFun(value);
-    },
-
-    handleInputCompanyNameFun(e) {
-      const value = e.detail.value;
-      this.companyName = value
-      return value;
+    handleBlurCompanyNameInputFun() {
+      this.comapnyIsAuthFun(this.companyName);
     },
 
     /**

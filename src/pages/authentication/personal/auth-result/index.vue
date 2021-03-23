@@ -99,21 +99,12 @@ export default {
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad(options) {
     this.type = options.type
     this.result = options.result
-
-    // #ifdef  H5
-    this.userInfo = JSON.parse(localStorage.getItem('personInfo'))
-    // #endif
-    // #ifndef  H5
-    this.userInfo = uni.getStorageSync('personInfo')
-    // #endif
     this.desc = options.desc
-
-    if (options.result == 's') {
-      this.getSealBase64Fun()
-    }
+    this.userInfo = uni.getStorageSync('personInfo')
+    options.result == 's' && this.getSealBase64Fun()
   },
 
   onShareAppMessage() {},
@@ -133,7 +124,7 @@ export default {
     },
 
     goSign() {
-      app.globalData.updateUserInfo(function() {
+      getApp().updateUserInfo(() => {
         uni.reLaunch({
           url: '/pages/home/home',
         })

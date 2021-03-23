@@ -1,18 +1,16 @@
 //不同环境的host
 const env = {
   // dev env
-  dev: "https://dev.shanqian.cn/anshouyin",
+  development: "https://dev.shanqian.cn/anshouyin",
   // production env
-  prod: "https://shanqian.cn/anshouyin"
+  production: "https://shanqian.cn/anshouyin"
 };
 
-const prefix = 'dev'; // current env
-
-export const host = env[prefix];
+export const host = env[process.env.NODE_ENV];
 
 function sendRequest(options) {
   const app = getApp();
-  const userToken = app.globalData.getUserToken();
+  const userToken = uni.getStorageSync('userToken');
   let {
     contentType,
     url,
@@ -28,14 +26,7 @@ function sendRequest(options) {
   if (header) {
     reqHeader = header;
   } else {
-		// #ifdef  H5
-		const company_id = localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')).companyId : '';
-		// #endif
-		
-		// #ifndef  H5
 		const company_id = uni.getStorageSync('currentUser').companyId;
-		// #endif
-    
     reqHeader = {
       "token": userToken,
       "Content-Type": contentType,
@@ -45,7 +36,6 @@ function sendRequest(options) {
     if (company_id) {
       reqHeader.company_id = company_id;
     }
-		
   }
   uni.request({
     url: url,
@@ -65,33 +55,31 @@ function sendRequest(options) {
           showModelToHome('提示', '您的用户认证已变更');
         } else {
           //token验证失败
-					if (app.globalData.isLoginIn()) {
-						if (!app.globalData.hasShowOverdueModal) {
-						  app.globalData.hasShowOverdueModal = true;
+					if (app.hasLogin) {
+						if (!app.hasShowOverdueModal) {
+						  app.hasShowOverdueModal(true)
 						  uni.showModal({
 						    title: '提示',
 						    content: '您的登陆状态已失效，请重新登陆',
 						    showCancel: false,
 						    confirmText: '好的',
 						    success: function () {
-						      app.globalData.hasShowOverdueModal = false;
-						      app.globalData.quitLogin();
+						      app.hasShowOverdueModal(false)
+						      app.quitLogin();
 						    }
 						  });
 						}
 					} else {
+            uni.clearStorageSync();
+
 						// #ifdef H5
-						localStorage.clear()
 						uni.reLaunch({
 							url: '/pages/account/hlogin/hlogin'
 						})
 						// #endif
 						
 						// #ifndef H5
-						const first = uni.getStorageSync('isFirst')
-
 						if (!uni.getStorageSync('isFirst')) {
-							uni.clearStorageSync();
 							uni.setStorageSync('isFirst', true)
 							uni.switchTab({
 								url: '/pages/pm/pmHome'
@@ -100,11 +88,10 @@ function sendRequest(options) {
 						// #endif
 					}
         }
-
         return;
       }
 
-      if (e.statusCode === 403 && app.globalData.isLoginIn) {
+      if (e.statusCode === 403 && app.hasLogin) {
         uni.hideLoading();
         var company_id = uni.getStorageSync('currentUser').companyId;
 
@@ -115,14 +102,9 @@ function sendRequest(options) {
             showCancel: true,
             cancelText: '暂不认证',
             confirmText: '立即认证',
-            success: function (res) {
+            success: res => {
               if (res.cancel) {
-                const pages = getCurrentPages();
-
-                if (pages.length > 1) {
-                  uni.navigateBack();
-                }
-
+                if (getCurrentPages().length > 1) uni.navigateBack();
                 uni.hideLoading({});
               } else {
                 uni.redirectTo({
@@ -138,14 +120,9 @@ function sendRequest(options) {
             showCancel: true,
             cancelText: '暂不认证',
             confirmText: '立即认证',
-            success: function (res) {
+            success: res => {
               if (res.cancel) {
-                const pages = getCurrentPages();
-
-                if (pages.length > 1) {
-                  uni.navigateBack();
-                }
-
+                if (getCurrentPages().length > 1) uni.navigateBack();
                 uni.hideLoading({});
               } else {
                 uni.redirectTo({
@@ -155,7 +132,6 @@ function sendRequest(options) {
             }
           });
         }
-
         return;
       }
 
@@ -196,7 +172,7 @@ function showModelToHome(title, content) {
     confirmText: '好的',
     success: function () {
       const app = getApp();
-      app.globalData.updateUserInfo(function () {
+      app.updateUserInfo(() => {
         uni.switchTab({
           url: '/pages/pm/pmHome'
         });
@@ -340,7 +316,7 @@ function uploadFile({
   fail
 }) {
   const app = getApp();
-  const userToken = app.globalData.userToken;
+  const userToken = uni.getStorageSync('userToken');
   let company_id = uni.getStorageSync('currentUser').companyId;
 
   if (company_id == undefined) {
@@ -383,16 +359,16 @@ function uploadFile({
           showModelToHome('提示', '您的用户认证已变更');
         } else {
           //token验证失败
-          if (app.globalData.isLoginIn() && !app.globalData.hasShowOverdueModal) {
-            app.globalData.hasShowOverdueModal = true;
+          if (app.hasLogin && !app.hasShowOverdueModal) {
+            app.hasShowOverdueModal(true)
             uni.showModal({
               title: '提示',
               content: '您的登陆状态已失效，请重新登陆',
               showCancel: false,
               confirmText: '好的',
               success: function () {
-                app.globalData.hasShowOverdueModal = false;
-                app.globalData.quitLogin();
+                app.hasShowOverdueModal(false)
+                app.quitLogin();
               }
             });
           }

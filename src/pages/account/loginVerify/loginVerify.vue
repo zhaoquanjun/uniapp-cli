@@ -23,6 +23,8 @@
 
 	import verifyCode from '@c/verifycode/verifycode'
 
+	import { mapState, mapMutations } from 'vuex'
+
 	const app = getApp()
 
 	export default {
@@ -37,16 +39,10 @@
 				mode: ''
 			};
 		},
-
 		components: {
 			verifyCode
 		},
-		props: {},
-
-		/**
-		 * 生命周期函数--监听页面加载
-		 */
-		onLoad: function(options) {
+		onLoad(options) {
 			if (options.originType != null) {
 				this.originType = options.originType
 			}
@@ -76,7 +72,6 @@
 						// #ifdef  MP-ALIPAY
 						this.zfbLogin(this.phone, phoneCode);
 						// #endif
-						// this.verifycode.clearCode();
 					},
 					againSend: () => {
 						//重新发送
@@ -86,10 +81,14 @@
 			}, 500)
 
 		},
-
 		onShareAppMessage() {},
-
+		computed: {
+			...mapState({
+				authCode: state => state.authCode
+			})
+		},
 		methods: {
+			...mapMutations(['getUserAuthCode', 'loginSuccess']),
 			/**
 			 * 微信登陆
 			 */
@@ -110,15 +109,11 @@
 					success: data => {
 						//存储用户数据
 						var app = getApp();
-						app.globalData.loginSuccess(data.token, data.userId, data.name, data.userType, data.auth, data.phone, data.icon,
-							data.joinCompany, data.userCompanyType);
-						uni.hideLoading(); //判断登陆来源
-
-						var originType = this.originType;
-
+						this.loginSuccess(data);
+						uni.hideLoading();
 						if (this.isCard) {
 							this.getGiftCardStatusFun(this.getGiftCardFun);
-						} else if (originType == "auth") {
+						} else if (this.originType == "auth") {
 							uni.navigateBack({
 								delta: 3
 							});
@@ -129,11 +124,11 @@
 							});
 						}
 					},
-					fail: function(msg) {
+					fail: err => {
 						uni.hideLoading();
 						setTimeout(() => {
 							uni.showToast({
-								title: msg,
+								title: err,
 								icon: "none"
 							});
 						}, 50);
@@ -152,19 +147,18 @@
 					title: '登陆中...'
 				});
 
-				app.globalData.getUserAuthCode(() => {
+				this.getUserAuthCode(() => {
 					post({
 						url: zfb_login,
 						params: {
 							phone: phone,
 							phoneCode: code,
-							authCode: app.globalData.authCode,
+							authCode: this.authCode,
 						},
 						success: data => {
 							//存储用户数据
 							var app = getApp();
-							app.globalData.loginSuccess(data.token, data.userId, data.name, data.userType, data.auth, data.phone, data.icon,
-								data.joinCompany, data.userCompanyType);
+							this.loginSuccess(data);
 							uni.hideLoading(); //判断登陆来源
 
 							var originType = this.originType;
