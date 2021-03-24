@@ -4,21 +4,21 @@
   <view class="value-list">
     <view class="list-item">
       <text class="sub-tit">公司</text>
-      <input type="text" placeholder="请输入" :value="companyName" @input="handleInputCompanyNameFun" @blur="handleBlurCompanyNameFun" />
+      <input type="text" placeholder="请输入" v-model="companyName" @input="handleInputCompanyNameFun" @blur="handleBlurCompanyNameFun" />
       <view :class="'suggest-list ' + (companySuggests ? 'show': '')">
-        <view v-for="(item, index) in companySuggests" :key="index" class="item" :data-item="item" @tap.stop="handleSelectCompanySuggestFun(item)">{{item.name}} - {{item.phone}}</view>
+        <view v-for="(item, index) in companySuggests" :key="index" class="item" @tap.stop="handleSelectCompanySuggestFun(item)">{{item.name}} - {{item.phone}}</view>
       </view>
     </view>
     <view class="list-item">
       <text class="sub-tit">经办人姓名</text>
-      <input type="text" placeholder="请输入" :value="name" @input="handleInputUserNameFun" @blur="handleBlurUserNameFun" />
+      <input type="text" placeholder="请输入" v-model="name" @input="handleInputUserNameFun" @blur="handleBlurUserNameFun" />
       <view :class="'suggest-list ' + (suggests ? 'show': '')">
         <view v-for="(item, index) in suggests" :key="index" class="item" @tap.stop="handleSelectPersonSuggestFun(item)">{{item.name}} - {{item.phone}}</view>
       </view>
     </view>
     <view class="list-item">
       <text class="sub-tit">经办人账号</text>
-      <input type="number" maxlength="11" :value="phone" placeholder="请输入" @input="handleInputUserPhoneFun" />
+      <input type="number" maxlength="11" v-model="phone" placeholder="请输入" />
     </view>
   </view>
   <view class="btn-group">
@@ -48,18 +48,10 @@ export default {
       phone: '',
       id: '',
       // 模版id 
-      canNext: false,
       index: -1 // 当前编辑的索引
 
     };
   },
-
-  components: {},
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
     this.id = options.id
     this.index = options.index
@@ -67,80 +59,34 @@ export default {
     this.name = options.name || ''
     this.phone = options.phone || ''
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {},
+  computed: {
+    canNext() {
+      return this.name && this.phone && this.companyName
+    }
+  },
   methods: {
     /**
      * @name 输入公司名称
      */
-    handleInputCompanyNameFun(e) {
-      const companyName = e.detail.value.trim();
-      if (!companyName) return;
+    handleInputCompanyNameFun() {
+      this.companyName = this.companyName.trim();
+      if (!this.companyName) return;
       if (this.timer) clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.companyName = companyName
-        this.canNext = this.name && this.phone && companyName ? true : false
-        this.getContactList(companyName, 2);
+        this.getContactList(this.companyName, 2);
       }, 250)
     },
 
     /**
      * @name 输入姓名
      */
-    handleInputUserNameFun(e) {
-      const name = e.detail.value.trim();
-      if (!name) return;
+    handleInputUserNameFun() {
+     this.name = this.name.trim();
+      if (!this.name) return;
       if (this.timer) clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.name = name
-        this.canNext = name && this.phone ? true : false
-        this.getContactList(name, 1);
-      }, 250)
-    },
-
-    /**
-     * @name 输入电话
-     */
-    handleInputUserPhoneFun(e) {
-      const phone = e.detail.value;
-      if (!phone) return;
-      if (this.timer) clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        this.phone = phone
-        this.canNext = this.name && phone ? true : false
+        this.getContactList(this.name, 1);
       }, 250)
     },
 
@@ -150,7 +96,7 @@ export default {
     handleBlurUserNameFun() {
       setTimeout(() => {
         this.suggests = []
-      }, 250);
+      }, 300);
     },
 
     /**
@@ -159,7 +105,7 @@ export default {
     handleBlurCompanyNameFun() {
       setTimeout(() => {
         this.companySuggests = []
-      }, 250);
+      }, 300);
     },
 
     /**
@@ -193,7 +139,6 @@ export default {
       this.name = item.name
       this.phone = item.phone
       this.suggests = []
-      this.canNext = item.name && item.phone && this.companyName ? true : false
     },
 
     /**
@@ -202,7 +147,6 @@ export default {
     handleSelectCompanySuggestFun(item) {
       this.companyName = item.name
       this.companySuggests = []
-      this.canNext = this.name && this.phone && item.companyName ? true : false
     },
 
     /**
@@ -217,43 +161,39 @@ export default {
      */
     handleConfirmFun() {
       if (!this.companyName) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '请填写公司名称'
           });
         }, 50);
-        return false;
       }
 
       if (!this.name) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '请填写经办人姓名'
           });
         }, 50);
-        return false;
       }
 
       if (!this.phone) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '请填写经办人账号'
           });
         }, 50);
-        return false;
       }
 
       if (!util.isTelCode(this.phone)) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '请填写正确手机号'
           });
         }, 50);
-        return false;
       } // 编辑态获取填写的人的认证状态
 
 

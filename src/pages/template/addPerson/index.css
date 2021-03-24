@@ -92,14 +92,21 @@ view {
 .btn-group {
   position: absolute;
   bottom: 100rpx;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  padding: 0 48rpx;
 }
 
 .btn-group .cancel {
-  width: 220rpx;
+  width: 25%;
   height: 100rpx;
   line-height: 100rpx;
   text-align: center;
@@ -110,7 +117,7 @@ view {
 }
 
 .btn-group .confirm {
-  width: 460rpx;
+  width: 75%;
   height: 100rpx;
   line-height: 100rpx;
   background: #999999;

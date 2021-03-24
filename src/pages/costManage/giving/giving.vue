@@ -125,8 +125,8 @@ export default {
         }, 50);
       } else {
         // 校验是否认证 signal-> 个人 company->企业经办人
-        if (type == 'signal') this.personalIsAuthFun(value, 'signal');
-        if (type == 'company') this.personalIsAuthFun(value, 'company');
+        if (type == 'signal') this.personalIsAuthFun(this.personPhone, 'signal');
+        if (type == 'company') this.personalIsAuthFun(this.companyPhone, 'company');
       }
     },
 

@@ -52,14 +52,10 @@ export default {
       origin: 'card',
       id: '',
       balance: 0,
-      // 卡片余额
       cardType: 1,
-      // 卡片类型
       time: '',
-      // 有效期
       count: 1,
-      // 个数
-      money: 0 //
+      money: ''
 
     };
   },
@@ -87,7 +83,7 @@ export default {
   onShareAppMessage: function () {},
   computed: {
     total() {
-      return this.money ? (this.money * value).toFixed(2) : '0.00'
+      return this.money ? (this.money * this.count).toFixed(2) : '0.00'
     }
   },
   methods: {

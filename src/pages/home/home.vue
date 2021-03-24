@@ -198,7 +198,6 @@ export default {
   },
   onShow() {
     this.initUserStatusOnLoadingFun()
-    console.log(this.hasLogin)
     tools.getMiniAppUpdateStatus()
   },
   onShareAppMessage() {},
@@ -206,10 +205,7 @@ export default {
   computed: {
     ...mapState({
       isAuth: (state) => state.isAuth,
-      currentUser(state) {
-        console.log(state.currentUser, 'dasdads')
-        return state.currentUser
-      },
+      currentUser: state => state.currentUser,
       authType: state => state.userType
     }),
     ...mapGetters(['hasLogin', 'hasAuth', 'currentUserName']),

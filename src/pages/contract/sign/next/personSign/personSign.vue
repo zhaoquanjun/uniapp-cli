@@ -1,5 +1,4 @@
 <template>
-<!--pages/contract/sign/next/personSign/personSign.wxml-->
 <view class="pageContent">
 	<view class="item">
 		<view class="item-title">输入信息</view>
@@ -8,7 +7,7 @@
 				<text>姓名</text>
 				<input type="text" v-model="userName" @input="bindKeyInput($event, 'userName')" @blur="handleBlurFun" placeholder="请输入" />
 			</view>
-			<view :class="'search-result--list ' + (searchResultList.length > 0 ? 'show' : '')">
+			<view class="search-result--list" :class="searchResultList ? 'show' : ''">
 				<view v-for="(item, index) in searchResultList" :key="index" class="list-item" @tap="handleSelectDataFun(item)">{{item.name}} - {{item.phone}}</view>
 			</view>
 		</view>
@@ -37,8 +36,7 @@
 
 	<view class="bottom-btn-container">
 		<text class="back" @tap.stop="back">返回</text>
-		<text class="next" v-if="!ishighLight" style="background:#999999">确定</text>
-		<text class="next" @tap.stop="next" v-if="ishighLight" style="background:#464646">确定</text>
+		<text class="next" :style="{background: ishighLight ? '#464646' : '#999999'}" @tap.stop="next">确定</text>
 	</view>
 </view>
 </template>
@@ -52,7 +50,6 @@ import { person_message } from '@api/account.js'
 export default {
   data() {
     return {
-      ishighLight: false,
       checked1: true,
       checked2: true,
       chapter: [],
@@ -62,48 +59,12 @@ export default {
       timer: null
     };
   },
-
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {},
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {},
+  computed: {
+    ishighLight() {
+      return this.userPhone && this.userName
+    }
+  },
   methods: {
     checkedTap1: function () {
      this.checked1 = !this.checked1
@@ -121,7 +82,7 @@ export default {
       let flag = true;
 
       if (person.length > 0) {
-        for (var i = 0; i < person.length; i++) {
+        for (let i = 0; i < person.length; i++) {
           const item = person[i];
 
           if (this.userName == item.userName && item.userPhone == this.userPhone && !item.companyName) {
@@ -208,8 +169,6 @@ export default {
       } else {
         this.userPhone = this.userPhone.replace(/[^\d.]/g, "")
       }
-
-      this.ishighLight = this.setCanNextFun()
     },
 
     getContactList(name) {
@@ -233,21 +192,12 @@ export default {
         this.userPhone = item.phone
         this.searchResultList = []
       }, 200);
-      setTimeout(() => {
-        this.ishighLight = this.setCanNextFun()
-      }, 300);
     },
 
     handleBlurFun() {
       setTimeout(() => {
         this.searchResultList = []
       }, 200);
-    },
-
-    setCanNextFun() {
-      let flag = false;
-      if (this.userPhone != '' && this.userName != '') flag = true;
-      return flag;
     }
 
   }

@@ -1,6 +1,4 @@
 <template>
-<!--pages/contract/sign/next/companyLink/companyLink.wxml-->
-<!--pages/contract/sign/next/personLink/personLink.wxml-->
 <view class="pageContent">
 	<view class="item">
 		<view class="item-title">输入信息</view>
@@ -9,7 +7,7 @@
 				<text>公司</text>
 				<input type="text" v-model="companyName" @input="bindKeyInput($event, 'companyName')" @blur="handleBlurFun" placeholder="请输入" />
 			</view>
-			<view :class="'search-result--list ' + (searchCompanyResultList.length > 0 ? 'show' : '')">
+			<view class="search-result--list show">
 				<view v-for="(item, index) in searchCompanyResultList" :key="index" class="list-item" @tap="handleSelectCompanyDataFun(item)">{{item.name}}</view>
 			</view>
 		</view>
@@ -18,7 +16,7 @@
 				<text>经办人姓名</text>
 				<input type="text" v-model="userName" @input="bindKeyInput($event, 'userName')" placeholder="请输入" data-field="userName" />
 			</view>
-			<view :class="'search-result--list ' + (searchPersonResultList.length > 0 ? 'show' : '')">
+			<view class="search-result--list show">
 				<view v-for="(item, index) in searchPersonResultList" :key="index" class="list-item" @tap="handleSelectPersonDataFun(item)">{{item.name}} - {{item.phone}}</view>
 			</view>
 		</view>
@@ -32,8 +30,7 @@
 
 <view class="bottom-btn-container">
 	<text class="back" @tap.stop="back">返回</text>
-  <text class="next" v-if="!ishighLight" style="background:#999999">确定</text>
-  <text class="next" @tap.stop="next" v-if="ishighLight" style="background:#464646">确定</text>
+  <text class="next" :style="{background: ishighLight ? '#464646' : '#999'}" @tap.stop="next">确定</text>
 </view>
 </view>
 </template>
@@ -46,7 +43,6 @@ import { company_message, person_message } from '@api/account.js'
 export default {
   data() {
     return {
-      ishighLight: false,
       companyName: '',
       userName: '',
       userPhone: '',
@@ -57,48 +53,12 @@ export default {
       timer: null
     };
   },
-
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {},
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {},
+  computed: {
+    ishighLight() {
+      return this.companyName && this.userPhone && this.userName
+    }
+  },
   methods: {
     getPersonContactList(name) {
       if (this.timer) clearTimeout(this.timer);
@@ -136,9 +96,6 @@ export default {
         this.userPhone = item.phone
         this.searchPersonResultList = []
       }, 200);
-      setTimeout(() => {
-        this.ishighLight = this.setCanNextFun()
-      }, 300);
     },
 
     handleSelectCompanyDataFun(item) {
@@ -146,9 +103,6 @@ export default {
         this.companyName = item.name
         this.searchCompanyResultList = []
       }, 200);
-      setTimeout(() => {
-        this.ishighLight = this.setCanNextFun()
-      }, 300);
     },
 
     handleBlurFun() {
@@ -156,12 +110,6 @@ export default {
         this.searchPersonResultList = []
         this.searchCompanyResultList = []
       }, 200);
-    },
-
-    setCanNextFun() {
-      let flag = false;
-      if (this.companyName != '' && this.userPhone != '' && this.userName != '') flag = true;
-      return flag;
     },
 
     back() {
@@ -288,8 +236,6 @@ export default {
       if (type == 'userPhone') {
         this.userPhone = this.userPhone.replace(/[^\d.]/g, "")
       }
-
-      this.ishighLight = this.setCanNextFun()
     }
 
   }

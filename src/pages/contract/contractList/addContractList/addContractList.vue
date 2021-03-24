@@ -17,7 +17,7 @@
       scroll-with-animation="true"
       @scrolltolower="scrollToBottom"
     >
-      <checkbox-group @change="getSelectList">
+      <checkbox-group @change="getSelectList" v-if="contracts.length">
         <view
           v-for="(item, index) in contracts"
           :key="index"
@@ -71,10 +71,10 @@
           </view>
         </view>
       </checkbox-group>
-    </scroll-view>
-    <view class="empty-data placeholder-color" v-if="contracts.length <= 0"
-      >暂无数据</view
+      <view class="empty-data placeholder-color" v-else>暂无数据</view
     >
+    </scroll-view>
+    
 
     <button class="launchButton" @tap="saveContractEvidenceRel">
       确定添加
@@ -113,38 +113,15 @@ export default {
     searchHighlightTextView,
     halfSlideItem,
   },
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function(options) {
     this.pageId = options.id
   },
-
-  /**
-   * @desc 下拉刷新
-   */
+  onShow() {
+    this.getChainsFun(true)
+  },
   onPullDownRefresh() {
     this.getChainsFun(true)
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-    this.getChainsFun(true)
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {},
   methods: {
     /**
      * 获取列表
@@ -164,6 +141,7 @@ export default {
             it.gmtModified = this.formatTimeConvert(it.gmtModified, 1)
           })
           this.contracts = isSearch ? contracts : [...this.contracts, ...contracts]
+          console.log(this.contracts, 'klklklkl')
         },
         fail: err => {
           setTimeout(() => {

@@ -38,7 +38,7 @@ const store = new Vuex.Store({
         if (state.userType == 2) return state.currentUser.companyName
         if (state.userType == 1) return state.currentUser.name
       }
-    }
+    },
   },
   mutations: {
     setData(state, value) {
@@ -50,7 +50,10 @@ const store = new Vuex.Store({
       state.userId = result.userId
       state.userName = result.companyId ? result.companyName : result.name
       state.userType = result.userType ?? 2 // 存折就是个人 不存在就按企业律所算
-      state.isAuth = (result.companyId && result.authStatus == 1 || result.auth == 1) ? true : false
+      state.isAuth =
+        (result.companyId && result.authStatus == 1) || result.auth == 1
+          ? true
+          : false
       state.phone = result.phone ?? ''
       state.avatar = result.avatar ?? ''
       state.userAccount = result.account ?? ''
@@ -58,13 +61,16 @@ const store = new Vuex.Store({
       console.log(state.currentUser, 9999, result)
       uni.setStorageSync('userToken', result.token)
       uni.setStorageSync('userId', result.userId)
-      uni.setStorageSync('userName', result.companyId ? result.companyName : result.name)
+      uni.setStorageSync(
+        'userName',
+        result.companyId ? result.companyName : result.name
+      )
       uni.setStorageSync('userType', result.userType)
       uni.setStorageSync('isAuth', result.auth == 1 ? true : false)
       uni.setStorageSync('phone', result.phone ?? '')
       uni.setStorageSync('avatar', result.avatar ?? '')
       uni.setStorageSync('currentUser', result)
-      uni.setStorageSync('userAccout', result.account ?? '')
+      uni.setStorageSync('userAccount', result.account ?? '')
     },
     // 支付宝获取authcode
     getUserAuthCode(state, callback) {
@@ -88,6 +94,7 @@ const store = new Vuex.Store({
       state.avatar = uni.getStorageSync('avatar')
       state.userAccount = uni.getStorageSync('userAccount')
       state.currentUser = uni.getStorageSync('currentUser')
+      console.log(state.userAccount)
     },
     // 重置过期窗口显示隐藏默认值
     resetOverdueModalValue(state, value) {
@@ -104,7 +111,7 @@ const store = new Vuex.Store({
     },
     // 清空state数据
     clearState(state) {
-      Object.keys(state).forEach(key => {
+      Object.keys(state).forEach((key) => {
         if (typeof state[key] == 'string') {
           state[key] = ''
         } else if (typeof state[key] == 'boolean') {
@@ -117,22 +124,18 @@ const store = new Vuex.Store({
   },
   actions: {
     // 更新用户信息
-    updateUserInfo: async ({ commit, state }, callback) => {
-      return await new Promise((resolve, reject) => {
-        get({
-          url: get_user_info,
-          success: (data) => {
-            if (!data) return
-            commit('loginSuccess', data)
-            typeof callback == 'function' && callback()
-          },
-        })
+    updateUserInfo() {
+      get({
+        url: get_user_info,
+        success: (data) => {
+          if (!data) return
+          commit('loginSuccess', data)
+          typeof callback == 'function' && callback()
+        },
       })
     },
-    /**
-     * @name h5 支付
-     * @param {Object} options value: 金额 desc：描述 rechargeType：充值类型（0:礼品卡1:账户余额）；origin: 0:pc; 1:手机端;
-     */
+    // h5 支付
+    // options value: 金额 desc：描述 rechargeType：充值类型（0:礼品卡1:账户余额）；origin: 0:pc; 1:手机端;
     getH5PayUrl(options) {
       if (tools.getCurrentBrowserEnv() == 'others') {
         return void uni.showModal({
@@ -181,7 +184,7 @@ const store = new Vuex.Store({
         },
       })
     },
-    // 登录
+    // 前往登录
     login() {
       // #ifdef H5
       uni.redirectTo({

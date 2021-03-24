@@ -17,8 +17,16 @@
     </view>
     <view class="wx-login-btn">
       <button class="wx-login" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">微信登录</button>
+      <!--  #ifdef  MP-WEIXIN -->
       <image class="wx-logo" :src="wx_icon" mode="aspectFit"></image>
       <view class="btn-words">微信授权登录</view>
+      <!--  #endif -->
+
+      <!--  #ifdef  MP-ALIPAY -->
+      <image class="wx-logo" :src="zfb_icon" mode="aspectFit"></image>
+      <view class="btn-words">支付宝授权登录</view>
+      <!--  #endif -->
+      
     </view>
   </view>
 </view>
@@ -42,6 +50,7 @@ export default {
       timer: null,
       bg: 'https://shouyiner-prod.oss-cn-beijing.aliyuncs.com/wxapp/shanqian/cost/receive_card_bg.png',
       wx_icon: 'https://shouyiner-prod.oss-cn-beijing.aliyuncs.com/wxapp/shanqian/cost/wx_logo.png',
+      zfb_icon: 'http://shouyiner-prod.oss-cn-beijing.aliyuncs.com/wxapp/shanqian/cost/zfb_logo.png',
       wxCode: '',
       openId: '',
       unionId: '',
@@ -317,7 +326,7 @@ export default {
           }, 50);
           setTimeout(() => {
             uni.redirectTo({
-              url: '/pages/costManage/accountCard/accountCard?type=1'
+              url: '/pages/costManage/accountBalance/accountBalance?type=3'
             });
           }, 2500);
         },

@@ -125,7 +125,7 @@ export default {
     },
 
     goSign() {
-      getApp().updateUserInfo(() => {
+      getApp().updateUserInfoFunc(() => {
         uni.reLaunch({
           url: '/pages/home/home',
         })

@@ -60,7 +60,7 @@ export default {
       currentUser: (state) => state.currentUser,
       userId: (state) => state.userId,
       userToken: (state) => state.userToken,
-      phone: state => state.phone
+      phone: state => state.userAccount
     }),
   },
   methods: {

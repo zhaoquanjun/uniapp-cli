@@ -7,7 +7,7 @@
 				<text>公司</text>
 				<input type="text" v-model="companyName" @input="bindKeyInput($event, 'companyName')" @blur="handleBlurFun" placeholder="请输入" />
 			</view>
-			<view :class="'search-result--list ' + (searchCompanyResultList.length > 0 ? 'show' : '')">
+			<view class="search-result--list show">
 				<view v-for="(item, index) in searchCompanyResultList" :key="index" class="list-item" @tap="handleSelectCompanyDataFun(item)" :data-name="item.name">{{item.name}}</view>
 			</view>
 		</view>
@@ -16,7 +16,7 @@
 				<text>经办人姓名</text>
 				<input type="text" v-model="userName" @input="bindKeyInput($event, 'userName')" @blur="handleBlurFun" placeholder="请输入" />
 			</view>
-			<view :class="'search-result--list ' + (searchPersonResultList.length > 0 ? 'show' : '')">
+			<view class="search-result--list show">
 				<view v-for="(item, index) in searchPersonResultList" :key="index" class="list-item" @tap="handleSelectPersonDataFun(item)" >{{item.name}} - {{item.phone}}</view>
 			</view>
 		</view>
@@ -45,8 +45,7 @@
 
 <view class="bottom-btn-container">
 	<text class="back" @tap.stop="back">返回</text>
-  <text class="next" v-if="!ishighLight" style="background:#999999">确定</text>
-  <text class="next" @tap.stop="next" v-if="ishighLight" style="background:#464646">确定</text>
+  <text class="next" :style="{background: ishighLight ? '#464646' : '#999'}" @tap.stop="next">确定</text>
 </view>
 </view>
 </template>
@@ -59,7 +58,6 @@ import { company_message, person_message } from '@api/account.js'
 export default {
   data() {
     return {
-      ishighLight: false,
       checked1: true,
       checked2: false,
       chapter: [],
@@ -73,6 +71,11 @@ export default {
       searchCompanyResultList: [],
       timer: null
     };
+  },
+  computed: {
+    ishighLight() {
+      return this.companyName && this.userPhone && this.userName
+    }
   },
   methods: {
     checkedTap1() {
@@ -119,9 +122,6 @@ export default {
         this.userPhone = item.phone
         this.searchPersonResultList = []
       }, 200);
-      setTimeout(() => {
-        this.ishighLight = this.setCanNextFun()
-      }, 300);
     },
 
     handleSelectCompanyDataFun(item) {
@@ -129,9 +129,6 @@ export default {
         this.companyName = item.name;
         this.searchCompanyResultList = []
       }, 200);
-      setTimeout(() => {
-        this.ishighLight = this.setCanNextFun();
-      }, 300);
     },
 
     handleBlurFun() {
@@ -139,12 +136,6 @@ export default {
         this.searchPersonResultList = []
         this.searchCompanyResultList = []
       }, 200);
-    },
-
-    setCanNextFun() {
-      let flag = false;
-      if (this.companyName != '' && this.userPhone != '' && this.userName != '') flag = true;
-      return flag;
     },
 
     back() {
@@ -271,8 +262,6 @@ export default {
       if (type == 'userPhone') {
         this.userPhone = this.userPhone.replace(/[^\d.]/g, "")
       }
-
-      this.ishighLight = this.setCanNextFun()
     }
 
   }

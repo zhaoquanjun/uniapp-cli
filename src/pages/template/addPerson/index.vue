@@ -8,6 +8,7 @@
           type="text"
           placeholder="请输入"
           v-model="name"
+          @input="_handleChangeName"
           @blur="handleBlurUserNameFun"
         />
         <view :class="'suggest-list ' + (suggests ? 'show' : '')">
@@ -15,7 +16,6 @@
             v-for="(item, index) in suggests"
             :key="index"
             class="item"
-            :data-item="item"
             @tap.stop="handleSelectSuggestFun(item)"
             >{{ item.name }} - {{ item.phone }}</view
           >
@@ -59,13 +59,6 @@ export default {
       index: -1, // 当前编辑的索引
     }
   },
-
-  components: {},
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function(options) {
     this.id = options.id
     this.index = options.index
@@ -75,17 +68,29 @@ export default {
   onShareAppMessage: function() {},
   computed: {
     canNext() {
-      return this.name && phone
+      return this.name && this.phone
     },
   },
   methods: {
+
+    /**
+     * @name 姓名chang事件
+     */
+    _handleChangeName() {
+      if (this.name.trim()) {
+        if (this.timer) clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.getContactList(this.name)
+        }, 200)
+      }
+    },
     /**
      * @name 姓名blur事件
      */
     handleBlurUserNameFun() {
       setTimeout(() => {
         this.suggests = []
-      }, 250)
+      }, 300)
     },
 
     /**
@@ -116,9 +121,8 @@ export default {
      */
     handleSelectSuggestFun(item) {
       this.name = item.name
-      this.phone = item.phonephone
+      this.phone = item.phone
       this.suggests = []
-      this.canNext = item.name && item.phone ? true : false
     },
 
     /**
@@ -133,33 +137,30 @@ export default {
      */
     handleConfirmFun() {
       if (!this.name) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '请填写姓名',
           })
         }, 50)
-        return false
       }
 
       if (!this.phone) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '请填写账号',
           })
         }, 50)
-        return false
       }
 
       if (!util.isTelCode(this.phone)) {
-        setTimeout(() => {
+        return void setTimeout(() => {
           uni.showToast({
             icon: 'none',
             title: '请填写正确手机号',
           })
         }, 50)
-        return false
       } // 编辑态获取填写的人的认证状态
 
       if (this.index > -1) {
@@ -208,16 +209,6 @@ export default {
             '&id=' +
             this.id,
         })
-      }
-    },
-  },
-  watch: {
-    name(newVal, oldVal) {
-      if (newVal.trim()) {
-        if (this.timer) clearTimeout(this.timer)
-        this.timer = setTimeout(() => {
-          this.getContactList(name)
-        }, 250)
       }
     },
   },

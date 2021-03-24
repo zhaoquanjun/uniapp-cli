@@ -204,12 +204,11 @@ import { get, postBody } from '@api/request.js'
 import { get_contract_detail, get_contract_launch } from '@api/contract.js'
 import { company_message, person_message } from '@api/account.js'
 import avatar from "@c/avatar/avatar";
-
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       currentDate: '',
-      ishighLight: false,
       isSign: false,
       isLink: false,
       isSort: false,
@@ -242,42 +241,38 @@ export default {
       linkMans: [],
       startX: 0,
       startY: 0,
-      contractId: ''
+      contractId: '',
+      isdraft: ''
     };
   },
 
   components: {
     avatar
   },
-  props: {},
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+  onLoad(options) {
+    this.isdraft = options.isdraft;
+    this.contractId = options.contractId
+  },
+  onShow() {
     let signs = uni.getStorageSync('signMans') ? uni.getStorageSync('signMans') : [];
     let links = uni.getStorageSync('linkMans') ? uni.getStorageSync('linkMans') : [];
-    const currentUser = uni.getStorageSync('currentUser');
-    const isdraft = options.isdraft;
-    this.contractId = options.contractId
-
-    if (isdraft) {
-      this.getDetailDataFun(options.contractId);
+    if (this.isdraft) {
+      this.getDetailDataFun(this.contractId);
     } else {
       let self = {
-        userName: uni.getStorageSync('userName'),
-        userPhone: uni.getStorageSync('userAccount'),
+        userName: this.userName,
+        userPhone: this.userPhone,
         isPersonAuth: true,
         processType: 2,
         status: 1
       };
 
-      if (!currentUser.companyId) {
+      if (!this.currentUser.companyId) {
         self.sealName = '手绘章，个人模版章';
         self.sealType = [1, 4].join();
         self.relationType = 1;
       } else {
-        self.companyName = currentUser.companyName;
+        self.companyName = this.currentUser.companyName;
         self.isCompanyAuth = true;
         self.sealName = '企业章，法人代表章';
         self.sealType = [2, 3].join();
@@ -300,55 +295,31 @@ export default {
 
       this.signMans = signs
       this.linkMans = links
-
+      console.log(this.userPhone, '99999999')
       uni.setStorageSync('signMans', signs);
-      
-      this.ishighLightFun();
     }
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
+  onHide () {
     uni.removeStorageSync('companySign');
     uni.removeStorageSync('personSign');
     uni.removeStorageSync('personLink');
     uni.removeStorageSync('companyLink');
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
     uni.removeStorageSync('signMans');
     uni.removeStorageSync('linkMans');
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {},
+  computed: {
+    ...mapState({
+      currentUser: state => state.currentUser,
+      userName: state => state.userName,
+      userPhone: state => state.userAccount
+    }),
+    ishighLight() {
+      return !!this.signMans.length
+    }
+  },
   methods: {
     checkAuthFun({
       type,
@@ -391,14 +362,6 @@ export default {
           }
         }
       });
-    },
-
-    ishighLightFun (e) {
-      this.ishighLight = !!this.signMans.length
-
-      setTimeout(() => {
-        this.ishighLightFun();
-      }, 1000);
     },
 
     /**
@@ -551,7 +514,6 @@ export default {
           setTimeout(() => {
             this.signMans = signArr
             this.linkMans = linkArr
-            this.ishighLightFun();
           }, 300);
         },
         fail: function (err) {

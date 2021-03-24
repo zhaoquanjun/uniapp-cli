@@ -180,7 +180,7 @@ export default {
     ...mapState({
       currentUser: state => state.currentUser,
       userName: state => state.userName,
-      userPhone: state => state.phone
+      userPhone: state => state.userAccount
     })
   },
   methods: {

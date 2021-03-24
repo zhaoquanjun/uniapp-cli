@@ -1,12 +1,6 @@
 <template>
 	<view class="entrance-page">
-		<!--  #ifdef  H5 -->
 		<view class="entrance-point" v-for="(item, index) in entrances" :key="index" @tap="_handleEnterPoint(item)">
-		<!--  #endif -->
-		
-		<!--  #ifndef  H5 -->
-		<view class="entrance-point" v-for="(item, index) in entrances" :key="index" :data-value="item.value" @tap="_handleEnterPoint">
-		<!--  #endif -->
 			<view class="inner">
 				<text>{{ item.label }}</text>
 				<text class="iconfont iconright-arrow"></text>
@@ -40,9 +34,18 @@
 		methods: {
 			_handleEnterPoint(item) {
 				if (!this.hasLogin) {
+					// #ifdef  H5
 					uni.reLaunch({
 						url: '/pages/account/hlogin/hlogin'
 					})
+					// #endif
+
+					// #ifndef  H5
+					uni.reLaunch({
+						url: '/pages/account/login/login'
+					})
+					// #endif
+					
 				}
 				switch(Number(item.value)) {
 					case 1:

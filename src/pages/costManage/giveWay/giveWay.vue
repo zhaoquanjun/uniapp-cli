@@ -158,7 +158,7 @@ export default {
 		return {
 			title: `${this.money}元礼品卡，点击即可领取`,
 			path: `/pages/costManage/receiveCard/receiveCard?gifCardId=${this.wxShareId}`,
-			imageUrl: this.shareIcon, // 分享封面图
+			imageUrl: this.shareIcon,
 		  success: res => {
 		    console.error('分享成功', res);
 		    setTimeout(() => {

@@ -31,13 +31,9 @@ page {
   left: 0;
   transform: translateY(-50%);
   margin-top: 4rpx;
-  padding: 16rpx 0;
   width: 100%;
   opacity: 0;
-  border: 2rpx solid #d7d8d9;
   background-color: #fff;
-  /* box-shadow: 0 8rpx 8rpx #666; */
-  z-index: -11;
   box-sizing: border-box;
   transition: all .2s ease-in-out;
 }

@@ -87,7 +87,7 @@
 				this.codes = codeArray
 
 				if (textLength > 5) {
-					var returnString = text.substr(0, 6);
+					var returnString = this.inputValue.substr(0, 6);
 					this.inputSuccess(returnString,);
 					return returnString;
 				}
